@@ -39,3 +39,19 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# referans siteler (agir, repoya girmez)
+design/references/*/
+!design/references/*/README.md
+
+# calisma alani (gecici cikti — asla commit edilmez)
+/.work/
+/.playwright-mcp/
+
+# Talha'nin attigi ham gorseller (agir, repoya girmez)
+design/inbox/*
+!design/inbox/README.md
+
+# eski site arsivi (git disi)
+/ozdmak/
+/screen/

@@ -183,7 +183,7 @@ Plans:
 | 1. Keşif & Bağlam Mühendisliği | 2/3 | In progress | - |
 | 2. Design System | 1/1 | Complete | 2026-09-08 |
 | 3. Global Layout & Navigasyon | 2/2 | Complete | 2026-09-09 |
-| 4. Ana Sayfa | 0/2 | Not started | - |
+| 4. Ana Sayfa | 0/2 | In progress (hero ✅) | - |
 | 5. Makine Kataloğu | 0/2 | Not started | - |
 | 6. Kurumsal & Diğer Sayfalar | 0/3 | Not started | - |
 | 7. Etkileşim & Cila | 0/2 | Not started | - |

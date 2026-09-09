@@ -2,6 +2,15 @@
 
 > Her oturum başında **ilk okunan** dosya. Kaldığın yeri buradan hatırla; sıfırdan başlama.
 
+## 📍 Son Durum (2026-09-09 — Faz 4 HERO)
+- **✅ HERO bitti** (`src/components/sections/hero.tsx`, commit `51922fb`). himon 1. bölüm uyarlaması:
+  full-bleed, sol kicker+ayraç+↓, dev UPPERCASE başlık, beyaz pill CTA (mavi ok), dipte gövde.
+  Arka plan GEÇİCİ gradient (gerçek foto swappable). Giriş animasyonu Framer Motion (satır-maske + fade-up + zoom-out).
+- **Header** hero-overlay (şeffaf→scroll'da beyaz) + hide-on-scroll (Talha ekledi). `pathname==="/"` overlay.
+- **Detaylı devir + ana scroll planı + çalışma kuralları → `.continue-here.md`** (clear öncesi oku).
+- ⏭️ SIRADAKİ: **Introduction (split-istatistik)** bölümü. Sonra: servis kartları · vitrin · süreç · marka şeridi · CTA.
+- **Talha kuralları:** her faz sonrası clear · sürekli screenshot yok (kendi kontrolün) · Özdemir bilgisini gerçek veriye dönüştür · token çok az yak.
+
 ## 📍 Son Durum (2026-09-09 — Faz 3 kapanış)
 - **✅ FAZ 3 (Global Layout & Navigasyon) TAMAM.** Header (mobil menü + a11y dahil) + Footer
   (himon CTA + kolon grid + legal) + layout shell. Playwright canlı denetim (1440/390/mobil menü)

@@ -12,7 +12,7 @@ Anti-slop, referans-tabanlı, GSD faz faz. GitHub + Vercel.
 
 - [ ] **Phase 1: Keşif & Bağlam Mühendisliği** - Canlı site + Framer analizi, içerik/işlev envanteri, tasarım yönü, harita
 - [ ] **Phase 2: Design System** - Referanstan token sistemi + temel bileşenler + shotgun
-- [ ] **Phase 3: Global Layout & Navigasyon** - Header, nav, footer, responsive iskelet
+- [x] **Phase 3: Global Layout & Navigasyon** - Header, nav, footer, responsive iskelet
 - [ ] **Phase 4: Ana Sayfa** - Hero + tüm bölümler, tasarım-yoğun
 - [ ] **Phase 5: Makine Kataloğu** - Liste + filtre + detay (mock veri)
 - [ ] **Phase 6: Kurumsal & Diğer Sayfalar** - Hakkımızda, referanslar, iletişim, yedek parça, galeri
@@ -67,8 +67,8 @@ Plans:
 **Plans**: TBD
 
 Plans:
-- [ ] 03-01: Header + navigasyon (mockup → build → review)
-- [ ] 03-02: Footer + layout shell
+- [x] 03-01: Header + navigasyon (mockup → build → review)
+- [x] 03-02: Footer + layout shell
 
 ### Phase 4: Ana Sayfa
 **Goal**: Etkileyici ana sayfa — hero + kurumsal bölümler, tasarım kapısından geçmiş.
@@ -182,7 +182,7 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Keşif & Bağlam Mühendisliği | 2/3 | In progress | - |
 | 2. Design System | 1/1 | Complete | 2026-09-08 |
-| 3. Global Layout & Navigasyon | 0/2 | Not started | - |
+| 3. Global Layout & Navigasyon | 2/2 | Complete | 2026-09-09 |
 | 4. Ana Sayfa | 0/2 | Not started | - |
 | 5. Makine Kataloğu | 0/2 | Not started | - |
 | 6. Kurumsal & Diğer Sayfalar | 0/3 | Not started | - |

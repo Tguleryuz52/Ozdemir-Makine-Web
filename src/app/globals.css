@@ -44,6 +44,8 @@
   --color-brand-deep: var(--brand-deep);
   --color-brand-bright: var(--brand-bright);
   --color-ink: var(--ink);
+  --color-footer-bg: var(--footer-bg);
+  --color-footer-muted: var(--footer-muted);
   --color-paper: var(--paper);
 
   /* Tipografi ölçeği (Geist — himon ölçüleri) */
@@ -85,6 +87,8 @@
   --brand-deep: #164295;
   --brand-bright: #0e92dd;
   --ink: #0e0e0e;
+  --footer-bg: #1c1c1c; /* himon footer zemini (Talha karari) */
+  --footer-muted: #bdbdc2; /* himon kicker etiket grisi */
   --paper: #f2f0ec;
 
   /* Motion süreleri (Framer Motion / geçişler) */

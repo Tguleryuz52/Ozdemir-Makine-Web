@@ -2,6 +2,17 @@
 
 > Her oturum başında **ilk okunan** dosya. Kaldığın yeri buradan hatırla; sıfırdan başlama.
 
+## 📍 Son Durum (2026-09-09 — Faz 3 kapanış)
+- **✅ FAZ 3 (Global Layout & Navigasyon) TAMAM.** Header (mobil menü + a11y dahil) + Footer
+  (himon CTA + kolon grid + legal) + layout shell. Playwright canlı denetim (1440/390/mobil menü)
+  geçti — himon dili, responsive, anti-slop temiz. Ekranlar: `.work/shots/faz3/`.
+- SUMMARY backfill'lendi: `.planning/phases/03-layout-navigasyon/03-01`, `03-02`. (İş GSD
+  execute-phase dışında elle kurulmuştu; GSD state gerçekle hizalandı.)
+- **Bekleyen polish (Faz 7'ye veya ara düzeltmeye):** nav ortalama · İletişim kolonu tek-kicker ·
+  footer ghost "ÖZDEMİR" wordmark (gerçek logo gelince) · gerçek logo entegrasyonu (Talha atacak).
+- **⏭️ SIRADAKİ: Faz 4 (Ana Sayfa) — tam GSD döngüsü:** discuss-phase → plan-phase →
+  execute-phase → verify-work. Hero + kurumsal bölümler, tasarım-yoğun asıl mesai.
+
 ## 🔖 CHECKPOINT 2026-09-08 — `/clear` öncesi
 > **Devir dosyası: `.planning/.continue-here.md`** (her şey orada — header durumu, bekleyen buton refactor'u, footer, ortam notları). Yeni oturumda önce onu oku.
 > Özet: Faz 1-2 ✅ · Faz 3 header 🚧. Sıradaki: arrow-fill-button'ı boyut-bağımsız yap (ok dairesi taşıyor + hover "Al" kırpıyor) → header'da büyüt/himon'a oturt → footer.

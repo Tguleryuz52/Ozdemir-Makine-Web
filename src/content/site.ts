@@ -27,7 +27,6 @@ export const mainNav: NavItem[] = [
   { label: "Sıfır Makineler", href: "/sifir-makineler" },
   { label: "İkinci El Makineler", href: "/ikinci-el-makineler" },
   { label: "Yedek Parçalar", href: "/yedek-parcalar" },
-  { label: "Referanslar", href: "/referanslar" },
   { label: "İletişim", href: "/iletisim" },
 ];
 
@@ -37,4 +36,20 @@ export const socialLinks: NavItem[] = [
   { label: "Instagram", href: "https://www.instagram.com/ozdemirmakinetr/" },
   { label: "YouTube", href: "https://www.youtube.com/ozdemirmakine" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/ozdemirmakinetr/" },
+];
+
+
+// Footer — himon deseni (sade). Metinler burada, JSX'e gömülmez.
+export const footerContent = {
+  ctaTitle: "Doğru makineyi birlikte bulalım.",
+  ctaText:
+    "Sıfır ve ikinci el matbaa makineleri, yedek parça ve teknik destek. İhtiyacınızı iletin, size en uygun çözümü sunalım.",
+  ctaButton: { label: "Teklif Al", href: "/iletisim" },
+  legal: "© 2026 Özdemir Makine. Tüm hakları saklıdır.",
+} as const;
+
+// Footer site haritası = ana menü + Galeri (header'dan çıkarılmıştı).
+export const siteMapNav: NavItem[] = [
+  ...mainNav,
+  { label: "Galeri", href: "/galeri" },
 ];

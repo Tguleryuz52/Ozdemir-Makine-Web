@@ -20,13 +20,13 @@ Grep yok, tarama yok, token yakılmaz.
 
 | Ekranda ne görüyorsun | Dosya | Ayar nerede |
 |---|---|---|
-| Üstteki beyaz şerit (header) | `src/components/layout/header.tsx:50` | `h-20`, `max-w-[104rem]`, `px-6 lg:px-12` |
+| Üstteki beyaz şerit (header) | `src/components/layout/header.tsx:50` | `h-20`, `max-w-[104rem]`, `px-6 lg:px-10` (himon 40px) |
 | Sol üstteki logo + "ÖZDEMİR MAKİNE" | `src/components/layout/header.tsx:10` `Wordmark()` | ⚠️ **GEÇİCİ** — gerçek logo gelince burası değişir |
 | Logo metni (ÖZDEMİR / MAKİNE) | `src/content/site.ts:11` `siteConfig.wordmark` | içerik, koda gömülü değil |
-| Ortadaki 6 nav linki | `src/components/layout/header.tsx:55` | liste: `src/content/site.ts:25` `mainNav` |
-| Nav linkinin hover'daki alt çizgisi | `src/components/layout/header.tsx:25` `navLinkClass` | `::after` scaleX, 550ms |
-| Sağdaki siyah "Teklif Al" pill butonu | `src/components/layout/header.tsx:32` `QuoteButton()` | boyut: `HEADER_BTN_SIZE` |
-| O butonun ok dairesi + beyaz dolum efekti | `src/components/arrow-fill-button.tsx` | `--afb-h` CSS değişkeni ile boyutlanır |
+| Ortadaki 6 nav linki | `src/components/layout/header.tsx` nav + `src/components/ui/underline-link.tsx` | liste: `src/content/site.ts:25` `mainNav`; boyut `text-[15px]` |
+| **Nav hover alt çizgisi** (soldan girer, sağdan çıkar) | `src/components/ui/underline-link.tsx` ⭐ tekrar kullanılabilir | origin swap (dinlenme right / hover left), 450ms, `ease-out-soft` |
+| Sağdaki siyah "Teklif Al" pill butonu | `src/components/layout/header.tsx` `QuoteButton()` | `arrow-fill-button` sarmalar; boyut alttaki satırda |
+| O butonun ok dairesi + beyaz dolum efekti | `src/components/arrow-fill-button.tsx` | boyut `--afb-*` CSS değişkenleri; **`style` prop ile override** (h/circle vermezsen animasyon aynı). Header'da `--afb-px:1.7rem` ile uzatıldı |
 | Mobildeki hamburger ikonu | `src/components/layout/header.tsx:70` | `lg:hidden`, `size-10` |
 | Mobil menü paneli | `src/components/layout/header.tsx:80` | `lg:hidden` |
 | Footer | ❌ **HENÜZ YOK** | ölçüler hazır: `design/references/himon-footer-measured.md` |
@@ -46,6 +46,7 @@ Grep yok, tarama yok, token yakılmaz.
 | Renk, tipografi, boşluk, radius, easing | `src/app/globals.css` (`@theme`) | tek kaynak |
 | Token'ın gerekçesi ve kontratı | `design/design-system.md` | önce burayı oku |
 | shadcn buton varyantları | `src/components/ui/button.tsx` | `arrow-fill-button` ayrı, karıştırma |
+| Alt-çizgi hover linki (her yerde) | `src/components/ui/underline-link.tsx` | `UnderlineLink` — giriş sol, çıkış sağ |
 | `cn()` yardımcısı | `src/lib/utils.ts` | |
 
 **Renk değişimi istendiğinde:** `globals.css` içindeki token'ı değiştir, bileşene ham hex yazma.

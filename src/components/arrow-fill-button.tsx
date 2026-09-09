@@ -41,6 +41,7 @@ function ArrowFillButton({
   fillBgColor = "#ffffff",
   fillTextColor = "#0e0e0e",
   animationDuration = 450,
+  style,
   ...props
 }: ArrowFillButtonProps) {
   const [pressed, setPressed] = useState(false);
@@ -93,6 +94,7 @@ function ArrowFillButton({
           "--afb-text-color": textColor,
           "--afb-fill": fillBgColor,
           "--afb-fill-text": fillTextColor,
+          ...style,
         } as CSSProperties
       }
       className={cn(

@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { mainNav, siteConfig } from "@/content/site";
 import ArrowFillButton from "@/components/arrow-fill-button";
+import { UnderlineLink } from "@/components/ui/underline-link";
 
 // Geçici wordmark — Talha gerçek logoyu atınca burası değişir (himon: siyah mark + wordmark).
 function Wordmark() {
@@ -21,15 +22,14 @@ function Wordmark() {
   );
 }
 
-// himon nav link: 16px/500, tracking -0.02em, soldan-sağa altı-çizili hover (::after scaleX).
-const navLinkClass =
-  "relative whitespace-nowrap py-1 text-[15px] font-medium tracking-[-0.01em] text-ink/90 transition-colors hover:text-ink " +
-  "after:pointer-events-none after:absolute after:-bottom-0.5 after:left-0 after:h-[1.5px] " +
-  "after:w-full after:origin-left after:scale-x-0 after:bg-ink after:transition-transform " +
-  "after:duration-[550ms] after:ease-out-soft hover:after:scale-x-100";
-
 // arrow-fill-button varsayılan boyutu zaten header ölçeği (~48px). Sadece renk + konum.
-function QuoteButton({ className }: { className?: string }) {
+function QuoteButton({
+  className,
+  style,
+}: {
+  className?: string;
+  style?: CSSProperties;
+}) {
   return (
     <ArrowFillButton
       href="/iletisim"
@@ -39,6 +39,7 @@ function QuoteButton({ className }: { className?: string }) {
       fillBgColor="#ffffff"
       fillTextColor="#0e0e0e"
       className={className}
+      style={style}
     />
   );
 }
@@ -48,22 +49,29 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-ink/10 bg-white">
-      <div className="mx-auto flex h-20 max-w-[104rem] items-center gap-8 px-6 lg:px-12">
+      <div className="mx-auto flex h-20 max-w-[104rem] items-center px-6 lg:px-10">
         <Wordmark />
 
         <nav
-          className="hidden flex-1 items-center justify-center gap-7 lg:flex"
+          className="ml-12 hidden items-center gap-6 lg:flex xl:ml-20"
           aria-label="Ana menü"
         >
           {mainNav.map((item) => (
-            <Link key={item.href} href={item.href} className={navLinkClass}>
+            <UnderlineLink
+              key={item.href}
+              href={item.href}
+              className="text-[15px]"
+            >
               {item.label}
-            </Link>
+            </UnderlineLink>
           ))}
         </nav>
 
-        <div className="flex flex-1 items-center justify-end gap-3 lg:flex-none">
-          <QuoteButton className="hidden lg:inline-flex" />
+        <div className="ml-auto flex items-center gap-3">
+          <QuoteButton
+            className="hidden lg:inline-flex"
+            style={{ "--afb-px": "1.7rem" } as CSSProperties}
+          />
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}

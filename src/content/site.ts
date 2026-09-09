@@ -54,16 +54,27 @@ export const heroContent = {
 // stats: scroll'da count-up animasyonlu. DOĞRULANMIŞ: 20+ yıl (metadata), 2 ülke (TR+DE adres).
 // DOĞRULA işaretli sayılar tahminî — arşiv/gerçek veri gelince güncelle.
 export const introContent = {
-  kicker: "KURUMSAL",
-  heading: "Matbaa üretiminin her aşamasında yanınızdayız.",
-  body: "20+ yıldır sıfır ve ikinci el matbaa makineleri alım-satımı, yedek parça tedariki ve teknik servis. Türkiye ve Almanya ofislerimizle Avrupa'dan Anadolu'ya güvenilir makine tedariği sağlıyoruz.",
-  cta: { label: "Kurumsal", href: "/kurumsal" },
-  image: "", // TODO: gerçek showroom/makine fotoğrafı — gelince next/image fill
+  // Üstte ortalı büyük cümle-başlık (himon sentence-case h2)
+  heading:
+    "Tedarikten kurulumuna, matbaanızın her aşamasında kesintisiz çözüm sunuyoruz.",
+  // Sağ kolon üstü paragraf
+  body: "Sıfır ve ikinci el matbaa makinelerinde 20+ yıllık tecrübe. Doğru makine seçiminden montaja, yedek parçadan teknik servise kadar tüm süreci tek elden yönetiyoruz.",
+  cta: { label: "Hakkımızda", href: "/kurumsal" },
+  image: "", // TODO: gerçek KARE makine/showroom fotoğrafı (himon: keskin köşe) → next/image fill
+  // himon deseni: büyük sayı + açıklama cümlesi (count-up yok, statik). DOĞRULA notluları tahminî.
   stats: [
-    { value: 20, suffix: "+", label: "Yıl Tecrübe" }, // ✓ doğrulandı
-    { value: 2, suffix: "", label: "Ülke Ofisi · TR & DE" }, // ✓ doğrulandı
-    { value: 1000, suffix: "+", label: "m² Depo & Showroom" }, // DOĞRULA
-    { value: 3000, suffix: "+", label: "Teslim Edilen Makine" }, // DOĞRULA
+    {
+      num: "20+",
+      desc: "Yıldır sıfır ve ikinci el matbaa makineleri alım-satımı, yedek parça ve teknik servis.",
+    },
+    {
+      num: "TR & DE",
+      desc: "Türkiye ve Almanya ofisleriyle Avrupa'dan Anadolu'ya güvenilir tedarik ve lojistik.",
+    },
+    {
+      num: "1000+",
+      desc: "m² kapalı depo ve showroom'da sevkiyata hazır makine stoğu.", // DOĞRULA
+    },
   ],
 } as const;
 

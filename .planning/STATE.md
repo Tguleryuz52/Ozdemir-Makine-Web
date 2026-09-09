@@ -8,7 +8,7 @@
   Arka plan GEÇİCİ gradient (gerçek foto swappable). Giriş animasyonu Framer Motion (satır-maske + fade-up + zoom-out).
 - **Header** hero-overlay (şeffaf→scroll'da beyaz) + hide-on-scroll (Talha ekledi). `pathname==="/"` overlay.
 - **Detaylı devir + ana scroll planı + çalışma kuralları → `.continue-here.md`** (clear öncesi oku).
-- ⏭️ SIRADAKİ: **Introduction (split-istatistik)** bölümü. Sonra: servis kartları · vitrin · süreç · marka şeridi · CTA.
+- ✅ Introduction (split-istatistik) bitti. ⏭️ SIRADAKİ: servis kartları (4lü). Sonra: vitrin · süreç · marka şeridi · CTA.
 - **Talha kuralları:** her faz sonrası clear · sürekli screenshot yok (kendi kontrolün) · Özdemir bilgisini gerçek veriye dönüştür · token çok az yak.
 
 ## 📍 Son Durum (2026-09-09 — Faz 3 kapanış)

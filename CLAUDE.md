@@ -66,6 +66,11 @@ Skill tavsiyesi ile kilitli karar (mavi `#234D9C`, Geist, himon) çatışırsa *
 - Faz faz ilerle; her oturum sonunda **STATE.md güncelle.**
 - **Token disiplini (kritik):** kör grep/tüm-dosya-okuma yerine harita; okunmuş dosyayı
   tekrar okuma; gereksiz subagent/fork yok; çıktı kısa (bullet, GSD modu).
+- **🔴 Token Tasarrufu ZORUNLU (2026-09-09):** Kodda **sadece değiştirilecek yeri oku**
+  (tüm dosyayı çekmek yerine `offset/limit` ile satır okuması). Cevap yazarken **asla koca
+  dosyayı tekrar yazdırma** — sadece diff/patch/değişen blok ver. Ekran görüntüsünü sürekli
+  alma; kendi kontrolünü (tsc/eslint) yap, gerektiğinde 1 kez bak. Bu aşamalardan sonra
+  projeyi **repomix/graphify** ile haritala (daha az token + derli toplu).
 
 ## 📂 Klasör Haritası
 `src/app` (route+layout, `app/studio` = gömülü Sanity Studio) · `src/components/{ui,layout,sections}` · `src/sanity/{schemaTypes,lib}` (CMS şema + client) · `src/lib` · `src/hooks` · `src/content` (statik UI metinleri) · `src/types` · `design/` (referans + token) · `.planning/` (hafıza + kalite kapıları + GSD faz dosyaları). Detay: `.planning/codebase/STRUCTURE.md`.

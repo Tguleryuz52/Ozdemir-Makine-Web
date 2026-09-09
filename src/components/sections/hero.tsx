@@ -1,0 +1,128 @@
+"use client";
+
+import type { CSSProperties } from "react";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
+import ArrowFillButton from "@/components/arrow-fill-button";
+import { heroContent } from "@/content/site";
+
+// himon 1. bölüm (hero) — Özdemir'e uyarlandı. Referans: design/references/himon/himon-01-hero.png
+// Full-bleed, header'ın ALTINA girer (-mt-20). Arka plan GEÇİCİ gradient (gerçek foto gelince next/image fill).
+// Giriş animasyonu: başlık satır-maske reveal + kicker/CTA/gövde fade-up + arka plan zoom-out (himon dili).
+
+// Hero CTA header'dan büyük (~56px). Boyut ArrowFillButton'ın CSS değişkenlerinden.
+const heroBtnSize = {
+  "--afb-h": "3.5rem",
+  "--afb-px": "1.75rem",
+  "--afb-text": "1.0625rem",
+  "--afb-circle": "2.4rem",
+  "--afb-gap": "0.5rem",
+  "--afb-arrow": "1.15rem",
+} as CSSProperties;
+
+const EASE = [0.22, 1, 0.36, 1] as const; // = --ease-out-soft
+
+const container: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.09, delayChildren: 0.15 } },
+};
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 18 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } },
+};
+const lineReveal: Variants = {
+  hidden: { y: "115%" },
+  show: { y: 0, transition: { duration: 0.8, ease: EASE } },
+};
+
+const kickerClass =
+  "whitespace-pre-line font-mono text-kicker uppercase text-white/85";
+
+export function Hero() {
+  const reduce = useReducedMotion();
+  const lines = heroContent.headline.split("\n");
+  const initial = reduce ? false : "hidden";
+
+  return (
+    <section className="relative -mt-20 min-h-[100svh] overflow-hidden text-white">
+      {/* Arka plan — GEÇİCİ gradient placeholder. Gerçek foto: bu bloğu next/image fill ile değiştir. */}
+      <motion.div
+        aria-hidden
+        className="absolute inset-0 -z-10"
+        initial={reduce ? false : { scale: 1.08, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 1.2, ease: EASE }}
+      >
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,#0e0e0e_0%,#13224a_52%,#164295_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_78%_18%,transparent_38%,rgba(14,14,14,0.55)_100%)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-black/55" />
+      </motion.div>
+
+      <motion.div
+        variants={container}
+        initial={initial}
+        animate="show"
+        className="mx-auto flex min-h-[100svh] max-w-[104rem] flex-col px-6 pb-10 pt-28 lg:px-10 lg:pb-12 lg:pt-32"
+      >
+        <div className="grid flex-1 grid-cols-1 lg:grid-cols-[17rem_minmax(0,1fr)]">
+          {/* Sol kolon (masaüstü): kicker üstte + scroll oku altta, sağ ayraç */}
+          <div className="hidden flex-col justify-between border-white/15 pr-8 lg:flex lg:border-r">
+            <motion.p variants={fadeUp} className={`${kickerClass} leading-[1.5] tracking-[0.06em]`}>
+              {heroContent.kicker}
+            </motion.p>
+            <motion.span
+              variants={fadeUp}
+              aria-hidden
+              className="text-2xl leading-none text-white/55"
+            >
+              ↓
+            </motion.span>
+          </div>
+
+          {/* Sağ kolon: başlık + CTA, üst bölgede (himon: kicker hizası, ortada foto boşluğu) */}
+          <div className="flex flex-col justify-start lg:pl-12">
+            <motion.p
+              variants={fadeUp}
+              className={`${kickerClass} mb-6 leading-[1.5] tracking-[0.06em] lg:hidden`}
+            >
+              {heroContent.kicker}
+            </motion.p>
+
+            <h1 className="max-w-[15ch] text-display-xl uppercase text-balance">
+              {lines.map((line, i) => (
+                <span key={i} className="block overflow-hidden">
+                  <motion.span variants={lineReveal} className="block">
+                    {line}
+                  </motion.span>
+                </span>
+              ))}
+            </h1>
+
+            <motion.div variants={fadeUp} className="mt-10">
+              <ArrowFillButton
+                href={heroContent.cta.href}
+                btnText={heroContent.cta.label}
+                bgColor="#ffffff"
+                textColor="#0e0e0e"
+                fillBgColor="#234d9c"
+                fillTextColor="#ffffff"
+                style={heroBtnSize}
+              />
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Alt paragraf — sağ kolon hizasında, hero altına yakın */}
+        <motion.div
+          variants={fadeUp}
+          className="mt-10 border-t border-white/15 pt-6 lg:mt-0 lg:border-t-0 lg:pl-[calc(17rem+3rem)] lg:pt-0"
+        >
+          <p className="max-w-xl text-[17px] font-medium leading-relaxed tracking-[-0.01em] text-white/85">
+            {heroContent.body}
+          </p>
+        </motion.div>
+      </motion.div>
+    </section>
+  );
+}
+
+export default Hero;

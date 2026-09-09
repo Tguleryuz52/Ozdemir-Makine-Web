@@ -39,6 +39,17 @@ export const socialLinks: NavItem[] = [
 ];
 
 
+// Hero — himon 1. bölüm kalıbı, Özdemir'e uyarlandı. Metin JSX'e gömülmez.
+// kicker + headline'daki "\n" bilinçli satır kırılımıdır (whitespace-pre-line ile render).
+// image: gerçek foto gelince doldurulacak (şimdilik gradient placeholder).
+export const heroContent = {
+  kicker: "SIFIR & İKİNCİ EL\nMATBAA MAKİNELERİ",
+  headline: "MATBAA\nMAKİNELERİNDE\nDOĞRU ADRES.",
+  cta: { label: "Teklif Al", href: "/iletisim" },
+  body: "20+ yıllık tecrübeyle sıfır ve ikinci el matbaa makineleri, yedek parça ve teknik destek. Türkiye ve Almanya ofisleriyle uçtan uca güvenilir tedarik.",
+  image: "", // TODO: gerçek hero fotoğrafı (matbaa/ambalaj makinesi) — gelince next/image fill
+} as const;
+
 // Footer — himon deseni (sade). Metinler burada, JSX'e gömülmez.
 export const footerContent = {
   ctaTitle: "Doğru makineyi birlikte bulalım.",

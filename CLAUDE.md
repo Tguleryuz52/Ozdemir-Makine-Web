@@ -44,7 +44,7 @@ Skill tavsiyesi ile kilitli karar (mavi `#234D9C`, Geist, himon) çatışırsa *
 - **Şekil:** yuvarlak köşe (kart ~16-24px, buton tam pill) · 1px ince ayraç · custom monoline ikon.
 - **Hareket:** scroll-reveal + sticky-pin · yumuşak easing (linear yasak) · Framer Motion.
 - **Çalışma:** header + footer önce, sonra arayı doldur. Küçük lokma, sayfa sayfa. himon slotlarına
-  gerçek Özdemir bilgisi eşlenir (kaynak: canlı site — zip kilitli). Kod büyüyünce graphify/repomix haritası.
+  gerçek Özdemir bilgisi eşlenir (kaynak: canlı site — zip kilitli). Graphify haritası aktif (`.planning/graphs/`).
 - **⚠️ ZORUNLU:** her tasarım/UI/token işinde yukarıdaki **4 kapı** + `design/references/`
   materyalleri (himon analizi, ekranlar) kullanılır. "Kafadan" tasarım yok, tarayıcıda görmeden "oldu" yok.
 - **Animasyon:** himon scroll-reveal / sticky-pin / sayaç / parallax → **Framer Motion** (`whileInView`,
@@ -64,13 +64,20 @@ Skill tavsiyesi ile kilitli karar (mavi `#234D9C`, Geist, himon) çatışırsa *
   Akış: `discuss-phase → plan-phase → execute-phase → verify-work`. Config `.planning/config.json`.
 - Referans-tabanlı iteratif ("burayı şöyle, burayı böyle") — her değişiklik token + review kapısından geçer.
 - Faz faz ilerle; her oturum sonunda **STATE.md güncelle.**
-- **Token disiplini (kritik):** kör grep/tüm-dosya-okuma yerine harita; okunmuş dosyayı
-  tekrar okuma; gereksiz subagent/fork yok; çıktı kısa (bullet, GSD modu).
-- **🔴 Token Tasarrufu ZORUNLU (2026-09-09):** Kodda **sadece değiştirilecek yeri oku**
-  (tüm dosyayı çekmek yerine `offset/limit` ile satır okuması). Cevap yazarken **asla koca
-  dosyayı tekrar yazdırma** — sadece diff/patch/değişen blok ver. Ekran görüntüsünü sürekli
-  alma; kendi kontrolünü (tsc/eslint) yap, gerektiğinde 1 kez bak. Bu aşamalardan sonra
-  projeyi **repomix/graphify** ile haritala (daha az token + derli toplu).
+- **🔴 Arama sırası ZORUNLU (kör grep yasak) — en ucuzdan başla:**
+  1. Bu dosyadaki **Karar Matrisi** / **Planlama Katmanı** tabloları — çoğu soru burada var.
+  2. `node ~/.claude/get-shit-done/bin/gsd-tools.cjs graphify query <terim>` — kod graph'ı
+     (kim neyi import ediyor, sembol nerede). Graph `.planning/graphs/` altında (554 node/549 edge,
+     kuruldu 2026-09-09). ⚠️ **Tazeleme maliyeti:** `graphify build` **agent spawn eder (pahalı)** —
+     sadece büyük/toplu değişiklikte kullan. Tek dosya taşıma/yeniden adlandırmada grafiği
+     `sed` ile cerrahi yama (yolu `.planning/graphs/graph.json`'da güncelle), agent açma.
+  3. `.planning/codebase/*.md` (STRUCTURE/ARCHITECTURE/CONVENTIONS/UI-MAP) — insan-okur özet.
+  4. `ast-grep` / `sg` — belirli bir kod kalıbı ararken.
+  5. Grep / tüm dosya okuma — **son çare**, yukarıdakiler cevap vermediyse.
+- **Okuma/yazma disiplini:** okunmuş dosyayı tekrar okuma · sadece değiştirilecek satırı
+  `offset/limit` ile oku, tüm dosyayı çekme · cevapta koca dosyayı geri yazdırma, sadece
+  diff/değişen blok ver · ekran görüntüsünü sürekli alma, kendi kontrolünü (tsc/eslint) yap ·
+  gereksiz subagent/fork yok · çıktı kısa (bullet, GSD modu).
 
 ## 📂 Klasör Haritası
 `src/app` (route+layout, `app/studio` = gömülü Sanity Studio) · `src/components/{ui,layout,sections}` · `src/sanity/{schemaTypes,lib}` (CMS şema + client) · `src/lib` · `src/hooks` · `src/content` (statik UI metinleri) · `src/types` · `design/` (referans + token) · `.planning/` (hafıza + kalite kapıları + GSD faz dosyaları). Detay: `.planning/codebase/STRUCTURE.md`.
@@ -105,13 +112,36 @@ Skill tavsiyesi ile kilitli karar (mavi `#234D9C`, Geist, himon) çatışırsa *
 |---|---|
 | Yeni sayfa veya bölüm | Tasarım kapısı → mockup → build → review (`DEFINITION-OF-DONE.md`) |
 | "Şu rengi değiştir" tarzı küçük iş | Token üzerinden değiştir, ham değer yazma |
-| Dosya arıyorum | `codebase/STRUCTURE.md`. Grep son çare |
+| Dosya arıyorum | `graphify query <terim>` → yoksa `codebase/STRUCTURE.md`. Grep son çare |
 | Next.js API'sinden emin değilim | `node_modules/next/dist/docs/` oku, tahmin etme |
 | Yeni kütüphane gerekiyor | Önce gerekçe, sonra STATE.md kaydı, sonra kur |
 | İçerik metni lazım | `src/content`. JSX'e gömme |
 | Referans sitede güzel bir şey gördüm | Kararı al, kodu alma |
 | Bir şey bozuldu | Önce `npm run build`, hatayı oku, sonra tahmin |
 | Oturum bitiyor | `project-learning` skill'i — ders skill'e, harita `UI-MAP.md`'ye, durum `STATE.md`'ye |
+
+## 🏅 Kalite Protokolü — her çıktı bu çıtadan geçer
+> Amaç: 20 yıllık mühendis + tasarımcı kalitesi. "Çalışıyor" yetmez; **doğru + zarif + bakımı kolay** olacak.
+
+**İşe başlamadan (30 sn düşün):**
+1. **Hedefi 1 cümlede yaz** — ne değişecek, neden. Belirsizse **sor, tahmin etme**.
+2. **En küçük lokma** — tüm bölümü değil tek parçayı hedefle. Büyük diff = büyük risk + çok token.
+3. **Bağlamı ucuzdan çek** — Karar Matrisi → graphify → `codebase/*.md`. Kör grep/okuma yasak.
+4. **Tasarım işiyse referansı aç** — himon analizi + `design/references/`. "Kafadan" tasarım yok.
+
+**Kod yazarken:**
+- Token üzerinden stil · `@/*` alias · **prop-driven** bölüm · **server-default** · a11y (kontrast/focus/semantic) · içerik `src/content`.
+- **Mevcut kalıbı taklit et** (komşu dosyanın ismi, easing, spacing, yorum yoğunluğu). Yeni kalıp uydurmadan önce `CONVENTIONS.md`.
+- primitive → `components/ui`, bölüm → `components/sections`, kabuk → `components/layout`. Dosyayı doğru katmana koy.
+
+**Teslim etmeden (Definition of Done):**
+1. **Kendi kontrolün:** `npm run lint` + `npm run build` temiz. autocheck hook zaten koşar — **kırmızıysa dur, düzelt, sonra devam.**
+2. **Tasarım işiyse tarayıcıda gör** (`reference-parity`): ekran al → referansla yan yana → düzelt. "Herhalde olmuştur" yok.
+3. **STATE.md güncelle** — ne bitti, sıradaki ne.
+
+**"İlk versiyonu asla teslim etme":** ürettiğin ilk hali bir kez eleştir (hiyerarşi? boşluk ritmi? slop? tek viewport'a sığıyor mu?), **sonra** ver.
+
+**İletişim:** GSD — kısa, aksiyon odaklı. Koca dosyayı geri yazdırma, sadece diff/değişen blok. Sonunda 1-2 cümle "ne yaptım".
 
 ## 🚫 Kod tarafı yasaklar
 **❌** `any` · ham renk/boşluk değeri · göreli yol zinciri (`../../..`) · JSX'e gömülü

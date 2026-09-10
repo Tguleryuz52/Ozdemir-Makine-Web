@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-import ArrowFillButton from "@/components/arrow-fill-button";
+import ArrowFillButton from "@/components/ui/arrow-fill-button";
 import { introContent } from "@/content/site";
 
 // himon 2. kalıp (split-istatistik) — Özdemir'e uyarlandı.

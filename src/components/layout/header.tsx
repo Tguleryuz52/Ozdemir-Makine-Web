@@ -2,38 +2,29 @@
 
 import { useEffect, useState, type CSSProperties } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { mainNav, siteConfig } from "@/content/site";
-import ArrowFillButton from "@/components/arrow-fill-button";
+import ArrowFillButton from "@/components/ui/arrow-fill-button";
 import { UnderlineLink } from "@/components/ui/underline-link";
 import { cn } from "@/lib/utils";
 
-// Geçici wordmark — Talha gerçek logoyu atınca burası değişir. `solid`: hero üstünde beyaz varyant.
+// Orijinal logomuz. `solid`: hero üstünde beyaz zemin olunca logo siyaha (invert) dönüyor.
 function Wordmark({ solid }: { solid: boolean }) {
   return (
-    <Link href="/" className="flex items-center gap-2.5" aria-label={siteConfig.name}>
-      <span
+    <Link href="/" className="flex items-center" aria-label={siteConfig.name}>
+      <Image
+        src="/logo_main.png"
+        alt="Özdemir Makine Logo"
+        width={240}
+        height={74}
         className={cn(
-          "grid size-8 place-items-center rounded-[7px] transition-colors duration-500 ease-out-soft",
-          solid ? "bg-ink text-white" : "bg-white text-ink",
+          "object-contain h-9 lg:h-11 w-auto transition-all duration-500 ease-out-soft",
+          solid ? "invert" : "invert-0"
         )}
-        aria-hidden
-      >
-        <span className="block size-3 rounded-[2px] border-2 border-current" />
-      </span>
-      <span
-        className={cn(
-          "text-lg font-semibold tracking-tight transition-colors duration-500 ease-out-soft",
-          solid ? "text-ink" : "text-white",
-        )}
-      >
-        {siteConfig.wordmark.strong}
-        <span className={cn("ml-1 font-normal", solid ? "text-ink/40" : "text-white/50")}>
-          {siteConfig.wordmark.light}
-        </span>
-      </span>
+      />
     </Link>
   );
 }

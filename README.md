@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Özdemir Makine — Kurumsal Web Sitesi
 
-## Getting Started
+> `ozdemirmakine.com.tr`'nin modern, dönüşüm + SEO odaklı redesign'ı.
+> Hedef kitle: B2B makine alıcıları, ihracat/referans arayan kurumlar.
 
-First, run the development server:
+Bu repo **plan-önce, referans-tabanlı, anti-slop** bir disiplinle geliştirilir. Kod yazmadan önce
+`CLAUDE.md` (proje beyni) ve `.planning/STATE.md` (kaldığın yer) okunur.
+
+---
+
+## 🧱 Teknoloji Yığını (kilitli)
+
+| Katman | Seçim |
+|---|---|
+| Framework | Next.js 16 (App Router) · React 19 · TypeScript `strict` |
+| Styling | Tailwind CSS v4 · shadcn/ui (Base UI tabanlı) |
+| Animasyon | Framer Motion |
+| CMS | Sanity.io (gömülü Studio `/studio`) — Faz 9 |
+| Deploy | GitHub → Vercel |
+
+Import alias: `@/*` → `src/*`. `any` yasak, ham renk/boşluk değeri yasak (her şey token üzerinden).
+
+## 🚀 Başlangıç
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run lint     # teslim öncesi zorunlu
+npm run build    # teslim öncesi zorunlu
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📂 Dosya Haritası
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+src/
+├─ app/                 # route + layout (App Router). /studio = gömülü Sanity
+├─ components/
+│  ├─ ui/               # primitive'ler (button, link, arrow-fill-button)
+│  ├─ layout/           # header, footer, shell
+│  └─ sections/         # sayfa bölümleri (hero, introduction, services…) — prop-driven
+├─ content/             # statik UI metinleri (site.ts) — JSX'e gömülmez
+├─ lib/ · hooks/ · types/
+└─ sanity/              # CMS şema + client (Faz 9)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+design/                 # referanslar + token sistemi
+├─ references/          # himon + canlı site ekranları, ölçülmüş değerler
+└─ design-system.md     # token kontratı (renk/font/spacing/motion)
 
-## Learn More
+.planning/              # 🧠 proje beyni — bağlamın yaşadığı yer
+├─ STATE.md             # her oturumun ilk dosyası
+├─ ROADMAP.md           # 10 fazlık yol haritası (GSD)
+├─ codebase/            # STRUCTURE · ARCHITECTURE · CONVENTIONS · UI-MAP · …
+├─ phases/              # faz faz plan + özet
+└─ graphs/              # kod knowledge-graph (graphify)
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 🎨 Tasarım Sistemi
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Referans:** `himon.framer.website` (dil alınır, kod alınmaz) + canlı site.
+- **Aksan:** Özdemir mavisi `#234D9C` (derin `#164295`, parlak `#0E92DD`).
+- **İskelet:** near-black `#0E0E0E` + sıcak off-white `#F2F0EC` + beyaz, tek aksan.
+- **Font:** Geist (display, tight tracking, hero UPPERCASE) + Geist Mono (kicker).
+- Detay ve tüm token'lar: [`design/design-system.md`](design/design-system.md).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🗺️ Çalışma Şekli
 
-## Deploy on Vercel
+Referans-tabanlı, iteratif, faz faz. Her UI işi **4 kaliteden** geçer: zevk (`design-taste`) →
+referans (`reference-parity`) → doğruluk (`web-interface-guidelines`) → proje (`DEFINITION-OF-DONE.md`).
+Ayrıntı: [`CLAUDE.md`](CLAUDE.md).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📚 Nereden Başlamalı
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. [`CLAUDE.md`](CLAUDE.md) — proje kuralları, karar matrisi, kalite protokolü.
+2. [`.planning/STATE.md`](.planning/STATE.md) — şu an nerede kaldık.
+3. [`.planning/codebase/STRUCTURE.md`](.planning/codebase/STRUCTURE.md) — dosya ararken (kör grep yerine).

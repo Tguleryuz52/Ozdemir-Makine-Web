@@ -68,6 +68,12 @@ ekran görüntüsünden asla bu kesinlikte çıkaramazsın. Ölçünce tek turda
 
 Ölçülemeyenler (animasyon süresi, easing, hover, mobil kırılım) için hâlâ gözlem + `browser_hover` gerekir.
 
+**⚡ TOKEN KURALI (zorunlu):** `browser_evaluate` sonuçları context'i şişirir.
+- Sonucu `filename` parametresiyle `.work/`'e yaz, ham JSON'u context'e dökme; sadece gereken 3-5 değeri döndür.
+- Diziyi `.slice(0, N)` ile kısalt (himon nav 12 değil 3 örnek yeter).
+- Fonksiyonu kısa tut — her evaluate fonksiyon kodunu bir de "Ran Playwright code" olarak tekrar yazdırır.
+- `browser_snapshot` çağırma (55KB YAML); ölçüm için `browser_evaluate` + hedefli seçici yeter.
+
 ### A2b. (Opsiyonel) Ölçü çıkarma aracı — screenshot-to-code
 Gözle çıkarım yeterli gelmezse (`bu boşluk 24 mü 32 mi`, `grid 3 kolon mu 4 mü`):
 `C:/Software Dev/tools/screenshot-to-code` kurulu. Kullanım `BASLA.md`'de.

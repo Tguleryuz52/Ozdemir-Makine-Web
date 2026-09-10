@@ -78,6 +78,71 @@ export const introContent = {
   ],
 } as const;
 
+// Services — himon canlı kalıbı: master-detail hover.
+// Sol master-list: 01..05 num + servis adı (hover → aktif siyah, diğerleri muted).
+// Sağ detail: aktif servisin görseli + açıklama + CTA (hover değişince cross-fade).
+// image: gerçek foto gelene kadar farklı gradient placeholder — services.tsx içindeki
+// GRADIENTS haritasına num ile eşlenir. Fotolar gelince image alanı doldurulur, gradient düşer.
+export type ServiceItem = {
+  num: string; // "01"..
+  title: string;
+  body: string;
+  href: string;
+  ctaLabel: string;
+  image: string; // TODO: gerçek servis fotosu — boşsa gradient placeholder
+};
+
+export const servicesContent: {
+  kicker: string;
+  count: string;
+  items: ServiceItem[];
+} = {
+  kicker: "Hizmetler",
+  count: "(05)",
+  items: [
+    {
+      num: "01",
+      title: "Sıfır Makine",
+      body: "Avrupa menşeli üreticilerden orijinal sıfır ofset, dijital ve baskı sonrası makinelerini garantili tedarik ediyoruz.",
+      href: "/sifir-makineler",
+      ctaLabel: "Sıfır Makine Kataloğu",
+      image: "",
+    },
+    {
+      num: "02",
+      title: "İkinci El Alım-Satım",
+      body: "Kontrollü, revize edilmiş ikinci el matbaa makinelerini alıyor, satıyor ve ihtiyaca göre eşleştiriyoruz.",
+      href: "/ikinci-el-makineler",
+      ctaLabel: "İkinci El Katalog",
+      image: "",
+    },
+    {
+      num: "03",
+      title: "Yedek Parça",
+      body: "Heidelberg, Komori, Man Roland ve daha fazlası için orijinal ve muadil yedek parça, hızlı sevkiyat.",
+      href: "/yedek-parcalar",
+      ctaLabel: "Parça Kataloğu",
+      image: "",
+    },
+    {
+      num: "04",
+      title: "Montaj & Devreye Alma",
+      body: "Sökümden kuruluma, elektrik-mekanik bağlantıdan devreye almaya kadar deneyimli ekiple uçtan uca proje yönetimi.",
+      href: "/hizmetler/montaj",
+      ctaLabel: "Süreci Gör",
+      image: "",
+    },
+    {
+      num: "05",
+      title: "Gümrük & Lojistik",
+      body: "Yurt dışı tedarikte gümrük, taşıma sigortası ve nakliye organizasyonu — makine kapınıza sorunsuz teslim.",
+      href: "/hizmetler/lojistik",
+      ctaLabel: "Detayları Gör",
+      image: "",
+    },
+  ],
+};
+
 // Footer — himon deseni (sade). Metinler burada, JSX'e gömülmez.
 export const footerContent = {
   ctaTitle: "Doğru makineyi birlikte bulalım.",
@@ -92,3 +157,66 @@ export const siteMapNav: NavItem[] = [
   ...mainNav,
   { label: "Galeri", href: "/galeri" },
 ];
+
+// Öne Çıkan Makineler (Vitrin) — Ana Sayfa için mock veri. 
+// Sanity CMS geçişinde bu veri yapısı `machine` şemasına birebir uyumlu olacak.
+export type Machine = {
+  id: string;
+  brand: string;
+  model: string;
+  year: number;
+  condition: "Sıfır" | "2. El";
+  price?: string;
+  priceOnRequest: boolean;
+  image: string; // TODO: gerçek fotoğraf url'si
+  href: string;
+};
+
+export const featuredMachinesContent = {
+  kicker: "Vitrin",
+  title: "Öne Çıkan Makineler",
+  cta: { label: "Tüm Kataloğu İncele", href: "/makineler" },
+  items: [
+    {
+      id: "m1",
+      brand: "Heidelberg",
+      model: "Speedmaster CX 104-5+L",
+      year: 2023,
+      condition: "Sıfır",
+      priceOnRequest: true,
+      image: "",
+      href: "/makineler/heidelberg-cx104",
+    },
+    {
+      id: "m2",
+      brand: "Komori",
+      model: "Lithrone G40",
+      year: 2015,
+      condition: "2. El",
+      price: "€240,000",
+      priceOnRequest: false,
+      image: "",
+      href: "/makineler/komori-g40",
+    },
+    {
+      id: "m3",
+      brand: "Man Roland",
+      model: "705 3B",
+      year: 2008,
+      condition: "2. El",
+      priceOnRequest: true,
+      image: "",
+      href: "/makineler/man-roland-705",
+    },
+    {
+      id: "m4",
+      brand: "Bobst",
+      model: "Novacut 106 ER",
+      year: 2020,
+      condition: "2. El",
+      priceOnRequest: true,
+      image: "",
+      href: "/makineler/bobst-novacut-106",
+    },
+  ] as Machine[],
+};

@@ -2,7 +2,7 @@
 
 import type { CSSProperties } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-import ArrowFillButton from "@/components/arrow-fill-button";
+import ArrowFillButton from "@/components/ui/arrow-fill-button";
 import { heroContent } from "@/content/site";
 
 // himon 1. bölüm (hero) — Özdemir'e uyarlandı. Referans: design/references/himon/himon-01-hero.png

@@ -55,3 +55,9 @@ design/inbox/*
 # eski site arsivi (git disi)
 /ozdmak/
 /screen/
+
+# semgrep (canli token icerir — asla commit edilmez)
+.semgrep/
+
+# graphify build scratch (kanonik kopya .planning/graphs/ altinda, bu klasor tekrar uretilir)
+/graphify-out/

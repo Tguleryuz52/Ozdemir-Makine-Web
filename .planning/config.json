@@ -19,9 +19,17 @@
     "cross_ai_command": "",
     "cross_ai_timeout": 300
   },
-  "ship": { "pr_body_sections": [] },
-  "planning": { "commit_docs": true, "search_gitignored": false, "sub_repos": [] },
-  "git": { "create_tag": true },
+  "ship": {
+    "pr_body_sections": []
+  },
+  "planning": {
+    "commit_docs": true,
+    "search_gitignored": false,
+    "sub_repos": []
+  },
+  "git": {
+    "create_tag": true
+  },
   "parallelization": {
     "enabled": true,
     "plan_level": true,
@@ -44,11 +52,12 @@
     "always_confirm_destructive": true,
     "always_confirm_external_services": true
   },
-  "hooks": { "context_warnings": true },
+  "hooks": {
+    "context_warnings": true
+  },
   "project_code": null,
   "agent_skills": {},
   "claude_md_path": "./CLAUDE.md",
-
   "project": "ozdemir-makine-web",
   "type": "website-redesign",
   "custom_gates": {
@@ -63,5 +72,8 @@
     "accessibility_check": true,
     "performance_budget": true
   },
-  "notes": "Mevcut ozdemirmakine.com.tr redesign. Tasarım kalitesi en yüksek öncelik. Referans-tabanlı. İçerik Sanity CMS'te. GitHub + Vercel."
+  "notes": "Mevcut ozdemirmakine.com.tr redesign. Tasarım kalitesi en yüksek öncelik. Referans-tabanlı. İçerik Sanity CMS'te. GitHub + Vercel.",
+  "graphify": {
+    "enabled": true
+  }
 }

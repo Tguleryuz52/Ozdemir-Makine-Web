@@ -1,113 +1,34 @@
 # STATE.md — Proje Hafızası
 
-> Her oturum başında **ilk okunan** dosya. Kaldığın yeri buradan hatırla; sıfırdan başlama.
+> Her oturum başında **ilk okunan** dosya. Ayrıntılı devir: `.continue-here.md`.
 
-## 📍 Son Durum (2026-09-09 — Faz 4 HERO)
-- **✅ HERO bitti** (`src/components/sections/hero.tsx`, commit `51922fb`). himon 1. bölüm uyarlaması:
-  full-bleed, sol kicker+ayraç+↓, dev UPPERCASE başlık, beyaz pill CTA (mavi ok), dipte gövde.
-  Arka plan GEÇİCİ gradient (gerçek foto swappable). Giriş animasyonu Framer Motion (satır-maske + fade-up + zoom-out).
-- **Header** hero-overlay (şeffaf→scroll'da beyaz) + hide-on-scroll (Talha ekledi). `pathname==="/"` overlay.
-- **Detaylı devir + ana scroll planı + çalışma kuralları → `.continue-here.md`** (clear öncesi oku).
-- ✅ Introduction (split-istatistik) bitti. ⏭️ SIRADAKİ: servis kartları (4lü). Sonra: vitrin · süreç · marka şeridi · CTA.
-- **Talha kuralları:** her faz sonrası clear · sürekli screenshot yok (kendi kontrolün) · Özdemir bilgisini gerçek veriye dönüştür · token çok az yak.
+## 📍 Şu An (2026-09-09 — Faz 4: Ana Sayfa)
+- **✅ Hero** (`sections/hero.tsx`, `51922fb`): himon 1. bölüm — full-bleed, sol kicker+ayraç+↓, dev UPPERCASE başlık, beyaz pill CTA (mavi ok), dipte gövde. BG geçici gradient (foto swappable). Giriş anim: Framer Motion (satır-maske + fade-up + zoom-out).
+- **✅ Header:** hero-overlay (şeffaf→scroll'da beyaz) + hide-on-scroll. `pathname==="/"` overlay.
+- **✅ Introduction:** split-istatistik (himon-02) bitti.
+- **⏭️ SIRADAKİ:** servis kartları (4'lü) → vitrin → süreç → marka şeridi → CTA.
+- **Talha kuralları:** her faz sonrası `/clear` · sürekli screenshot yok (kendi kontrolün) · Özdemir bilgisini gerçek veriye çevir · token az yak · section desktop'ta tek viewport (100vh).
 
-## 📍 Son Durum (2026-09-09 — Faz 3 kapanış)
-- **✅ FAZ 3 (Global Layout & Navigasyon) TAMAM.** Header (mobil menü + a11y dahil) + Footer
-  (himon CTA + kolon grid + legal) + layout shell. Playwright canlı denetim (1440/390/mobil menü)
-  geçti — himon dili, responsive, anti-slop temiz. Ekranlar: `.work/shots/faz3/`.
-- SUMMARY backfill'lendi: `.planning/phases/03-layout-navigasyon/03-01`, `03-02`. (İş GSD
-  execute-phase dışında elle kurulmuştu; GSD state gerçekle hizalandı.)
-- **Bekleyen polish (Faz 7'ye veya ara düzeltmeye):** nav ortalama · İletişim kolonu tek-kicker ·
-  footer ghost "ÖZDEMİR" wordmark (gerçek logo gelince) · gerçek logo entegrasyonu (Talha atacak).
-- **⏭️ SIRADAKİ: Faz 4 (Ana Sayfa) — tam GSD döngüsü:** discuss-phase → plan-phase →
-  execute-phase → verify-work. Hero + kurumsal bölümler, tasarım-yoğun asıl mesai.
-
-## 🔖 CHECKPOINT 2026-09-08 — `/clear` öncesi
-> **Devir dosyası: `.planning/.continue-here.md`** (her şey orada — header durumu, bekleyen buton refactor'u, footer, ortam notları). Yeni oturumda önce onu oku.
-> Özet: Faz 1-2 ✅ · Faz 3 header 🚧. Sıradaki: arrow-fill-button'ı boyut-bağımsız yap (ok dairesi taşıyor + hover "Al" kırpıyor) → header'da büyüt/himon'a oturt → footer.
-
-## 📍 Son Durum (2026-09-08 — yetenek + altyapi oturumu)
-- **4 kapili tasarim akisi kuruldu.** Skill'ler `.claude/skills/` altinda, repoda:
-  `design-taste` (zevk) -> `reference-parity` (referans + tarayici) ->
-  `web-interface-guidelines` (dogruluk) -> `DEFINITION-OF-DONE.md` (proje).
-  Besincisi `project-learning` (ogrenileni kalici davranisa cevirme).
-- **Olcum teknigi kesfedildi (L-6).** Referans canliysa Playwright ile
-  `getComputedStyle` cekilir, goz karari yapilmaz. himon footer olculdu ->
-  `design/references/himon-footer-measured.md`. Teknik `reference-parity` A2a'da.
-- **`UI-MAP.md` kuruldu** (`.planning/codebase/`). Gorsel oge -> dosya -> token haritasi.
-  Revize geldiginde grep atmadan hedefe gitmek icin.
-- **Dosya yapisi temizlendi.** Kokteki 12 png -> `.work/shots/arsiv/`,
-  `screen/` -> `design/inbox/`, `.playwright-mcp/` -> `.work/playwright/`.
-- **screenshot-to-code kuruldu** ama repo disinda (`C:/Software Dev/tools/`).
-  Rolu sinirli: canli referans yoksa olcu cikarma. API anahtari henuz girilmedi.
-- **GitHub baglandi:** `Tguleryuz52/Ozdemir-Makine-Web`.
-
-## 📍 Onceki Durum (2026-09-07)
-- Proje kuruldu: `C:\Software Dev\ozdemir-makine-web` (Work Asistant'tan ayrı, temiz context).
-- **Next.js temeli hazır:** create-next-app (TS strict + Tailwind v4 + App Router + `@/*` alias).
-- **Bağımlılıklar:** shadcn/ui (button + lib/utils), framer-motion kuruldu.
-- **Mimari:** `src/components/{ui,layout,sections}`, `src/lib`, `src/hooks`, `src/content`, `src/types`.
-- Henüz: tasarım referansları yok, mevcut site içeriği aktarılmadı, sayfa geliştirmesi başlamadı.
-
-## ✅ Yapılanlar
-- 2026-09-07: Proje scaffold + bağımlılıklar + klasör mimarisi + planning/design iskeleti.
-- 2026-09-07: **Bağlam temeli sağlamlaştırıldı.** Kod haritası (STACK, ARCHITECTURE,
-  CONVENTIONS, CONCERNS, TESTING), kalite kapıları (DEFINITION-OF-DONE), kalıcı
-  dersler (LEARNINGS), içerik envanteri iskeleti, ileri hedef mimari
-  (ENTERPRISE-BLUEPRINT) ve devir dosyası eklendi. CLAUDE.md'ye karar matrisi,
-  planlama katmanı haritası ve kod yasakları tablosu işlendi.
-- 2026-09-07: Commit öncesi lint kapısı kuruldu (`.claude/settings.local.json`).
-
-## 📥 Referans Site
-- 2026-09-07: `design/references/ornek-site/` açıldı. Talha örnek siteyi arşivden
-  çıkarıp buraya atacak. Ardından: yapı analizi → içerik envanteri → tasarım
-  kararlarının çıkarılması. Kod kopyalanmayacak, karar çıkarılacak.
-
-## ⏭️ Sıradaki Adımlar
-**Faz 1 büyük ölçüde tamam** (2026-09-08):
-- ✅ Mevcut site analiz edildi (Playwright) → nav, kategoriler, markalar, kurumsal metin, footer, işlevler. Ekran: `design/references/canli-site/`.
-- ✅ **himon referansı detaylı incelendi** → 5 bölüm kalıbı, renk, tipografi, hareket dili çıkarıldı. Ekranlar: `design/references/himon/`. Analiz: `design/references/himon-analysis.md`.
-- ⏳ Kalan: `CONTENT-INVENTORY.md`'yi bu analizle doldur · repomix/graphify haritası.
-
-**✅ Faz 2 Design System TAMAM (2026-09-08):**
-- Aksan = Özdemir mavisi `#234D9C` (kilitli). Font = Geist + Geist Mono (kilitli, himon'la birebir).
-- `design/design-system.md` token kontratı (ui-ux-pro-max üç katman) + `globals.css` uygulandı.
-- `/design-system` geçici demo sayfası + header taslağı çalışıyor. tsc/eslint/build temiz.
-- Header taslağı (`src/components/layout/header.tsx`) sepet/üye gizli, dil+Teklif Al pill.
-
-**Sonra → Faz 3 Global Layout & Navigasyon:**
-1. Header'ı resmî planla cilalanır (logo entegrasyonu — **Talha atacak**).
-2. Footer kurulur (himon dili: mono kolonlar + dev ghost ÖZDEMİR wordmark, TR+DE adres, 5 sosyal).
-3. Mobil menü + erişilebilirlik.
-
-**Karar bekleyenler:** yeni logo (Talha atacak) · hero görseli (arşiv kilitli) · sepet/üye v1'de mi (şimdilik gizli).
+## ✅ Tamamlanan Fazlar
+- **Faz 1 (Keşif):** canlı site + himon analiz edildi → 5 bölüm kalıbı, renk/tipografi/hareket. Ekranlar `design/references/`, analiz `himon-analysis.md`.
+- **Faz 2 (Design System):** aksan mavi `#234D9C` + Geist/Geist Mono (kilitli). `design-system.md` token kontratı + `globals.css`. tsc/eslint/build temiz.
+- **Faz 3 (Layout & Nav):** Header (mobil menü + a11y) + Footer (himon CTA + kolon grid + legal) + layout shell. Playwright denetim (1440/390/mobil) geçti. Ekranlar `.work/shots/faz3/`.
+- **Altyapı:** 4 kapılı tasarım akışı (`.claude/skills/`: design-taste → reference-parity → web-interface-guidelines → DoD → project-learning) · ölçüm tekniği (Playwright `getComputedStyle`, L-6, `himon-footer-measured.md`) · `UI-MAP.md` · Graphify (`.planning/graphs/`, 554 node/549 edge) · GitHub `Tguleryuz52/Ozdemir-Makine-Web`.
 
 ## 🧠 Kararlar (tarihli)
-- 2026-09-07: **Stack KİLİTLİ** → Next.js + TS + Tailwind + shadcn/ui + Framer Motion.
-- 2026-09-07: Proje `C:\Software Dev\` kökünde, Work Asistant DIŞINDA (temiz context, halüsinasyon riski düşük).
-- 2026-09-07: Mevcut site **redesign** ediliyor (sıfırdan modern build, mevcut içerik/marka korunarak).
-- 2026-09-07: **Test aracı şimdi kurulmayacak.** Gerekçe: ortada sayfa yokken test
-  yazmak boşa iş. Faz 2 bitince Playwright eklenecek, koşul `codebase/TESTING.md`'de.
-- 2026-09-07: **Yeni araç eklenmeyecek, mevcut yığın kanıtlanacak.** Gerekçe:
-  denenmemiş eklenti yığını güç değil dağınıklık. Bkz. `LEARNINGS.md` L-5.
-- 2026-09-08: **CMS = Sanity.io (KİLİTLİ, ama EN SON faz).** Uyumluluk teyitli
-  (`sanity@6` + `next-sanity@13`, React 19.2.8 + Next 16). Kuruldu ama Faz 9'a kadar
-  dokunulmayacak. Bkz. frontend-önce kararı.
-- 2026-09-08: **FRONTEND-ÖNCE, Sanity-EN-SON (yön kararı).** Roadmap 10 faza kuruldu:
-  Faz 1-8 frontend (asıl mesai, tasarım-yoğun), Faz 9 Sanity, Faz 10 yayın. Referans =
-  **yayındaki canlı site (link, kaynak kod yok)** + Framer. İçerik önce **tipli mock**
-  (`src/content`), gelecekteki Sanity şemasıyla aynı şekilde → Faz 9 geçişi ucuz.
-  Gerekçe: Talha tasarıma çok yüklenmek istiyor; bağlamı sağlam kurup sonra üretmek.
-- 2026-09-08: **package.json temizlendi.** `node-unrar-js` + `7zip-bin` (arşiv denemesi
-  artığı) kaldırıldı, `button.tsx` importu `@/lib/utils`'a çekildi. `cn`/`@base-ui/react`/
-  `shadcn` scaffold'un bilinçli modern tercihi, korundu. Lint + tsc temiz.
+- 2026-09-09: **Token tasarrufu — plugin/MCP budandı.** Kullanılmayan pluginler `~/.claude/settings.json`'da `false`: skill-creator, superdesign, claude-mem, semgrep, security-guidance. Kalan: frontend-design, ui-ux-pro-max, playwright, context7, code-review, typescript-lsp, superpowers. **Blender MCP → app UI'dan kapatılacak** (desktop config'i app geri yazıyor, elle edit tutmuyor). Kök çöp (.py/.png) → `.work/`. `graphify-out/` çift kopya (git-dışı) → `rm -rf graphify-out`. `arrow-fill-button` → `components/ui/` (6 import güncellendi, tsc/lint temiz). README ön kapıya çevrildi. CLAUDE.md'ye Kalite Protokolü eklendi. STATE.md budandı (9.4→~4KB).
+- 2026-09-09: **Token tasarrufu — 1. tur.** effortLevel xhigh→medium · GSD skill 67→19 (`.disabled-gsd/`) · context7/zoho MCP disable · Graphify aktif · CLAUDE.md "Arama sırası" protokolü (Karar Matrisi→graphify→codebase→ast-grep→grep). repomix bilinçli atlandı (süregelen kendi proje).
+- 2026-09-08: **CMS = Sanity.io** (KİLİTLİ, EN SON faz 9). `sanity@6`+`next-sanity@13`, React 19.2.8+Next 16 uyumlu. Faz 9'a kadar dokunulmaz.
+- 2026-09-08: **FRONTEND-ÖNCE, Sanity-EN-SON.** 10 faz: 1-8 frontend, 9 Sanity, 10 yayın. İçerik önce tipli mock (`src/content`), Sanity şemasıyla aynı şekil → geçiş ucuz. Referans = canlı site (link, kaynak yok) + Framer.
+- 2026-09-08: package.json temizlendi (`node-unrar-js`+`7zip-bin` kaldırıldı). `cn`/`@base-ui/react` korundu.
+- 2026-09-07: **Stack KİLİTLİ:** Next.js + TS strict + Tailwind v4 + shadcn/ui + Framer Motion. Redesign (içerik/marka korunur). Proje Work Asistant DIŞINDA (temiz context). Test aracı Faz 2 sonrası (Playwright).
+
+## ⏳ Bekleyen Polish (Faz 7'ye)
+nav ortalama · İletişim kolonu tek-kicker · footer ghost "ÖZDEMİR" wordmark (logo gelince) · gerçek logo entegrasyonu (Talha atacak).
 
 ## ⚠️ Açık Sorular
-- Mevcut ozdemirmakine.com.tr'nin içerik/sayfa envanteri? (çıkarılacak)
-- Framer referansı: birebir mi, hangi bölümler? (Talha ile netleşecek)
-- Çok dilli (TR/EN) gerekli mi? (ihracat için muhtemel — audit TR/EN/DE diyor)
-- Sedat Bey'in kodu: içerik kaynağı mı, yoksa incelenip bırakılacak mı?
-- **ozdmak.rar hâlâ kilitli:** dış arşiv parolası bilinmiyor (`1234` tutmadı). Görseller
-  ve metinler bu yüzden çekilemedi. Doğru parola gelince makine görselleri + içerik aktarılacak.
-- **Sanity projesi:** ücretsiz hesap + proje açılması gerekiyor (`npx sanity login`).
-  projectId gelince env'e yazılacak. Talha'nın yapması gereken tek dış adım.
+- ozdemirmakine.com.tr içerik/sayfa envanteri çıkarılacak.
+- Çok dilli (TR/EN/DE)? İhracat için muhtemel (audit TR/EN/DE diyor).
+- **ozdmak.rar kilitli** (`1234` tutmadı) → makine görselleri + metinler bekliyor. Doğru parola gelince aktarılacak.
+- Hero görseli (arşiv kilitli) · yeni logo (Talha atacak) · sepet/üye v1'de mi (şimdilik gizli).
+- **Sanity:** `npx sanity login` + proje açılması, projectId env'e (Talha'nın tek dış adımı).

@@ -1,4 +1,4 @@
-import ArrowFillButton from "@/components/arrow-fill-button";
+import ArrowFillButton from "@/components/ui/arrow-fill-button";
 import { UnderlineLink } from "@/components/ui/underline-link";
 import {
   siteConfig,

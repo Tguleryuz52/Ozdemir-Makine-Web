@@ -5,6 +5,7 @@ import { motion, useReducedMotion, type Variants } from "framer-motion";
 import ArrowFillButton from "@/components/ui/arrow-fill-button";
 import { featuredMachinesContent } from "@/content/site";
 import { ProductCard } from "./productcard";
+import { CategoryCards } from "./category-cards";
 import { cn } from "@/lib/utils";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -33,9 +34,13 @@ export function FeaturedMachines() {
   return (
     <section
       id="vitrin"
-      className="bg-paper text-ink py-24 lg:py-32 overflow-hidden"
+      className="bg-paper text-ink pt-16 pb-24 lg:pt-20 lg:pb-32 overflow-hidden"
     >
-      <div className="mx-auto w-full max-w-[104rem] px-6 lg:px-10">
+      {/* 1. KISIM: ARAMA VE KATEGORİLER (Birleştirildi) */}
+      <CategoryCards />
+
+      {/* 2. KISIM: ÖNE ÇIKAN MAKİNELER (VİTRİN) */}
+      <div className="mx-auto w-full max-w-[104rem] px-6 lg:px-10 mt-16 lg:mt-20">
         
         {/* Üst Şerit: Başlık ve CTA */}
         <motion.div
@@ -43,13 +48,13 @@ export function FeaturedMachines() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.8, ease: EASE }}
-          className="mb-12 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end border-b border-ink/15 pb-6 lg:mb-20"
+          className="mb-10 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end border-b border-ink/10 pb-6 lg:mb-12"
         >
           <div>
             <span className="mb-4 block font-mono text-[0.8125rem] tracking-[0.08em] uppercase text-brand">
               {featuredMachinesContent.kicker}
             </span>
-            <h2 className="text-[2.5rem] font-medium leading-[1] tracking-tight md:text-[3.5rem] lg:text-[4.5rem]">
+            <h2 className="text-[2rem] font-medium leading-[1.05] tracking-tight md:text-[2.5rem] lg:text-[3rem]">
               {featuredMachinesContent.title}
             </h2>
           </div>
@@ -66,8 +71,8 @@ export function FeaturedMachines() {
           </div>
         </motion.div>
 
-        {/* Makine Slider */}
-        <div className="w-full mt-4 lg:mt-8 lg:pl-[8rem] xl:pl-[14rem]">
+        {/* Makine Slider — başlıkla hizalı başlar, sağ kenara full-bleed taşar */}
+        <div className="w-full mt-4 lg:mt-8">
           <motion.div
             variants={container}
             initial={reduce ? false : "hidden"}

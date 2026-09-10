@@ -143,6 +143,69 @@ export const servicesContent: {
   ],
 };
 
+// İletişim / Teklif sayfası — himon "/contact" (TALK WITH US) uyarlaması.
+// Tek form iki yüzeyde: (a) /iletisim genel, (b) /iletisim?makine=<productCode> teklif (prefill + gizli Zoho alanı).
+// Metin JSX'e gömülmez. Gizli alanlar (makineKodu/leadSource/kampanya) Zoho CRM web formuna bağlanacak —
+// gerekçe CONTENT-INVENTORY: eski projede lead kaynağı/kampanya boş geliyordu, burada baştan doldurulur.
+export const contactContent = {
+  kicker: "İletişim",
+  heading: "BİZE ULAŞIN", // genel varsayılan (himon: TALK WITH US)
+  quoteHeading: "FİYAT TEKLİFİ ALIN", // ?makine=... ile gelindiğinde
+  lead: "Doğru makineyi birlikte belirleyelim. Talebinizi iletin, ekibimiz en kısa sürede size özel çözümle dönsün.",
+  detailsHeading: "İletişim Bilgileri",
+  details: [
+    { label: "E-posta & Destek", value: siteConfig.email, href: `mailto:${siteConfig.email}` },
+    { label: "Telefon", value: siteConfig.phone.label, href: siteConfig.phone.href },
+    { label: "Ofis — Türkiye", value: siteConfig.address.tr, href: "" },
+    { label: "Ofis — Almanya", value: siteConfig.address.de, href: "" },
+  ],
+  // Telefon ülke kodu — TR öncelikli, ihracat müşterileri için AB + majör pazarlar.
+  phoneCountries: [
+    { code: "TR", dial: "+90", flag: "🇹🇷", name: "Türkiye" },
+    { code: "DE", dial: "+49", flag: "🇩🇪", name: "Almanya" },
+    { code: "GB", dial: "+44", flag: "🇬🇧", name: "Birleşik Krallık" },
+    { code: "NL", dial: "+31", flag: "🇳🇱", name: "Hollanda" },
+    { code: "FR", dial: "+33", flag: "🇫🇷", name: "Fransa" },
+    { code: "IT", dial: "+39", flag: "🇮🇹", name: "İtalya" },
+    { code: "ES", dial: "+34", flag: "🇪🇸", name: "İspanya" },
+    { code: "BE", dial: "+32", flag: "🇧🇪", name: "Belçika" },
+    { code: "AT", dial: "+43", flag: "🇦🇹", name: "Avusturya" },
+    { code: "CH", dial: "+41", flag: "🇨🇭", name: "İsviçre" },
+    { code: "PL", dial: "+48", flag: "🇵🇱", name: "Polonya" },
+    { code: "RU", dial: "+7", flag: "🇷🇺", name: "Rusya" },
+    { code: "UA", dial: "+380", flag: "🇺🇦", name: "Ukrayna" },
+    { code: "US", dial: "+1", flag: "🇺🇸", name: "ABD / Kanada" },
+    { code: "AE", dial: "+971", flag: "🇦🇪", name: "BAE" },
+    { code: "SA", dial: "+966", flag: "🇸🇦", name: "S. Arabistan" },
+    { code: "QA", dial: "+974", flag: "🇶🇦", name: "Katar" },
+    { code: "EG", dial: "+20", flag: "🇪🇬", name: "Mısır" },
+    { code: "IR", dial: "+98", flag: "🇮🇷", name: "İran" },
+    { code: "IQ", dial: "+964", flag: "🇮🇶", name: "Irak" },
+    { code: "AZ", dial: "+994", flag: "🇦🇿", name: "Azerbaycan" },
+    { code: "IN", dial: "+91", flag: "🇮🇳", name: "Hindistan" },
+    { code: "OTHER", dial: "+", flag: "🌐", name: "Diğer" },
+  ],
+  form: {
+    fields: {
+      firstName: { label: "Adınız", placeholder: "Adınız", required: true },
+      lastName: { label: "Soyadınız", placeholder: "Soyadınız", required: true },
+      company: { label: "Firma Adı", placeholder: "Firma adınız (opsiyonel)", required: false },
+      phone: { label: "Telefon", placeholder: "5xx xxx xx xx", required: true },
+      email: { label: "E-posta", placeholder: "ornek@firma.com", required: true },
+      message: { label: "Mesajınız", placeholder: "Aradığınız makineyi, ihtiyacınızı veya sorunuzu yazın…", required: true },
+    },
+    submit: "Mesaj Gönder",
+    submitQuote: "Teklif Talebini Gönder",
+    consent: "Göndererek talebinizin işlenmesini kabul etmiş olursunuz. Bilgileriniz üçüncü taraflarla paylaşılmaz.",
+    success: {
+      title: "Talebiniz alındı.",
+      body: "En kısa sürede size dönüş yapacağız. Acil durumlar için doğrudan telefonla da ulaşabilirsiniz.",
+      again: "Yeni mesaj gönder",
+    },
+    machineContextNote: "Bu makine için teklif istiyorsunuz",
+  },
+} as const;
+
 // Footer — himon deseni (sade). Metinler burada, JSX'e gömülmez.
 export const footerContent = {
   ctaTitle: "Doğru makineyi birlikte bulalım.",
@@ -158,7 +221,60 @@ export const siteMapNav: NavItem[] = [
   { label: "Galeri", href: "/galeri" },
 ];
 
-// Öne Çıkan Makineler (Vitrin) — Ana Sayfa için mock veri. 
+// Makine Arama (Vitrin başı) — 21st.dev prompt-input uyarlaması.
+// "model dropdown" → marka seçici · "effort cycle" → kategori. Framer Motion animasyonları.
+export const searchContent = {
+  placeholder: "Makine, marka veya model ara…",
+  brands: ["Tüm Markalar", "Heidelberg", "Komori", "Man Roland", "Bobst", "Ryobi"],
+  categories: ["Tüm Kategoriler", "Sıfır", "İkinci El", "Yedek Parça"],
+  basePath: "/makineler",
+} as const;
+
+// Kategori Kartları (Vitrin üstü) — canlı sitedeki 3 kategori girişi.
+// himon folder-tab reveal deseni: hover'da üst görsel büyür, numara aşağı kayar.
+// image: gerçek makine fotoğrafı gelene kadar tone'a göre soyut marka-mavisi
+// render (bkz. category-cards.tsx REVEAL). Foto gelince opsiyonel image alanı doldurulur.
+export type CategoryCard = {
+  num: string; // "01".."03"
+  title: string;
+  desc: string;
+  href: string;
+  tone: "blue" | "light" | "dark";
+};
+
+export const categoryCardsContent: {
+  kicker: string;
+  title: string;
+  items: CategoryCard[];
+} = {
+  kicker: "Kategoriler",
+  title: "Ne arıyorsunuz?",
+  items: [
+    {
+      num: "01",
+      title: "Sıfır Makineler",
+      desc: "Avrupa menşeli üreticilerden garantili, orijinal sıfır ofset ve baskı sonrası makineleri.",
+      href: "/sifir-makineler",
+      tone: "blue",
+    },
+    {
+      num: "02",
+      title: "İkinci El Makineler",
+      desc: "Kontrollü, revize edilmiş ikinci el matbaa makineleri — alım, satım ve eşleştirme.",
+      href: "/ikinci-el-makineler",
+      tone: "light",
+    },
+    {
+      num: "03",
+      title: "Yedek Parçalar",
+      desc: "Heidelberg, Komori, Man Roland ve daha fazlası için orijinal ve muadil yedek parça.",
+      href: "/yedek-parcalar",
+      tone: "dark",
+    },
+  ],
+};
+
+// Öne Çıkan Makineler (Vitrin) — Ana Sayfa için mock veri.
 // Sanity CMS geçişinde bu veri yapısı `machine` şemasına birebir uyumlu olacak.
 export type Machine = {
   id: string;
@@ -185,7 +301,7 @@ export const featuredMachinesContent = {
       condition: "Sıfır",
       priceOnRequest: true,
       image: "",
-      href: "/makineler/heidelberg-cx104",
+      href: "/makineler/heidelberg-speedmaster-cx-104",
     },
     {
       id: "m2",
@@ -196,7 +312,7 @@ export const featuredMachinesContent = {
       price: "€240,000",
       priceOnRequest: false,
       image: "",
-      href: "/makineler/komori-g40",
+      href: "/makineler/komori-lithrone-g40",
     },
     {
       id: "m3",
@@ -206,7 +322,7 @@ export const featuredMachinesContent = {
       condition: "2. El",
       priceOnRequest: true,
       image: "",
-      href: "/makineler/man-roland-705",
+      href: "/makineler/man-roland-705-3b",
     },
     {
       id: "m4",
@@ -216,7 +332,7 @@ export const featuredMachinesContent = {
       condition: "2. El",
       priceOnRequest: true,
       image: "",
-      href: "/makineler/bobst-novacut-106",
+      href: "/makineler/bobst-novacut-106-er",
     },
   ] as Machine[],
 };

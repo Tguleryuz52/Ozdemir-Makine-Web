@@ -1,7 +1,7 @@
 import { Hero } from "@/components/sections/hero";
 import Brandline from "@/components/sections/brandline";
-import { Introduction } from "@/components/sections/introduction";
 import { FeaturedMachines } from "@/components/sections/featured-machines";
+import { Introduction } from "@/components/sections/introduction";
 import { Services } from "@/components/sections/services";
 
 export default function HomePage() {
@@ -9,8 +9,8 @@ export default function HomePage() {
     <>
       <Hero />
       <Brandline />
-      <Introduction />
       <FeaturedMachines />
+      <Introduction />
       <Services />
     </>
   );

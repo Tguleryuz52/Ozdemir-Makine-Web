@@ -10,7 +10,7 @@ export interface ProductCardProps {
   brand: string;
   model: string;
   condition: string;
-  year: number;
+  year?: number;
   price?: string;
   priceOnRequest: boolean;
   image?: string;
@@ -18,8 +18,9 @@ export interface ProductCardProps {
   className?: string;
 }
 
-const defaultImage =
-  "https://cdn.21st.dev/assets/mirror/6c/6cb3aeada3fd347bf4641131fdb05a482044f0233b1b6da0ffb5e83593001e3f.jpg";
+// Gerçek fotoğraf gelene kadar marka-mavisi soyut placeholder (harici görsel yok).
+const PLACEHOLDER_BG =
+  "radial-gradient(135% 135% at 20% 0%, var(--brand-bright), var(--brand) 48%, var(--brand-deep))";
 
 export function ProductCard({
   brand,
@@ -45,11 +46,11 @@ export function ProductCard({
           <div className="relative aspect-[4/3] overflow-hidden bg-ink shrink-0">
             <motion.div
               className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105"
-              style={{
-                backgroundImage: `url(${image || defaultImage})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
+              style={
+                image
+                  ? { backgroundImage: `url(${image})`, backgroundSize: "cover", backgroundPosition: "center" }
+                  : { background: PLACEHOLDER_BG }
+              }
             />
             {/* Subtle Gradient Overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-40" />
@@ -64,14 +65,16 @@ export function ProductCard({
               </Badge>
             </div>
             
-            <div className="absolute bottom-4 left-4 flex gap-2">
-              <Badge
-                variant="secondary"
-                className="bg-ink/60 text-white backdrop-blur-md hover:bg-ink/80 border-white/10"
-              >
-                Yıl: {year}
-              </Badge>
-            </div>
+            {year ? (
+              <div className="absolute bottom-4 left-4 flex gap-2">
+                <Badge
+                  variant="secondary"
+                  className="bg-ink/60 text-white backdrop-blur-md hover:bg-ink/80 border-white/10"
+                >
+                  Yıl: {year}
+                </Badge>
+              </div>
+            ) : null}
 
             {/* Hover Overlay Action */}
             <div className="absolute inset-0 flex items-center justify-center bg-ink/20 backdrop-blur-[2px] opacity-0 transition-opacity duration-300 group-hover:opacity-100">

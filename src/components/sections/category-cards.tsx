@@ -1,0 +1,182 @@
+"use client";
+
+import Link from "next/link";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { categoryCardsContent, type CategoryCard } from "@/content/site";
+import { MachineSearch } from "@/components/ui/ai-search-input";
+import { cn } from "@/lib/utils";
+
+const EASE = [0.22, 1, 0.36, 1] as const;
+type Tone = CategoryCard["tone"];
+
+// Birebir Framer renkleri ve gradientleri
+const GRADIENTS: Record<Tone, string> = {
+  blue: "linear-gradient(135deg, #4d14ff 0%, #0a0063 100%)",
+  light: "radial-gradient(150% 120% at 0% 0%, #ff4200 0%, #0a0a0a 60%)",
+  dark: "radial-gradient(150% 120% at 100% 0%, #87c5de 0%, #0a0a0a 60%)",
+};
+
+const BODY: Record<Tone, string> = {
+  blue: "#050210",
+  light: "#eaeaec",
+  dark: "#121418",
+};
+
+const NoiseOverlay = () => (
+  <svg className="pointer-events-none absolute inset-0 z-10 h-full w-full opacity-60 mix-blend-overlay">
+    <filter id="noise">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch" />
+    </filter>
+    <rect width="100%" height="100%" filter="url(#noise)" />
+  </svg>
+);
+
+const container: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
+};
+
+const cardReveal: Variants = {
+  hidden: { opacity: 0, y: 18 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE } },
+};
+
+export function CategoryCards() {
+  const reduce = useReducedMotion();
+
+  return (
+    <div id="kategoriler" className="w-full">
+      <div className="mx-auto w-full max-w-[104rem] px-6 lg:px-10">
+        {/* Başlık ve Arama (Sola dayalı default hali) */}
+        <motion.div
+          initial={reduce ? false : { opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.7, ease: EASE }}
+          className="mb-8 lg:mb-10"
+        >
+          <span className="mb-4 block font-mono text-[0.8125rem] uppercase tracking-[0.08em] text-brand">
+            {categoryCardsContent.kicker}
+          </span>
+          <h2 className="text-[2.5rem] font-medium leading-[1] tracking-tight md:text-[3.5rem] lg:text-[4.5rem]">
+            {categoryCardsContent.title}
+          </h2>
+          <div className="mt-8 max-w-[680px]">
+            <MachineSearch />
+          </div>
+        </motion.div>
+
+        {/* Kartlar — Orijinal kompakt ve ortalanmış hali */}
+        <motion.div
+          variants={container}
+          initial={reduce ? false : "hidden"}
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
+          className="mx-auto grid max-w-[58rem] grid-cols-1 gap-6 sm:grid-cols-3"
+        >
+          {categoryCardsContent.items.map((cat) => (
+            <motion.div key={cat.num} variants={cardReveal}>
+              <CategoryTile cat={cat} reduce={!!reduce} />
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+function CategoryTile({ cat, reduce }: { cat: CategoryCard; reduce: boolean }) {
+  const light = cat.tone === "light";
+  const fg = light ? "#111111" : "#ffffff";
+  const sub = light ? "rgba(0,0,0,0.5)" : "rgba(255,255,255,0.5)";
+
+  return (
+    <Link
+      href={cat.href}
+      aria-label={`${cat.title} kategorisi`}
+      className="group block rounded-[2rem] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+    >
+      <motion.article
+        initial="rest"
+        animate="rest"
+        whileHover={reduce ? undefined : "hover"}
+        className={cn(
+          "relative flex h-[24rem] w-full flex-col overflow-hidden rounded-[2rem]",
+          light ? "border border-black/10 shadow-sm" : "border border-white/5"
+        )}
+        style={{ 
+          background: BODY[cat.tone],
+          padding: "8px" // <--- İŞTE O KALIN DIŞ ÇERÇEVE
+        }}
+      >
+        {/* Üst Reveal Görseli (Gradient) */}
+        {/* 8px padding'in içinden başlar, card rounded-[2rem] olduğu için t-[1.5rem] tam oturur */}
+        <motion.div
+          variants={{ rest: { height: 160 }, hover: { height: 210 } }}
+          transition={{ duration: 0.5, ease: EASE }}
+          className="relative w-full shrink-0 overflow-hidden rounded-t-[1.5rem]"
+          style={{ background: GRADIENTS[cat.tone] }}
+        >
+          <NoiseOverlay />
+          
+          {/* Ok İkonu (Gradient'in üzerinde) */}
+          <motion.span
+            variants={{ rest: { x: 0, y: 0 }, hover: { x: 3, y: -3 } }}
+            transition={{ duration: 0.4, ease: EASE }}
+            className="absolute right-5 top-5 z-20 text-white"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              className="size-5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1.5}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M7 17 17 7M8 7h9v9" />
+            </svg>
+          </motion.span>
+        </motion.div>
+
+        {/* Alt İçerik Gövdesi (Folder Tab) */}
+        <div className="relative z-10 flex flex-1 flex-col">
+          {/* Klasör Tabı (Folder Notch) */}
+          <div
+            className="relative -mt-[3.5rem] w-fit rounded-tr-[1.25rem] pr-6 pt-3"
+            style={{ background: BODY[cat.tone] }}
+          >
+            <span
+              className="block pl-4 pr-1 text-[3.5rem] font-light leading-none tracking-tight"
+              style={{ color: fg }}
+            >
+              {cat.num}
+            </span>
+            {/* Konkav Kıvrım — Pürüzsüz geçiş için 32px yarıçap */}
+            <span
+              aria-hidden="true"
+              className="absolute left-full bottom-0 h-[32px] w-[32px]"
+              style={{
+                background: BODY[cat.tone],
+                WebkitMaskImage: "radial-gradient(circle at top right, transparent 32px, #000 32px)",
+                maskImage: "radial-gradient(circle at top right, transparent 32px, #000 32px)",
+              }}
+            />
+          </div>
+
+          <div className="flex flex-1 flex-col justify-end px-4 pb-4 pt-4">
+            <h3 className="text-lg font-medium tracking-tight" style={{ color: fg }}>
+              {cat.title}
+            </h3>
+            <p className="mt-1 text-[0.8125rem] leading-relaxed" style={{ color: sub }}>
+              {cat.desc}
+            </p>
+          </div>
+        </div>
+      </motion.article>
+    </Link>
+  );
+}
+
+export default CategoryCards;

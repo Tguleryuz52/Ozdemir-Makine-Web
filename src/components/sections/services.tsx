@@ -68,7 +68,6 @@ export function Services() {
             whileInView="show"
             viewport={{ once: true, margin: "-80px" }}
             className="flex flex-col"
-            onMouseLeave={() => setActive(0)}
           >
             {servicesContent.items.map((item, i) => {
               const isActive = active === i;
@@ -76,14 +75,14 @@ export function Services() {
                 <motion.li
                   key={item.num}
                   variants={row}
-                  onMouseEnter={() => setActive(i)}
-                  onFocus={() => setActive(i)}
                   className="flex-1"
                 >
                   <Link
                     href={item.href}
                     aria-label={`${item.title} — detay`}
-                    className="group flex h-full items-center gap-4 py-4 outline-none lg:gap-8 lg:py-5 focus-visible:bg-paper/60"
+                    onMouseEnter={() => setActive(i)}
+                    onFocus={() => setActive(i)}
+                    className="group inline-flex h-full w-fit items-center gap-4 py-4 outline-none lg:gap-8 lg:py-5 focus-visible:bg-paper/60"
                   >
                     <span
                       className={`w-12 shrink-0 text-[1.75rem] font-medium leading-[1.05] tracking-tight transition-colors duration-300 md:text-[2.25rem] lg:w-24 lg:text-[2.85rem] ${

@@ -13,6 +13,10 @@
 # testing
 /coverage
 
+# geçici / debug artıkları (kök)
+/screenshot.png
+/.work/
+
 # next.js
 /.next/
 /out/

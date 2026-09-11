@@ -2,11 +2,27 @@
 
 > Her oturum başında **ilk okunan** dosya. Ayrıntılı devir: `.continue-here.md`.
 
-## 📍 Şu An (2026-09-10 — Faz 6 başladı: İletişim sayfası ✅)
+## 📍 Şu An (2026-09-11 — Faz 7: Sanity CMS — Makine yönetimi ✅ kuruldu)
+- **✅ Gömülü Sanity Studio (`/studio`) + `machine` şeması + 17 makine migration + site bağlandı.** Makine ekle/çıkar artık Studio'dan, kod yok. Uçtan uca tarayıcıda doğrulandı: katalog 17 ürün (filtre/sayılar doğru), anasayfa vitrin 3 kart, detay tam (açıklama+spec+format), konsol temiz.
+  - **Proje:** Sanity `Ozdemir Makine` — projectId `qgzvu8g9`, dataset `production`. Env `.env.local` (git-dışı): PROJECT_ID/DATASET/API_VERSION + `SANITY_API_READ_TOKEN` (Editor). Token rotate edildi (ilk sohbette düz metin sızmıştı → yeni üretildi).
+  - **Kod:** `src/sanity/` (env · lib/client · lib/image · lib/machines · schemaTypes/machine · structure · config) + root `sanity.config.ts`/`sanity.cli.ts` + `app/studio/[[...tool]]/{page,Studio}.tsx`. `next.config`→cdn.sanity.io. `layout` içinde `SiteChrome` (client gate) header/footer/smooth-scroll'ü `/studio`'da gizler.
+  - **⚠️ Fix (Next16/Turbopack):** config'i doğrudan server page'de import edince `swr` `react-server` sürümüne düşüp "default export yok" patlıyor → Sanity import'u `Studio.tsx` **`"use client"`** sınırına alındı. Ayrıca dataset private → read client'a **server-only token** + `perspective:"published"`.
+  - **Şema `machine` (Türkçe alanlar):** baslik·slug·marka(dropdown)·model·urunKodu·yil·format·baskiAdedi·grup·durumRozeti·kategori·altKategori·vitrin·fiyatSorunuz·fiyat·gorseller·pdf·aciklama·oneCikanOzellikler·notlar·ekOzellikler(serbest ad+değer).
+  - **Veri katmanı `src/sanity/lib/machines.ts`:** GROQ→`MachineDoc` map (Sanity alanları→bileşen şekli), getMachines/Featured/BySlug/Slugs/Related, ISR `revalidate:60`+tag `machine`. Tüketiciler **prop-driven** oldu (catalog-view · machine-detail · featured-machines · 4 katalog rota + [slug] + anasayfa), görünüm birebir aynı.
+  - **Migration:** `scripts/migrate-machines.ts` (`npx tsx`), idempotent `_id=machine.<id>`, published. Görsel/PDF henüz yok → Studio'dan yüklenecek.
+- **⏭️ SIRADAKİ (Faz 7 kalan):** (1) webhook revalidate (Studio "Yayınla" → prod site anında tazelensin) (2) Studio'dan görsel/PDF yükleyip render testi (3) Vercel deploy: env değişkenleri + prod domain CORS. Sonra Zoho form entegrasyonu.
+- **Kararlar:** Sanity blueprint'te Faz 9'du → Talha isteğiyle öne çekildi. Marka şimdilik dropdown (Markalar sayfası Sanity'ye alınınca logolu referansa yükselecek); kategori sabit (kodda); özellikler sabit+esnek.
+
+## 📍 Önceki (2026-09-10 — Faz 6: İletişim sayfası ✅)
 - **✅ İletişim + Teklif sayfası (`/iletisim`) TAMAM (UI).** himon `/contact` (TALK WITH US) uyarlaması, canlı ölçümle (Geist 70px display-xl / -0.04em, mono kicker etiketler, 2 kolon split). **Tek form iki yüzey:** genel `/iletisim` + `/iletisim?makine=<productCode>` teklif (başlık "FİYAT TEKLİFİ ALIN" olur + form üstünde makine bağlam kartı + mesaj prefill). Native HTML5 validasyon, başarı ekranı, mobil tek-kolon, konsol temiz, tsc/eslint temiz.
   - Dosyalar: `content/site.ts→contactContent` · `ui/contact-form.tsx` (client, gizli Zoho alanları) · `sections/contact-section.tsx` (server) · `app/iletisim/page.tsx` (async searchParams).
   - **🔑 Zoho hazırlığı:** formda gizli alanlar `makineKodu` / `leadSource` ("Website — Makine Teklifi" | "İletişim") / `kampanya` baştan dolu bırakıldı. Gönderim şu an client stub → `TODO(Zoho)` (backend fazı).
-- **⏭️ SIRADAKİ (Faz 6 devam):** Header yeniden yapısı (Hakkımızda · Makinalar ▾ dropdown · Markalar · Blog · Galeri · İletişim + sağda Teklif Al pill) → sonra sayfaları tek tek himon'dan uyarla (Hakkımızda→Markalar→Blog→Galeri). Her sayfa: Talha himon ekranı atar → çıkar/token/tarayıcı-doğrula.
+- **✅ Header yeniden yapısı TAMAM.** Yeni nav: `Hakkımızda · Makineler ▾ · Markalar · Blog · Galeri · İletişim` + Teklif Al pill. **Makineler dropdown** (masaüstü hover kartı: Tüm/Sıfır/İkinci El/Yedek + mobil accordion). `mainNav` artık `children`'lı (`site.ts`). Footer `siteMapNav` düz listeye çevrildi. Placeholder sayfalar kondu (`/kurumsal /markalar /blog /galeri` → `layout/page-placeholder.tsx`, on-marka "hazırlanıyor") — 404 yok, tek tek gerçek içerikle değişecek.
+- **✅ 30 yıl düzeltmesi (site geneli).** "20+" → "30" (hero/intro/stats/metadata/design-system). Talha: 30. yıldayız. Kurucu = **Murat Özdemir (Gümrük Müşaviri)**.
+- **✅ Hakkımızda (`/kurumsal`) TAMAM.** himon /about-us uyarlaması, 5 bölüm: (1) başlık + geniş görsel (2) firma/hikaye split + 3'lü görsel galerisi (3) ⭐Kurucu **Murat Özdemir** (foto + faktüel bio, uydurma alıntı YOK) (4) Vizyon & Misyon (5) **Ofisler & Tesisler** (5 lokasyon — CTA yerine, footer CTA'yı tekrar etmesin diye Özdemir'e özgü güven öğesi). Hizmetler ayrı liste YOK (karar). Scroll-reveal (`Reveal`), gerçek içerik (site.ts `aboutContent`).
+  - **Görsel slotları:** `ui/media-frame.tsx` — `src` boşken placeholder, dolunca `next/image`. Slotlar: hero (16:10), galeri ×3 (4:3), kurucu portre (4:5). Talha görsel atınca `aboutContent`'te `src` doldur. Marka görselleri çok gelecek → bol slot.
+  - ⚠️ Reveal doğrulama notu: in-app browser pane gizliyken rAF+IntersectionObserver donuyor → otomasyonda reveal opacity 0 kalıyor (kod DEĞİL, ortam). Gerçek tarayıcıda çalışıyor (statement 0.58'de canlı yakalandı). İçerik+layout doğrulandı.
+- **⏭️ SIRADAKİ: Markalar → Blog → Galeri** (placeholder'lar duruyor). Her biri himon'dan uyarlanacak; Talha ekran/görsel atar.
 - **Backend ufku (Talha notu → ENTERPRISE-BLUEPRINT §1,3,4,8):** Sanity (Framer-CMS kolaylığında makine CRUD, Talha yeni→onboarding şart) · Zoho (tüm lead akışı) · GA (kim hangi makineye bakmış) · üye girişi. Şimdilik frontend odak.
 
 ## 📍 Önceki (Faz 5 — Katalog + Detay ✅)

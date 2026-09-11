@@ -15,7 +15,7 @@ const typeScale = [
   { label: "display-xl", cls: "text-display-xl", sample: "PRECISION" },
   { label: "display-lg", cls: "text-display-lg", sample: "Makine çözümleri" },
   { label: "heading", cls: "text-heading", sample: "Öne çıkan makineler" },
-  { label: "body-lg", cls: "text-lg", sample: "20+ yıldır matbaa makineleri alım-satımı." },
+  { label: "body-lg", cls: "text-lg", sample: "30 yıldır matbaa makineleri alım-satımı." },
   { label: "body", cls: "text-base", sample: "Sıfır ve ikinci el ofset baskı makineleri." },
   { label: "body-sm", cls: "text-sm", sample: "Kategori · Marka · Yıl" },
 ];

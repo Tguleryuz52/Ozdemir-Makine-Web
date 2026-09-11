@@ -4,6 +4,7 @@
 export type NavItem = {
   label: string;
   href: string;
+  children?: NavItem[]; // dropdown (ör. Makineler → alt kategoriler)
 };
 
 export const siteConfig = {
@@ -16,23 +17,33 @@ export const siteConfig = {
     href: "tel:+902125446346",
   },
   address: {
-    tr: "Davutpaşa Cad. Salhane Sok. No: 3, Topkapı / Zeytinburnu, 34010 İstanbul",
+    tr: "Bağlar Mah. Osmanpaşa Cad. 12. Sk. No: 1/Z1 Bağcılar 34212 İstanbul - TR",
     de: "Özdemir Machinery Trading GmbH, Uerdinger Str. 125, 47799 Krefeld, DE",
   },
 } as const;
 
-// himon 6 nav item — "Galeri" header'dan çıkarıldı (footer'da kalacak).
+// Ana menü — Makineler dropdown'lı (sıfır/ikinci el/yedek tek başlık altında).
 export const mainNav: NavItem[] = [
-  { label: "Kurumsal", href: "/kurumsal" },
-  { label: "Sıfır Makineler", href: "/sifir-makineler" },
-  { label: "İkinci El Makineler", href: "/ikinci-el-makineler" },
-  { label: "Yedek Parçalar", href: "/yedek-parcalar" },
+  { label: "Hakkımızda", href: "/kurumsal" },
+  {
+    label: "Makineler",
+    href: "/makineler",
+    children: [
+      { label: "Tüm Makineler", href: "/makineler" },
+      { label: "Sıfır Makineler", href: "/sifir-makineler" },
+      { label: "İkinci El Makineler", href: "/ikinci-el-makineler" },
+      { label: "Yedek Parçalar", href: "/yedek-parcalar" },
+    ],
+  },
+  { label: "Markalar", href: "/markalar" },
+  { label: "Blog", href: "/blog" },
+  { label: "Galeri", href: "/galeri" },
   { label: "İletişim", href: "/iletisim" },
 ];
 
 export const socialLinks: NavItem[] = [
   { label: "Facebook", href: "https://www.facebook.com/ozdemirmakinetr/" },
-  { label: "X", href: "https://www.twitter.com/OZDMachineryTR/" },
+  { label: "X/Twitter", href: "https://www.twitter.com/OZDMachineryTR/" },
   { label: "Instagram", href: "https://www.instagram.com/ozdemirmakinetr/" },
   { label: "YouTube", href: "https://www.youtube.com/ozdemirmakine" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/ozdemirmakinetr/" },
@@ -46,25 +57,25 @@ export const heroContent = {
   kicker: "SIFIR & İKİNCİ EL\nMATBAA MAKİNELERİ",
   headline: "MATBAA\nMAKİNELERİNDE\nDOĞRU ADRES.",
   cta: { label: "Teklif Al", href: "/iletisim" },
-  body: "20+ yıllık tecrübeyle sıfır ve ikinci el matbaa makineleri, yedek parça ve teknik destek. Türkiye ve Almanya ofisleriyle uçtan uca güvenilir tedarik.",
+  body: "30 yıllık tecrübeyle sıfır ve ikinci el matbaa makineleri, yedek parça ve teknik destek. Türkiye ve Almanya ofisleriyle uçtan uca güvenilir tedarik.",
   image: "", // TODO: gerçek hero fotoğrafı (matbaa/ambalaj makinesi) — gelince next/image fill
 } as const;
 
 // Introduction (hero-altı) — himon 2. kalıp "split-istatistik", Özdemir'e uyarlandı.
-// stats: scroll'da count-up animasyonlu. DOĞRULANMIŞ: 20+ yıl (metadata), 2 ülke (TR+DE adres).
+// stats: scroll'da count-up animasyonlu. DOĞRULANMIŞ: 30 yıl (Talha teyit — 30. yıl), 2 ülke (TR+DE adres).
 // DOĞRULA işaretli sayılar tahminî — arşiv/gerçek veri gelince güncelle.
 export const introContent = {
   // Üstte ortalı büyük cümle-başlık (himon sentence-case h2)
   heading:
     "Tedarikten kurulumuna, matbaanızın her aşamasında kesintisiz çözüm sunuyoruz.",
   // Sağ kolon üstü paragraf
-  body: "Sıfır ve ikinci el matbaa makinelerinde 20+ yıllık tecrübe. Doğru makine seçiminden montaja, yedek parçadan teknik servise kadar tüm süreci tek elden yönetiyoruz.",
+  body: "Sıfır ve ikinci el matbaa makinelerinde 30 yıllık tecrübe. Doğru makine seçiminden montaja, yedek parçadan teknik servise kadar tüm süreci tek elden yönetiyoruz.",
   cta: { label: "Hakkımızda", href: "/kurumsal" },
   image: "", // TODO: gerçek KARE makine/showroom fotoğrafı (himon: keskin köşe) → next/image fill
   // himon deseni: büyük sayı + açıklama cümlesi (count-up yok, statik). DOĞRULA notluları tahminî.
   stats: [
     {
-      num: "20+",
+      num: "30",
       desc: "Yıldır sıfır ve ikinci el matbaa makineleri alım-satımı, yedek parça ve teknik servis.",
     },
     {
@@ -143,6 +154,53 @@ export const servicesContent: {
   ],
 };
 
+// Hakkımızda / Kurumsal — himon "/about-us" uyarlaması (kısa, 5 bölüm).
+// Gerçek içerik: canlı ozdemirmakine.com.tr. Kurucu için UYDURMA alıntı yok — faktüel bio.
+// Tüm image alanları boşken MediaFrame placeholder gösterir; Talha görsel atınca src doldurulur.
+export const aboutContent = {
+  kicker: "Kurumsal",
+  heading: "30 YILDIR MATBAA MAKİNELERİNDE DOĞRU ADRES",
+  lead: "Sıfır ve ikinci el matbaa & ambalaj makinelerinde; tedarikten montaja, yedek parçadan gümrük ve lojistiğe kadar uçtan uca çözüm ortağınız.",
+  heroImage: "", // geniş (16:10) — showroom / bina / logo görseli
+  story: {
+    statement: "Doğru makineyi, doğru koşullarla, eksiksiz teslim ediyoruz.",
+    paragraphs: [
+      "Firmamız, her türlü ikinci el matbaa makinesi alım-satımı için Türkiye'de ve yurt dışında hizmet vermektedir. Gümrük Müşaviri Murat Özdemir ve ekibinin 30 yılı aşan tecrübesiyle binlerce matbaa makinesini Türkiye pazarına kazandırdık.",
+      "Merkez ofisimiz İstanbul Bağcılar'da; şubelerimiz Topkapı ve Güneşli'de, bakım-onarım tesisimiz Çatalca'da. Güneşli'deki 1000 m²'lik depomuzda kendi ekip ve montörlerimizle makinelerin temizlik, bakım ve montajını yaparak eksiksiz teslim ediyoruz.",
+      "Leasing ve vadeli akreditif kolaylıkları sağlıyor; ithalat, yatırım teşvik belgesi, nakliye sigortası ve gümrükleme süreçlerini tek elden yönetiyoruz.",
+    ],
+    gallery: ["", "", ""], // marka / makine / showroom slotları
+  },
+  founder: {
+    kicker: "Kurucumuz",
+    name: "Murat Özdemir",
+    role: "Kurucu · Gümrük Müşaviri",
+    bio: "30 yılı aşkın sektör tecrübesiyle Özdemir Makine'nin kurucusu. Gümrük müşavirliği uzmanlığıyla yurt dışı tedarikten gümrükleme ve lojistiğe kadar tüm süreci güvenle yönetiyor; müşterileri en doğru yatırıma yönlendiriyor.",
+    image: "", // portre (4:5)
+  },
+  values: [
+    {
+      title: "Vizyonumuz",
+      body: "Önce hizmet anlayışıyla müşteri memnuniyetini ön planda tutarak hızlı, eksiksiz ve kesintisiz hizmet sağlamak.",
+    },
+    {
+      title: "Misyonumuz",
+      body: "Uzman kadromuz ve çözüm ortaklarımızla müşterilerimizi durumlarına en uygun yatırımlara yönlendirmek; yürürlükteki teşvik ve vergi avantajlarından faydalanmalarını sağlamak; leasing ve finansal kurumlarla en uygun ödeme koşullarını sunmak; yatırımı kanun ve yönetmelikler çerçevesinde, lojistik dahil anahtar teslim gerçekleştirmek.",
+    },
+  ],
+  offices: {
+    kicker: "Ofisler & Tesisler",
+    title: "Türkiye ve Almanya'da yanınızdayız",
+    items: [
+      { city: "İstanbul · Bağcılar", role: "Merkez Ofis" },
+      { city: "İstanbul · Topkapı", role: "Şube" },
+      { city: "İstanbul · Güneşli", role: "Şube — 1000 m² Depo" },
+      { city: "İstanbul · Çatalca", role: "Bakım & Onarım Tesisi" },
+      { city: "Krefeld · Almanya", role: "Avrupa Ofisi" },
+    ],
+  },
+} as const;
+
 // İletişim / Teklif sayfası — himon "/contact" (TALK WITH US) uyarlaması.
 // Tek form iki yüzeyde: (a) /iletisim genel, (b) /iletisim?makine=<productCode> teklif (prefill + gizli Zoho alanı).
 // Metin JSX'e gömülmez. Gizli alanlar (makineKodu/leadSource/kampanya) Zoho CRM web formuna bağlanacak —
@@ -215,10 +273,14 @@ export const footerContent = {
   legal: "© 2026 Özdemir Makine. Tüm hakları saklıdır.",
 } as const;
 
-// Footer site haritası = ana menü + Galeri (header'dan çıkarılmıştı).
+// Footer site haritası — düz liste (dropdown açılmış hâli).
 export const siteMapNav: NavItem[] = [
-  ...mainNav,
+  { label: "Hakkımızda", href: "/kurumsal" },
+  { label: "Tüm Makineler", href: "/makineler" },
+  { label: "Markalar", href: "/markalar" },
+  { label: "Blog", href: "/blog" },
   { label: "Galeri", href: "/galeri" },
+  { label: "İletişim", href: "/iletisim" },
 ];
 
 // Makine Arama (Vitrin başı) — 21st.dev prompt-input uyarlaması.
@@ -335,4 +397,110 @@ export const featuredMachinesContent = {
       href: "/makineler/bobst-novacut-106-er",
     },
   ] as Machine[],
+};
+
+// ---------------------------------------------------------------------------
+// Markalar / Distribütörler — himon "/investors" uyarlaması.
+// logo boş → BrandCard içinde marka adı zarif wordmark placeholder olarak durur;
+// gerçek logo gelince tek satır: logo: "/brands/xxx.svg" → next/image devreye girer.
+// blurb metinleri TASLAK — Talha gerçek açıklamaları verince değişecek.
+// ---------------------------------------------------------------------------
+export type Brand = {
+  name: string;
+  logo: string; // "" → placeholder wordmark
+  blurb: string;
+  website?: string;
+};
+
+export const brandsContent = {
+  kicker: "Markalar",
+  heading: "DİSTRİBÜTÖR & MARKALAR",
+  lead: "2014'ten beri DGM distribütörüyüz. Matbaa ve ambalaj sektörünün önde gelen üreticileriyle çalışıyor; makine tedariki, kurulum ve servis desteği sağlıyoruz.",
+  // Gerçek distribütör/partner markalarımız — logolar public/distributors içinde (beyaz saydam).
+  // blurb metinleri TASLAK, website'ler eklenince BrandCard'da "Website →" linki belirir.
+  items: [
+    { name: "ADGM", logo: "/distributors/adgm.png", blurb: "Uzun yıllardır birlikte çalıştığımız üretici partnerlerimizden biri. Ürün gamımıza kattığımız makinelerin tedarik ve satış sonrası desteğini birlikte yürütüyoruz." },
+    { name: "Dayuan", logo: "/distributors/dayuan.png", blurb: "Matbaa ve ambalaj hatları için makine tedarik ettiğimiz üreticilerden. Kurulum ve teknik destek süreçlerinde yakın iş birliği içindeyiz." },
+    { name: "HPM", logo: "/distributors/hpm.png", blurb: "Distribütörlüğünü yürüttüğümüz güvenilir markalarımızdan. Geniş makine yelpazesiyle müşterilerimize uçtan uca çözüm sunmamıza katkı sağlıyor." },
+    { name: "Horda", logo: "/distributors/horda.png", blurb: "Baskı ve ambalaj çözümlerinde iş birliği yaptığımız üreticilerden. Tedarik ettiğimiz makinelerin devreye alma ve bakım desteğini sağlıyoruz." },
+    { name: "Beijing Runda", logo: "/distributors/runda.png", blurb: "Makine tedarik ve teknik destekte uzun soluklu çalıştığımız partnerimiz. Projelerimizde güvenilir bir çözüm ortağı olarak yer alıyor." },
+    { name: "GMB", logo: "/distributors/gmb.png", blurb: "Ürün gamımıza katkı sağlayan üretici markalarımızdan. Kaliteli makine parkı ihtiyaçlarında tercih ettiğimiz iş ortaklarımızdan biri." },
+    { name: "Huatai", logo: "/distributors/huatai.png", blurb: "Sektörün ihtiyaçlarına yönelik makineler sunan üretici partnerimiz. Tedarik ve satış sonrası hizmetlerini birlikte yürütüyoruz." },
+    { name: "Oyang", logo: "/distributors/oyang.png", blurb: "Tedarik ağımızda yer alan üretici markalarımızdan biri. Müşterilerimize sunduğumuz çözümleri zenginleştiren iş ortaklarımızdan." },
+    { name: "Ketchview", logo: "/distributors/ketchview.png", blurb: "Baskı sonrası çözümlerde çalıştığımız üretici partnerimiz. Tamamlayıcı makine ihtiyaçlarında ürün yelpazemizi güçlendiriyor." },
+  ] as Brand[],
+};
+
+// ---------------------------------------------------------------------------
+// Blog — himon "/blog" uyarlaması.
+// image boş → BlogCard içinde off-white paneli + kategori placeholder olarak durur;
+// gerçek görsel gelince tek satır: image: "/blog/xxx.jpg" → next/image devreye girer.
+// excerpt / kategori metinleri TASLAK — Talha gerçek içerikleri verince değişecek.
+// ---------------------------------------------------------------------------
+export type BlogPost = {
+  title: string;
+  excerpt: string;
+  category: string;
+  image: string; // "" → placeholder panel
+  href?: string; // gerçek yazı rotası gelince tıklanabilir olur
+};
+
+export const blogContent = {
+  kicker: "Blog",
+  heading: "SEKTÖRDEN HABERLER & GÜNCELLEMELER",
+  // Gerçek yazılarımız (mevcut siteden) — görseller public/blog içine eklenince image alanı dolar.
+  // excerpt metinleri TASLAK, href'ler eklenince kart tıklanabilir olur.
+  items: [
+    {
+      title: "2024 İstanbul Avrasya Ambalaj Fuarı",
+      excerpt:
+        "Sektörün en önemli etkinliklerinden Avrasya Ambalaj Fuarı'nda yerimizi aldık. Standımızı ziyaret eden tüm iş ortaklarımıza ve misafirlerimize gösterdikleri ilgi için teşekkür ederiz.",
+      category: "Fuar",
+      image: "",
+    },
+    {
+      title: "2024 Drupa Fuarındayız",
+      excerpt:
+        "28 yılı aşkın deneyimimizle Messe Düsseldorf'ta düzenlenen Drupa 2024'te yerimizi aldık; sektörün en yeni gelişmelerini değerli katılımcılarımızla birlikte deneyimledik.",
+      category: "Fuar",
+      image: "",
+    },
+    {
+      title: "Yeni Makine Yatırımlarımız",
+      excerpt:
+        "Ürün gamımıza kattığımız yeni nesil baskı ve ambalaj makineleriyle müşterilerimize daha geniş bir çözüm yelpazesi sunuyoruz. Detaylar çok yakında.",
+      category: "Duyuru",
+      image: "",
+    },
+  ] as BlogPost[],
+};
+
+// ---------------------------------------------------------------------------
+// Galeri — 21st.dev "shared-element gallery" himon uyarlaması (masonry + lightbox).
+// src boş → GalleryImage içinde off-white placeholder tile; gerçek görsel gelince tek satır:
+// src: "/gallery/xxx.jpg". ratio yalnızca placeholder yüksekliğini (masonry çeşitliliği) belirler.
+// ---------------------------------------------------------------------------
+export type GalleryItem = {
+  id: string;
+  src: string; // "" → placeholder tile
+  alt: string;
+  ratio: "portrait" | "tall" | "landscape" | "square";
+};
+
+export const galleryContent = {
+  kicker: "Galeri",
+  heading: "FUARLAR, MAKİNELER & ANLAR",
+  // TASLAK yerleşim — görseller public/gallery içine eklenince src alanları dolar.
+  items: [
+    { id: "g1", src: "", alt: "Özdemir Makine showroom", ratio: "portrait" },
+    { id: "g2", src: "", alt: "Fuar standı", ratio: "landscape" },
+    { id: "g3", src: "", alt: "Baskı makinesi", ratio: "tall" },
+    { id: "g4", src: "", alt: "Teslim edilen makine", ratio: "square" },
+    { id: "g5", src: "", alt: "Ambalaj hattı", ratio: "landscape" },
+    { id: "g6", src: "", alt: "Depo", ratio: "portrait" },
+    { id: "g7", src: "", alt: "Kurulum ekibi", ratio: "square" },
+    { id: "g8", src: "", alt: "Fuar anı", ratio: "tall" },
+    { id: "g9", src: "", alt: "Makine detayı", ratio: "portrait" },
+    { id: "g10", src: "", alt: "Sevkiyat", ratio: "landscape" },
+  ] as GalleryItem[],
 };

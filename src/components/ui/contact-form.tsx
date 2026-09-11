@@ -67,7 +67,7 @@ export function ContactForm({
   isQuote = false,
   className,
 }: ContactFormProps) {
-  const { fields, submit, submitQuote, consent, success } = contactContent.form;
+  const { fields, submit, submitQuote, assurances, success } = contactContent.form;
   const [sent, setSent] = useState(false);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -186,7 +186,29 @@ export function ContactForm({
         </span>
       </button>
 
-      <p className="mt-4 text-[13px] leading-relaxed text-ink/55">{consent}</p>
+      <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-2">
+        {assurances.map((a) => (
+          <li key={a} className="inline-flex items-center gap-1.5 text-[12.5px] text-ink/55">
+            <svg
+              width="13"
+              height="13"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+              className="shrink-0 text-brand"
+            >
+              <path
+                d="m5 12.5 4.2 4.2L19 7"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            {a}
+          </li>
+        ))}
+      </ul>
     </form>
   );
 }

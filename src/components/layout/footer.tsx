@@ -1,11 +1,7 @@
 import ArrowFillButton from "@/components/ui/arrow-fill-button";
 import { UnderlineLink } from "@/components/ui/underline-link";
-import {
-  siteConfig,
-  socialLinks,
-  siteMapNav,
-  footerContent,
-} from "@/content/site";
+import { siteMapNav, footerContent } from "@/content/site";
+import { getSiteSettings } from "@/sanity/lib/settings";
 
 // himon footer deseni: CTA + 4 kolonlu grid (Site Haritası 2 kolon geniş + iç 2 sütun,
 // İletişim, Sosyal) + legal. Alttaki dev wordmark YOK (logo gelince oraya).
@@ -31,7 +27,8 @@ function Column({
   );
 }
 
-export function Footer() {
+export async function Footer() {
+  const s = await getSiteSettings();
   return (
     <footer className="bg-footer-bg text-white">
       <div className="mx-auto max-w-[104rem] px-6 lg:px-10">
@@ -72,38 +69,35 @@ export function Footer() {
           {/* İletişim — E-posta / Telefon / Adres alt alta */}
           <div className="flex flex-col gap-6">
             <Column label="E-posta">
-              <a
-                href={`mailto:${siteConfig.email}`}
-                className={`${linkClass} break-all`}
-              >
-                {siteConfig.email}
+              <a href={`mailto:${s.email}`} className={`${linkClass} break-all`}>
+                {s.email}
               </a>
             </Column>
 
             <Column label="Telefon">
-              <a href={siteConfig.phone.href} className={linkClass}>
-                {siteConfig.phone.label}
+              <a href={s.phoneHref} className={linkClass}>
+                {s.phoneLabel}
               </a>
             </Column>
 
             <Column label="Adres">
               <p className="max-w-[16rem] text-[15px] leading-[1.4] text-white/60">
-                {siteConfig.address.tr}
+                {s.addressTR}
               </p>
             </Column>
           </div>
 
           {/* Sosyal */}
           <Column label="Sosyal">
-            {socialLinks.map((s) => (
+            {s.social.map((sl) => (
               <UnderlineLink
-                key={s.href}
-                href={s.href}
+                key={sl.href}
+                href={sl.href}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={linkClass}
               >
-                {s.label}
+                {sl.label}
               </UnderlineLink>
             ))}
           </Column>

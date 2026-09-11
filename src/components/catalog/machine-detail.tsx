@@ -51,7 +51,7 @@ export function MachineDetail({ machine, related }: { machine: MachineDoc; relat
   const [openAcc, setOpenAcc] = useState<string | null>(acc[0]?.id ?? null);
 
   const igUrl = socialLinks.find((s) => s.label === "Instagram")?.href ?? "#";
-  const quoteHref = `/iletisim?makine=${encodeURIComponent(machine.productCode ?? machine.title)}`;
+  const quoteHref = `/iletisim?makine=${encodeURIComponent(machine.slug)}`;
 
   const bigBg = gallery[active] ? undefined : PLACEHOLDER[active % PLACEHOLDER.length];
 
@@ -128,17 +128,22 @@ export function MachineDetail({ machine, related }: { machine: MachineDoc; relat
                 fillTextColor="#234d9c"
                 className="[--afb-arrow:1.25rem] [--afb-circle:3rem] [--afb-gap:0.5rem] [--afb-h:4rem] [--afb-px:2.25rem] [--afb-text:1.0625rem]"
               />
-              <ArrowFillButton
-                href={d.pdfUrl ?? "#"}
-                btnText="PDF Döküman"
-                bgColor="#0e0e0e"
-                textColor="#ffffff"
-                fillBgColor="#234d9c"
-                fillTextColor="#ffffff"
-                className="[--afb-arrow:1.25rem] [--afb-circle:3rem] [--afb-gap:0.5rem] [--afb-h:4rem] [--afb-px:2.25rem] [--afb-text:1.0625rem]"
-              />
+              {d.pdfUrl && (
+                <ArrowFillButton
+                  href={d.pdfUrl}
+                  btnText="PDF Döküman"
+                  bgColor="#0e0e0e"
+                  textColor="#ffffff"
+                  fillBgColor="#234d9c"
+                  fillTextColor="#ffffff"
+                  className="[--afb-arrow:1.25rem] [--afb-circle:3rem] [--afb-gap:0.5rem] [--afb-h:4rem] [--afb-px:2.25rem] [--afb-text:1.0625rem]"
+                />
+              )}
             </div>
-            <p className="mt-3 text-xs text-ink/45">Ürün kodu ile hızlı teklif — formda otomatik dolu gelir. PDF döküman backend entegrasyonunda bağlanacak.</p>
+            <p className="mt-3 text-xs text-ink/45">
+              Teklif formu bu makinenin bilgileriyle otomatik dolu gelir.
+              {d.pdfUrl ? " Teknik detaylar için PDF föyünü inceleyebilirsiniz." : ""}
+            </p>
           </div>
         </div>
 

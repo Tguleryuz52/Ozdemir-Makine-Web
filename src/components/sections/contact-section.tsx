@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { ContactForm } from "@/components/ui/contact-form";
 import { contactContent } from "@/content/site";
-import type { Machine } from "@/content/machines";
+import type { MachineDoc } from "@/sanity/lib/machines";
+import { getSiteSettings } from "@/sanity/lib/settings";
 
 // himon "/contact" (TALK WITH US) uyarlaması — server bileşen, veriyi prop/import ile alır.
 // Düzen: tam-genişlik dev başlık + ayraç → sol iletişim bilgileri / sağ form (himon 2 kolon split).
@@ -15,12 +16,19 @@ const detailLabelCls =
   "text-[12px] font-medium uppercase tracking-[0.06em] text-ink/55";
 
 export interface ContactSectionProps {
-  machine?: Machine;
+  machine?: MachineDoc;
 }
 
-export function ContactSection({ machine }: ContactSectionProps) {
-  const { kicker, heading, quoteHeading, lead, detailsHeading, details, form } =
+export async function ContactSection({ machine }: ContactSectionProps) {
+  const { kicker, heading, quoteHeading, lead, detailsHeading, form } =
     contactContent;
+  const s = await getSiteSettings();
+  const details = [
+    { label: "E-posta & Destek", value: s.email, href: `mailto:${s.email}` },
+    { label: "Telefon", value: s.phoneLabel, href: s.phoneHref },
+    { label: "Ofis — Türkiye", value: s.addressTR, href: "" },
+    { label: "Ofis — Almanya", value: s.addressDE, href: "" },
+  ];
   const isQuote = Boolean(machine);
   const prefill = machine
     ? `Merhaba, ${machine.title}${machine.productCode ? ` (${machine.productCode})` : ""} hakkında fiyat teklifi almak istiyorum. Lütfen benimle iletişime geçin.`
@@ -95,7 +103,7 @@ export function ContactSection({ machine }: ContactSectionProps) {
             )}
             <ContactForm
               prefillMessage={prefill}
-              machineCode={machine?.productCode ?? ""}
+              machineCode={machine?.productCode || machine?.slug || ""}
               isQuote={isQuote}
             />
           </div>

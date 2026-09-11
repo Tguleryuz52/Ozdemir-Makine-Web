@@ -10,11 +10,10 @@ export function Preloader() {
   const [show, setShow] = useState(true);
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setShow(false);
-      return;
-    }
-    const t = setTimeout(() => setShow(false), 1000);
+    // reduced-motion → anında kapat (0ms), normalde ~1s göster. setState effect gövdesinde
+    // senkron çağrılmaz, timeout callback'inde kalır (react-hooks/set-state-in-effect).
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const t = setTimeout(() => setShow(false), reduced ? 0 : 1000);
     return () => clearTimeout(t);
   }, []);
 

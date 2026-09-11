@@ -1,14 +1,15 @@
-import { blogContent } from "@/content/site";
+import { blogContent, type BlogPost } from "@/content/site";
 import { BlogCard } from "@/components/ui/blog-card";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/reveal";
 
 // himon "/blog" uyarlaması — büyük ortalı başlık + solda kicker etiketi (markalar ile
-// aynı kalıp) + 3'lü blog kartı ızgarası. Server bileşen, içerik site.ts'ten.
+// aynı kalıp) + 3'lü blog kartı ızgarası. Server bileşen; yazılar prop ile (Sanity).
+// kicker/heading bölüm başlığıdır, statik kalır.
 
 const container = "mx-auto max-w-[110rem] px-5 lg:px-8";
 
-export function BlogSection() {
-  const { kicker, heading, items } = blogContent;
+export function BlogSection({ items }: { items: BlogPost[] }) {
+  const { kicker, heading } = blogContent;
 
   return (
     <section className="bg-white">

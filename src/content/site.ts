@@ -254,7 +254,12 @@ export const contactContent = {
     },
     submit: "Mesaj Gönder",
     submitQuote: "Teklif Talebini Gönder",
-    consent: "Göndererek talebinizin işlenmesini kabul etmiş olursunuz. Bilgileriniz üçüncü taraflarla paylaşılmaz.",
+    // Buton altı güven satırı — checkmark'lı kısa onaylar (veri güvenliği). Teklif/genel fark etmez.
+    assurances: [
+      "Bilgileriniz güvende tutulur",
+      "Yalnızca size dönüş için kullanılır",
+      "Üçüncü taraflarla asla paylaşılmaz",
+    ],
     success: {
       title: "Talebiniz alındı.",
       body: "En kısa sürede size dönüş yapacağız. Acil durumlar için doğrudan telefonla da ulaşabilirsiniz.",

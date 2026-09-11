@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ProductCard } from "@/components/sections/productcard";
 import ArrowFillButton from "@/components/ui/arrow-fill-button";
 import { socialLinks } from "@/content/site";
-import { machineDetails, type Machine } from "@/content/machines";
+import type { MachineDoc } from "@/sanity/lib/machines";
 import { cn } from "@/lib/utils";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -29,8 +29,8 @@ function InstagramIcon() {
   );
 }
 
-export function MachineDetail({ machine, related }: { machine: Machine; related: Machine[] }) {
-  const d = machineDetails[machine.id] ?? {};
+export function MachineDetail({ machine, related }: { machine: MachineDoc; related: MachineDoc[] }) {
+  const d = machine;
   const gallery = d.gallery?.length ? d.gallery : [];
   const tileCount = gallery.length || 4;
   const [active, setActive] = useState(0);

@@ -4,7 +4,6 @@ import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
 import {
-  machines as ALL,
   categoryTree,
   facetLabels,
   facetOptions,
@@ -55,9 +54,12 @@ function Pill({ active, small, muted, onClick, children }: { active: boolean; sm
   );
 }
 
-function CatalogInner({ group }: { group?: MachineGroup }) {
+function CatalogInner({ group, machines }: { group?: MachineGroup; machines: Machine[] }) {
   const meta = groupMeta[group ?? "all"];
-  const base = useMemo(() => (group ? ALL.filter((m) => m.group === group) : ALL), [group]);
+  const base = useMemo(
+    () => (group ? machines.filter((m) => m.group === group) : machines),
+    [group, machines],
+  );
   const sp = useSearchParams();
 
   const [cat, setCat] = useState<string>(() => {
@@ -396,10 +398,10 @@ function CatalogInner({ group }: { group?: MachineGroup }) {
   );
 }
 
-export function CatalogView({ group }: { group?: MachineGroup }) {
+export function CatalogView({ group, machines }: { group?: MachineGroup; machines: Machine[] }) {
   return (
     <Suspense fallback={null}>
-      <CatalogInner group={group} />
+      <CatalogInner group={group} machines={machines} />
     </Suspense>
   );
 }

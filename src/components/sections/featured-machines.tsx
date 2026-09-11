@@ -1,12 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import ArrowFillButton from "@/components/ui/arrow-fill-button";
 import { featuredMachinesContent } from "@/content/site";
+import type { MachineDoc } from "@/sanity/lib/machines";
 import { ProductCard } from "./productcard";
 import { CategoryCards } from "./category-cards";
-import { cn } from "@/lib/utils";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -20,15 +19,7 @@ const cardReveal: Variants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EASE } },
 };
 
-// Placeholder gradient — gerçek fotoğraflar gelene kadar.
-const GRADIENTS = [
-  "linear-gradient(135deg, #13224a 0%, #0e0e0e 100%)",
-  "linear-gradient(135deg, #2a2a2a 0%, #0e0e0e 100%)",
-  "linear-gradient(135deg, #164295 0%, #13224a 100%)",
-  "linear-gradient(135deg, #0e0e0e 0%, #164295 100%)",
-];
-
-export function FeaturedMachines() {
+export function FeaturedMachines({ items }: { items: MachineDoc[] }) {
   const reduce = useReducedMotion();
 
   return (
@@ -84,15 +75,15 @@ export function FeaturedMachines() {
               paddingRight: "calc(50vw - 50% + var(--px))",
             }}
           >
-            {featuredMachinesContent.items.map((machine, i) => (
-              <motion.div 
-                key={machine.id} 
+            {items.map((machine) => (
+              <motion.div
+                key={machine.id}
                 variants={cardReveal}
                 className="min-w-[280px] w-[85vw] sm:w-[340px] lg:w-[380px] shrink-0 snap-start"
               >
                 <ProductCard
                   brand={machine.brand}
-                  model={machine.model}
+                  model={machine.title}
                   condition={machine.condition}
                   year={machine.year}
                   price={machine.price}

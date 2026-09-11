@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { CatalogView } from "@/components/catalog/catalog-view";
+import { getMachines } from "@/sanity/lib/machines";
 
 export const metadata: Metadata = {
   title: "Sıfır Makineler",
@@ -7,6 +8,7 @@ export const metadata: Metadata = {
     "Avrupa ve Uzakdoğu menşeli üreticilerden garantili, orijinal sıfır matbaa ve ambalaj makineleri.",
 };
 
-export default function SifirMakinelerPage() {
-  return <CatalogView group="sifir" />;
+export default async function SifirMakinelerPage() {
+  const machines = await getMachines();
+  return <CatalogView group="sifir" machines={machines} />;
 }

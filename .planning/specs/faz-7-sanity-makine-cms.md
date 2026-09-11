@@ -1,6 +1,6 @@
-# Faz 7 — Sanity CMS: Makine Yönetimi (Spec)
+# Faz 7 — Sanity CMS: Makine + Blog + Galeri + Ayarlar (Spec)
 
-**Tarih:** 2026-09-11 · **Durum:** Kuruldu + siteye bağlandı ✅ (kalan: webhook, görsel yükleme, deploy)
+**Tarih:** 2026-09-11 · **Durum:** Makine + Blog + Galeri + Site Ayarları kuruldu, siteye bağlandı, build temiz ✅ (kalan: webhook, deploy, gerçek görsel/PDF yükleme)
 
 ## Amaç
 Makine ekleme/çıkarma/düzenlemeyi koddan çıkarıp **Sanity Studio**'ya taşımak. Özdemir kod bilmeden, Framer-CMS kolaylığında yönetsin. Kapsam **sadece makine**; markalar/blog/galeri şimdilik statik.
@@ -28,7 +28,18 @@ Makine ekleme/çıkarma/düzenlemeyi koddan çıkarıp **Sanity Studio**'ya taş
 ## Doğrulama (tarayıcı, 2026-09-11)
 Katalog 17 ürün + doğru filtre sayıları · anasayfa vitrin 3 kart · detay tam (açıklama+spec+format) · konsol 0 hata · client-fetch yok (SSR/ISR, statik hız).
 
+## Genişleme — Blog + Galeri + Site Ayarları (2026-09-11)
+Kapsam makineyle sınırlıydı; Talha "tam profesyonel" için Blog + Galeri + Ayarlar'ı da istedi (Markalar refactor'ı sonraya).
+- **Şemalar:** `post` (blog: baslik/slug/kategori/tarih/ozet/kapak/vitrin + `icerik` Portable Text), `galleryItem` (gorsel/baslik/etiket/sira), `siteSettings` (singleton: email/telefon/whatsapp/adresTR/adresDE/sosyal[]).
+- **Studio menüsü** (`structure.ts`): makine grupları + ✍️ Blog + 🖼️ Galeri + ⚙️ Site Ayarları (tek doküman, `documentId:"siteSettings"`).
+- **Veri katmanı:** `lib/posts.ts` (getPosts/getPostBySlug/getPostSlugs → `PostDoc`), `lib/gallery.ts` (getGalleryItems → `GalleryItem`), `lib/settings.ts` (getSiteSettings → statik fallback'li tam obje).
+- **Tüketiciler:** `/blog` (liste, prop-driven `BlogSection`), `/blog/[slug]` YENİ detay (Portable Text render, SSG), `/galeri` (Sanity boşsa statik placeholder), footer + contact-section artık `getSiteSettings`'ten (email/tel/adres/sosyal), boş alan → koddaki statik değere düşer.
+- **Yeni bağımlılık:** `@portabletext/react@^7` (blog gövdesi; zaten sanity transitive'iydi, açıkça deps'e eklendi).
+- **Seed:** `scripts/seed-content.ts` → Site Ayarları (mevcut değerler) + 3 örnek blog yazısı. Galeri seed'lenmez (gerçek foto Studio'dan).
+- **Teklif akışı düzeltmesi:** detay "Fiyat Teklifi Al" → `?makine=<slug>`; iletişim sayfası makineyi Sanity'den (`getMachineBySlug`) bulur (eskiden statik + boş productCode'a takılıyordu). PDF butonu artık `pdfUrl` varsa görünür. Form onay satırı → veri-güvenliği checkmark'ları. `client.ts` `useCdn:false` (ISR'de taze veri).
+
 ## Kalan
-1. Webhook → `/api/revalidate` (tag `machine`) — prod'da Studio yayını anında yansısın.
-2. Studio'dan gerçek görsel/PDF yükleyip render doğrulaması.
+1. Webhook → `/api/revalidate` (tag `machine`/`post`/`gallery`/`settings`) — prod'da Studio yayını anında yansısın.
+2. Studio'dan gerçek görsel/PDF + galeri fotoğrafları yükleyip render doğrulaması.
 3. Vercel deploy: env değişkenleri + prod domain CORS.
+4. Sonraki: Markalar → Sanity (logo referansı), Zoho form entegrasyonu.

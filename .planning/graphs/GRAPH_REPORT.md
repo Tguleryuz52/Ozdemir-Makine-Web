@@ -1,21 +1,21 @@
-# Graph Report - ozdemir-makine-web  (2026-09-09)
+# Graph Report - ozdemir-makine-web  (2026-09-11)
 
 ## Corpus Check
-- 58 files · ~33,779 words
+- 122 files · ~149,505 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 554 nodes · 549 edges · 56 communities (51 shown, 5 thin omitted)
-- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
+- 905 nodes · 1156 edges · 77 communities (69 shown, 7 thin omitted)
+- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 5 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `fad2f9f5`
+- Built from commit: `b0dc235d`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
-- header.tsx
+- layout.tsx
 - package.json
 - Design Read, Dials & Honest Design Systems
 - components.json
@@ -30,13 +30,13 @@
 - Web Interface Guidelines — pre-ship denetim kapısı
 - Faz 2 · Plan 01 — Design System
 - Part 2 — AI Tells (from taste-skill)
-- STATE.md — Proje Hafızası
+- lib/machines.ts
 - Fonksiyonel (FR)
 - ⏭️ CONTINUE HERE — Oturum Devir (2026-09-09)
 - LEARNINGS.md — Kalıcı dersler
 - Project Learning — öğrendiğini kalıcı davranışa çevir
 - himon → Özdemir Makine — Tasarım Dili Analizi & Uyarlama
-- devDependencies
+- Communities (56 total, 5 thin omitted)
 - Doldurulacak başlıklar
 - ENTERPRISE-BLUEPRINT.md — İleri hedef mimari
 - Motion & Animation Craft
@@ -64,41 +64,70 @@
 - Core Philosophy
 - Debugging Animations
 - STACK.md — 🔒 Kilitli teknoloji yığını
-- STRUCTURE.md — Ne nerede
-- README.md
+- catalog-view.tsx
+- shared-element-gallery.tsx
 - AGENTS.md
 - inbox/README.md
 - eslint.config.mjs
 - CONCERNS.md
 - postcss.config.mjs
+- index.ts
+- framer-motion
+- header.tsx
+- site.ts
+- machine-detail.tsx
+- Graph Report - ozdemir-makine-web  (2026-09-09)
+- blog-section.tsx
+- category-cards.tsx
+- ai-search-input.tsx
+- Faz 7 — Sanity CMS: Makine + Blog + Galeri + Ayarlar (Spec)
+- arrow-fill-button.tsx
+- react
+- seed-content.ts
+- about-section.tsx
+- hero.tsx
+- card.tsx
+- app/page.tsx
+- featured-machines.tsx
+- button.tsx
+- brands.tsx
 
 ## God Nodes (most connected - your core abstractions)
-1. `compilerOptions` - 16 edges
-2. `Motion & Animation Craft` - 15 edges
-3. `CLAUDE.md — Özdemir Makine Web Sitesi (Proje Beyni)` - 13 edges
-4. `Web Interface Guidelines — pre-ship denetim kapısı` - 12 edges
-5. `Interaction Design` - 11 edges
-6. `Phase Details` - 11 edges
-7. `STATE.md — Proje Hafızası` - 11 edges
-8. `⏭️ CONTINUE HERE — Oturum Devir (2026-09-09)` - 9 edges
-9. `LEARNINGS.md — Kalıcı dersler` - 9 edges
-10. `Özdemir Makine — Design System (Token Kontratı)` - 9 edges
+1. `Communities (56 total, 5 thin omitted)` - 52 edges
+2. `framer-motion` - 16 edges
+3. `compilerOptions` - 16 edges
+4. `react` - 15 edges
+5. `Motion & Animation Craft` - 15 edges
+6. `next` - 14 edges
+7. `CLAUDE.md — Özdemir Makine Web Sitesi (Proje Beyni)` - 14 edges
+8. `Web Interface Guidelines — pre-ship denetim kapısı` - 12 edges
+9. `Interaction Design` - 11 edges
+10. `Phase Details` - 11 edges
 
 ## Surprising Connections (you probably didn't know these)
-- None detected - all connections are within the same source files.
+- `generateMetadata()` --calls--> `getPostBySlug()`  [EXTRACTED]
+  src/app/blog/[slug]/page.tsx → src/sanity/lib/posts.ts
+- `BlogDetailPage()` --calls--> `getPostBySlug()`  [EXTRACTED]
+  src/app/blog/[slug]/page.tsx → src/sanity/lib/posts.ts
+- `IkinciElMakinelerPage()` --calls--> `getMachines()`  [EXTRACTED]
+  src/app/ikinci-el-makineler/page.tsx → src/sanity/lib/machines.ts
+- `IletisimPage()` --calls--> `getMachineBySlug()`  [EXTRACTED]
+  src/app/iletisim/page.tsx → src/sanity/lib/machines.ts
+- `generateMetadata()` --calls--> `getMachineBySlug()`  [EXTRACTED]
+  src/app/makineler/[slug]/page.tsx → src/sanity/lib/machines.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (56 total, 5 thin omitted)
+## Communities (77 total, 7 thin omitted)
 
-### Community 0 - "header.tsx"
-Cohesion: 0.07
-Nodes (32): cn, framer-motion, lucide-react, react, swatches, typeScale, geistMono, geistSans (+24 more)
+### Community 0 - "layout.tsx"
+Cohesion: 0.06
+Nodes (28): lenis, geistMono, geistSans, metadata, Footer(), Header(), SiteChrome(), ContactSection() (+20 more)
 
 ### Community 1 - "package.json"
 Cohesion: 0.06
-Nodes (30): nextConfig, name, private, scripts, build, dev, lint, start (+22 more)
+Nodes (31): devDependencies, eslint, eslint-config-next, tailwindcss, @tailwindcss/postcss, @types/node, @types/react, @types/react-dom (+23 more)
 
 ### Community 2 - "Design Read, Dials & Honest Design Systems"
 Cohesion: 0.07
@@ -125,8 +154,8 @@ Cohesion: 0.12
 Nodes (15): A0. Referansı seç, A1. TEK BÖLÜM — tüm sayfa asla, A2. Görseli oku, tarif et — koda geçmeden önce, A2a. ⭐ ÖLÇ, TAHMİN ETME — canlı referanstan computed style çek, A2b. (Opsiyonel) Ölçü çıkarma aracı — screenshot-to-code, A3. Karar al, kod alma, A4. İçerik eşlemesi, Bölüm A — Referanstan çıkarım (+7 more)
 
 ### Community 8 - "dependencies"
-Cohesion: 0.12
-Nodes (16): dependencies, @base-ui/react, class-variance-authority, cn, framer-motion, lucide-react, next, next-sanity (+8 more)
+Cohesion: 0.11
+Nodes (18): dependencies, @base-ui/react, class-variance-authority, cn, framer-motion, lenis, lucide-react, next (+10 more)
 
 ### Community 9 - "Phase Details"
 Cohesion: 0.12
@@ -137,8 +166,8 @@ Cohesion: 0.13
 Nodes (14): Avoid AI slop, Color, Copy, Core design rules, Design & Taste, How to execute a task, Interaction & components (full detail in `reference/interaction-states.md`), Layout & spacing (+6 more)
 
 ### Community 11 - "CLAUDE.md — Özdemir Makine Web Sitesi (Proje Beyni)"
-Cohesion: 0.14
-Nodes (13): CLAUDE.md — Özdemir Makine Web Sitesi (Proje Beyni), 🎨 Design Disiplini — ANTI-SLOP (sıfır tolerans), 🧭 Karar Matrisi — hangi durumda ne yapılır, 📂 Klasör Haritası, 🚫 Kod tarafı yasaklar, 🔗 Koordinasyon, 🧠 Planlama Katmanı — bağlamın yaşadığı yer, 🔎 Referans & Eski Site (+5 more)
+Cohesion: 0.06
+Nodes (32): CLAUDE.md — Özdemir Makine Web Sitesi (Proje Beyni), 🎨 Design Disiplini — ANTI-SLOP (sıfır tolerans), 🏅 Kalite Protokolü — her çıktı bu çıtadan geçer, 🧭 Karar Matrisi — hangi durumda ne yapılır, 📂 Klasör Haritası, 🚫 Kod tarafı yasaklar, 🔗 Koordinasyon, 🧠 Planlama Katmanı — bağlamın yaşadığı yer (+24 more)
 
 ### Community 12 - "Web Interface Guidelines — pre-ship denetim kapısı"
 Cohesion: 0.15
@@ -152,9 +181,9 @@ Nodes (12): Amaç, Bağlam (kilitli kararlar), Doğrulama (bu plan biterse şunl
 Cohesion: 0.17
 Nodes (11): 9.A Visual & CSS, 9.B Typography, 9.C Layout & Spacing, 9.D Content & Data ("Jane Doe" Effect), 9.E External Resources & Components, 9.F Production-Test Tells (banned outright), 9.G EM-DASH BAN (the single most-violated Tell), Anti-Slop Catalogue (+3 more)
 
-### Community 15 - "STATE.md — Proje Hafızası"
-Cohesion: 0.17
-Nodes (11): ⚠️ Açık Sorular, 🔖 CHECKPOINT 2026-09-08 — `/clear` öncesi, 🧠 Kararlar (tarihli), 📍 Onceki Durum (2026-09-07), 📥 Referans Site, 📍 Son Durum (2026-09-08 — yetenek + altyapi oturumu), 📍 Son Durum (2026-09-09 — Faz 3 kapanış), 📍 Son Durum (2026-09-09 — Faz 4 HERO) (+3 more)
+### Community 15 - "lib/machines.ts"
+Cohesion: 0.06
+Nodes (40): next-sanity, @sanity/image-url, @sanity/vision, BlogDetailPage(), generateMetadata(), generateStaticParams(), ptComponents, revalidate (+32 more)
 
 ### Community 16 - "Fonksiyonel (FR)"
 Cohesion: 0.18
@@ -176,17 +205,17 @@ Nodes (8): Anti-kalıp, Ders yazma formatı, Harita güncelleme — `UI-MAP.md`,
 Cohesion: 0.22
 Nodes (8): Bölüm kalıpları (yeniden kuracaklarımız), Faz 2'ye devir (karar bekleyenler), Genel karakter, himon → Özdemir Makine — Tasarım Dili Analizi & Uyarlama, Renk sistemi (himon), Tipografi (himon — GERÇEK ÖLÇÜLER, computed style'dan), Özdemir içerik eşlemesi (mevcut siteden — `design/references/canli-site/`), Şekil & hareket dili
 
-### Community 21 - "devDependencies"
-Cohesion: 0.22
-Nodes (9): devDependencies, eslint, eslint-config-next, tailwindcss, @tailwindcss/postcss, @types/node, @types/react, @types/react-dom (+1 more)
+### Community 21 - "Communities (56 total, 5 thin omitted)"
+Cohesion: 0.04
+Nodes (52): Communities (56 total, 5 thin omitted), Community 0 - "header.tsx", Community 10 - "Design & Taste", Community 11 - "CLAUDE.md — Özdemir Makine Web Sitesi (Proje Beyni)", Community 12 - "Web Interface Guidelines — pre-ship denetim kapısı", Community 13 - "Faz 2 · Plan 01 — Design System", Community 14 - "Part 2 — AI Tells (from taste-skill)", Community 15 - "STATE.md — Proje Hafızası" (+44 more)
 
 ### Community 22 - "Doldurulacak başlıklar"
 Cohesion: 0.22
 Nodes (8): CONTENT-INVENTORY.md — İçerik envanteri, Diller, Doldurulacak başlıklar, Formlar, Makineler / ürünler, Sayfalar, Tekrar eden bölümler, Varlıklar
 
 ### Community 23 - "ENTERPRISE-BLUEPRINT.md — İleri hedef mimari"
-Cohesion: 0.22
-Nodes (8): 1. İçerik yönetimi, 2. Çok dillilik, 3. Form ve CRM tam entegrasyonu, 4. Analitik ve dönüşüm ölçümü, 5. Performans olgunluğu, 6. Ürün kataloğu derinliği, 7. Test olgunluğu, ENTERPRISE-BLUEPRINT.md — İleri hedef mimari
+Cohesion: 0.18
+Nodes (10): 1. İçerik yönetimi — Sanity CMS (Faz 9), 2. Çok dillilik, 3. Form ve CRM — Zoho tam entegrasyonu, 4. Analitik ve davranış ölçümü — Google Analytics, 5. Performans olgunluğu, 6. Ürün kataloğu derinliği, 7. Test olgunluğu, 8. Üye girişi / hesap (mevcut sitede var) (+2 more)
 
 ### Community 24 - "Motion & Animation Craft"
 Cohesion: 0.25
@@ -288,32 +317,104 @@ Nodes (4): Debugging Animations, Frame-by-frame inspection, Slow motion testing,
 Cohesion: 0.50
 Nodes (3): Henüz kurulu olmayanlar (bilinçli), STACK.md — 🔒 Kilitli teknoloji yığını, Sürüm tuzağı
 
-### Community 49 - "STRUCTURE.md — Ne nerede"
-Cohesion: 0.50
-Nodes (3): 🧹 Dosya disiplini — ihlal edilmez, Hangi soru için hangi dosya, STRUCTURE.md — Ne nerede
+### Community 49 - "catalog-view.tsx"
+Cohesion: 0.07
+Nodes (36): nextConfig, next, clean(), client, envText, run(), token, IkinciElMakinelerPage() (+28 more)
 
-### Community 50 - "README.md"
-Cohesion: 0.50
-Nodes (3): Deploy on Vercel, Getting Started, Learn More
+### Community 50 - "shared-element-gallery.tsx"
+Cohesion: 0.14
+Nodes (14): GaleriPage(), metadata, revalidate, GallerySection(), ratioClass, Gallery(), GalleryContext, GalleryContextType (+6 more)
+
+### Community 56 - "index.ts"
+Cohesion: 0.19
+Nodes (11): sanity, ETIKETLER, galleryItem, schema, ALT_KATEGORILER, KATEGORILER, machine, MARKALAR (+3 more)
+
+### Community 57 - "framer-motion"
+Cohesion: 0.22
+Nodes (12): framer-motion, buildVariants(), Reveal(), RevealGroup(), RevealItem(), EASE, EASE_SOFT, fade (+4 more)
+
+### Community 58 - "header.tsx"
+Cohesion: 0.15
+Nodes (6): lucide-react, swatches, typeScale, EASE, mainNav, NavItem
+
+### Community 59 - "site.ts"
+Cohesion: 0.22
+Nodes (8): metadata, BrandsSection(), BrandCard(), Brand, brandsContent, introContent, Machine, ServiceItem
+
+### Community 60 - "machine-detail.tsx"
+Cohesion: 0.24
+Nodes (7): cn, EASE, PLACEHOLDER, ProductCard(), ProductCardProps, Badge(), badgeVariants
+
+### Community 61 - "Graph Report - ozdemir-makine-web  (2026-09-09)"
+Cohesion: 0.18
+Nodes (10): Community Hubs (Navigation), Corpus Check, God Nodes (most connected - your core abstractions), Graph Freshness, Graph Report - ozdemir-makine-web  (2026-09-09), Import Cycles, Knowledge Gaps, Suggested Questions (+2 more)
+
+### Community 62 - "blog-section.tsx"
+Cohesion: 0.27
+Nodes (8): BlogPage(), metadata, revalidate, BlogSection(), BlogCard(), blogContent, BlogPost, getPosts()
+
+### Community 63 - "category-cards.tsx"
+Cohesion: 0.18
+Nodes (8): BODY, cardReveal, container, EASE, GRADIENTS, Tone, CategoryCard, categoryCardsContent
+
+### Community 64 - "ai-search-input.tsx"
+Cohesion: 0.20
+Nodes (4): EASE, MachineSearch(), MachineSearchProps, searchContent
+
+### Community 65 - "Faz 7 — Sanity CMS: Makine + Blog + Galeri + Ayarlar (Spec)"
+Cohesion: 0.22
+Nodes (8): Amaç, Doğrulama (tarayıcı, 2026-09-11), Faz 7 — Sanity CMS: Makine + Blog + Galeri + Ayarlar (Spec), Genişleme — Blog + Galeri + Site Ayarları (2026-09-11), Kalan, Kararlar (kilitli), Mimari, src/sanity alias kuralı
+
+### Community 66 - "arrow-fill-button.tsx"
+Cohesion: 0.28
+Nodes (5): EASE, Introduction(), ArrowFillButton(), ArrowFillButtonOwnProps, ArrowFillButtonProps
+
+### Community 67 - "react"
+Cohesion: 0.25
+Nodes (5): react, EASE, GRADIENTS, Services(), servicesContent
+
+### Community 68 - "seed-content.ts"
+Cohesion: 0.29
+Nodes (7): BLOG_META, bodyFromText(), client, envText, run(), token, siteConfig
+
+### Community 69 - "about-section.tsx"
+Cohesion: 0.32
+Nodes (4): metadata, AboutSection(), MediaFrame(), aboutContent
+
+### Community 70 - "hero.tsx"
+Cohesion: 0.25
+Nodes (7): container, EASE, fadeUp, Hero(), heroBtnSize, lineReveal, heroContent
+
+### Community 72 - "app/page.tsx"
+Cohesion: 0.38
+Nodes (5): HomePage(), Brandline(), DISTRIBUTORS, FeaturedMachines(), getFeaturedMachines()
+
+### Community 73 - "featured-machines.tsx"
+Cohesion: 0.33
+Nodes (5): CategoryCards(), cardReveal, container, EASE, featuredMachinesContent
+
+### Community 74 - "button.tsx"
+Cohesion: 0.67
+Nodes (3): class-variance-authority, Button(), buttonVariants
 
 ## Knowledge Gaps
-- **401 isolated node(s):** `$schema`, `style`, `rsc`, `tsx`, `config` (+396 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 445 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **5 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **549 isolated node(s):** `$schema`, `style`, `rsc`, `tsx`, `config` (+544 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 623 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **7 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Motion & Animation Craft` connect `Motion & Animation Craft` to `clip-path for Animation`, `Performance Rules`, `Gesture and Drag Interactions`, `CSS Transform Mastery`, `The Sonner Principles (Building Loved Components)`, `Spring Animations`, `Core Philosophy`, `Debugging Animations`, `Component Building Principles`, `The Animation Decision Framework`?**
-  _High betweenness centrality (0.012) - this node is a cross-community bridge._
-- **Why does `dependencies` connect `dependencies` to `package.json`?**
-  _High betweenness centrality (0.010) - this node is a cross-community bridge._
-- **Why does `devDependencies` connect `devDependencies` to `package.json`?**
-  _High betweenness centrality (0.005) - this node is a cross-community bridge._
+- **Why does `framer-motion` connect `framer-motion` to `ai-search-input.tsx`, `package.json`, `arrow-fill-button.tsx`, `react`, `layout.tsx`, `hero.tsx`, `featured-machines.tsx`, `catalog-view.tsx`, `shared-element-gallery.tsx`, `header.tsx`, `machine-detail.tsx`, `category-cards.tsx`?**
+  _High betweenness centrality (0.027) - this node is a cross-community bridge._
+- **Why does `react` connect `react` to `ai-search-input.tsx`, `package.json`, `arrow-fill-button.tsx`, `layout.tsx`, `hero.tsx`, `card.tsx`, `catalog-view.tsx`, `shared-element-gallery.tsx`, `framer-motion`, `header.tsx`, `machine-detail.tsx`?**
+  _High betweenness centrality (0.022) - this node is a cross-community bridge._
+- **Why does `next` connect `catalog-view.tsx` to `layout.tsx`, `package.json`, `about-section.tsx`, `lib/machines.ts`, `shared-element-gallery.tsx`, `site.ts`, `blog-section.tsx`?**
+  _High betweenness centrality (0.022) - this node is a cross-community bridge._
 - **What connects `$schema`, `style`, `rsc` to the rest of the system?**
-  _401 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `header.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.06802721088435375 - nodes in this community are weakly interconnected._
+  _549 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `layout.tsx` be split into smaller, more focused modules?**
+  _Cohesion score 0.06341463414634146 - nodes in this community are weakly interconnected._
 - **Should `package.json` be split into smaller, more focused modules?**
   _Cohesion score 0.0625 - nodes in this community are weakly interconnected._
 - **Should `Design Read, Dials & Honest Design Systems` be split into smaller, more focused modules?**

@@ -2,7 +2,7 @@
 
 > Her oturum başında **ilk okunan** dosya. Ayrıntılı devir: `.continue-here.md`.
 
-## 📍 Şu An (2026-09-11 — Faz 7: Sanity CMS — Makine yönetimi ✅ kuruldu)
+## 📍 Şu An (2026-09-11 — Faz 7: Sanity CMS — Makine + Blog + Galeri + Ayarlar ✅ + harita güncel)
 - **✅ Gömülü Sanity Studio (`/studio`) + `machine` şeması + 17 makine migration + site bağlandı.** Makine ekle/çıkar artık Studio'dan, kod yok. Uçtan uca tarayıcıda doğrulandı: katalog 17 ürün (filtre/sayılar doğru), anasayfa vitrin 3 kart, detay tam (açıklama+spec+format), konsol temiz.
   - **Proje:** Sanity `Ozdemir Makine` — projectId `qgzvu8g9`, dataset `production`. Env `.env.local` (git-dışı): PROJECT_ID/DATASET/API_VERSION + `SANITY_API_READ_TOKEN` (Editor). Token rotate edildi (ilk sohbette düz metin sızmıştı → yeni üretildi).
   - **Kod:** `src/sanity/` (env · lib/client · lib/image · lib/machines · schemaTypes/machine · structure · config) + root `sanity.config.ts`/`sanity.cli.ts` + `app/studio/[[...tool]]/{page,Studio}.tsx`. `next.config`→cdn.sanity.io. `layout` içinde `SiteChrome` (client gate) header/footer/smooth-scroll'ü `/studio`'da gizler.
@@ -10,7 +10,13 @@
   - **Şema `machine` (Türkçe alanlar):** baslik·slug·marka(dropdown)·model·urunKodu·yil·format·baskiAdedi·grup·durumRozeti·kategori·altKategori·vitrin·fiyatSorunuz·fiyat·gorseller·pdf·aciklama·oneCikanOzellikler·notlar·ekOzellikler(serbest ad+değer).
   - **Veri katmanı `src/sanity/lib/machines.ts`:** GROQ→`MachineDoc` map (Sanity alanları→bileşen şekli), getMachines/Featured/BySlug/Slugs/Related, ISR `revalidate:60`+tag `machine`. Tüketiciler **prop-driven** oldu (catalog-view · machine-detail · featured-machines · 4 katalog rota + [slug] + anasayfa), görünüm birebir aynı.
   - **Migration:** `scripts/migrate-machines.ts` (`npx tsx`), idempotent `_id=machine.<id>`, published. Görsel/PDF henüz yok → Studio'dan yüklenecek.
-- **⏭️ SIRADAKİ (Faz 7 kalan):** (1) webhook revalidate (Studio "Yayınla" → prod site anında tazelensin) (2) Studio'dan görsel/PDF yükleyip render testi (3) Vercel deploy: env değişkenleri + prod domain CORS. Sonra Zoho form entegrasyonu.
+- **✅ Studio netleştirme + teklif akışı fix (2026-09-11):** makine şeması örnekli açıklama/uyarı/önizleme; sol menü **grup klasörleri** (📗Sıfır 📘İkinci El 🔧Yedek + Tüm). `client.ts` **`useCdn:false`** (ISR'de taze; ziyaretçi hızı etkilenmez — CDN gecikmesi çözüldü). Detay "Fiyat Teklifi Al" → `?makine=<slug>`; iletişim makineyi **Sanity'den** bulur (eski `productCode` boş takılması giderildi). PDF butonu `pdfUrl` varsa görünür (ölü buton yok). Form onay satırı → veri-güvenliği ✓checkmark'ları.
+- **✅ Blog + Galeri + Site Ayarları Sanity'de (2026-09-11 — Talha "tam profesyonel" isteği):**
+  - Şemalar: `post` (blog + Portable Text `icerik`), `galleryItem` (foto/etiket/sıra), `siteSettings` (singleton: email/tel/whatsapp/adresTR/DE/sosyal). Studio menüsü: ✍️Blog · 🖼️Galeri · ⚙️Site Ayarları.
+  - Data: `lib/posts.ts` · `lib/gallery.ts` · `lib/settings.ts` (hepsi statik fallback'li → site asla boşalmaz). Tüketiciler: `/blog` liste + **`/blog/[slug]` YENİ detay (Portable Text, SSG)** · `/galeri` (boşsa placeholder) · footer + contact-section artık `getSiteSettings`'ten.
+  - Yeni dep: `@portabletext/react@^7`. Seed: `scripts/seed-content.ts` (Site Ayarları + 3 örnek blog). **build temiz (35 sayfa)**, tsc/eslint temiz (preloader + productcard pre-existing lint borcu da temizlendi).
+  - **Graphify haritası güncellendi (LLM'siz `graphify update`):** 554→**905 node**, 549→**1156 edge**, 77 topluluk. `.planning/graphs/` kanonik + `graphify-out/` (git-dışı). Community isim tazeleme (LLM) bilerek atlandı (token). İleride Obsidian bağlanacak.
+- **⏭️ SIRADAKİ (Faz 7 kalan):** (1) webhook revalidate (Studio "Yayınla" → prod anında; tag machine/post/gallery/settings) (2) Studio'dan gerçek görsel/PDF + galeri fotoğrafı yükleyip render testi (3) Vercel deploy: env + prod domain CORS. Sonra: Markalar → Sanity (logo referansı), Zoho form.
 - **Kararlar:** Sanity blueprint'te Faz 9'du → Talha isteğiyle öne çekildi. Marka şimdilik dropdown (Markalar sayfası Sanity'ye alınınca logolu referansa yükselecek); kategori sabit (kodda); özellikler sabit+esnek.
 
 ## 📍 Önceki (2026-09-10 — Faz 6: İletişim sayfası ✅)
@@ -39,7 +45,7 @@
 - **Faz 3 (Layout & Nav):** Header (mobil menü + a11y) + Footer (himon CTA + kolon grid + legal) + layout shell. Playwright denetim (1440/390/mobil) geçti. Ekranlar `.work/shots/faz3/`.
 - **Faz 4 (Ana Sayfa):** Hero + Introduction + Kategori kartları (folder-notch) + arama çubuğu (`ui/ai-search-input`) + Öne Çıkan Makineler vitrini + Services + Brandline. (Talha iteratif düzenledi; vitrin `featured-machines` içinde `CategoryCards`'ı sarıyor.)
 - **Faz 5 (Katalog + Detay):** yukarıda "Şu An"da.
-- **Altyapı:** 4 kapılı tasarım akışı (`.claude/skills/`: design-taste → reference-parity → web-interface-guidelines → DoD → project-learning) · ölçüm tekniği (Playwright `getComputedStyle`, L-6, `himon-footer-measured.md`) · `UI-MAP.md` · Graphify (`.planning/graphs/`, 554 node/549 edge) · GitHub `Tguleryuz52/Ozdemir-Makine-Web`.
+- **Altyapı:** 4 kapılı tasarım akışı (`.claude/skills/`: design-taste → reference-parity → web-interface-guidelines → DoD → project-learning) · ölçüm tekniği (Playwright `getComputedStyle`, L-6, `himon-footer-measured.md`) · `UI-MAP.md` · Graphify (`.planning/graphs/`, 905 node/1156 edge — 2026-09-11 güncel) · GitHub `Tguleryuz52/Ozdemir-Makine-Web`.
 
 ## 🧠 Kararlar (tarihli)
 - 2026-09-10: **Scroll reset fix (SİTE GENELİ, kritik).** Lenis kendi `targetScroll`'unu hatırlıyordu → yeni sayfa öncekinin konumundan başlıyordu. `ui/smooth-scroll.tsx`: `usePathname` + rota değişince `lenis.scrollTo(0,{immediate,force})`, `history.scrollRestoration='manual'`. Doğrulandı: nav öncesi 2500 → sonrası 0.

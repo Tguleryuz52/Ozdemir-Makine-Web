@@ -61,11 +61,11 @@ export function Hero() {
         variants={container}
         initial={initial}
         animate="show"
-        className="mx-auto flex min-h-[100svh] max-w-[104rem] flex-col px-6 pb-10 pt-28 lg:px-10 lg:pb-12 lg:pt-32"
+        className="mx-auto flex min-h-[100svh] max-w-[110rem] flex-col px-5 pb-10 pt-28 lg:px-8 lg:pb-12 lg:pt-32"
       >
         <div className="grid flex-1 grid-cols-1 lg:grid-cols-[17rem_minmax(0,1fr)]">
           {/* Sol kolon (masaüstü): kicker üstte + scroll oku altta, sağ ayraç */}
-          <div className="hidden flex-col justify-between border-white/15 pr-8 lg:flex lg:border-r">
+          <div className="hidden flex-col justify-between border-white/15 pr-8 -ml-6 lg:flex lg:border-r lg:-ml-[45px]">
             <motion.p variants={fadeUp} className={`${kickerClass} leading-[1.5] tracking-[0.06em]`}>
               {heroContent.kicker}
             </motion.p>

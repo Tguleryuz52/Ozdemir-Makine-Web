@@ -12,7 +12,7 @@ import {
 // Zemin #1C1C1C, kicker mono grisi, sıkı satır ritmi (himon: link adımı ~23px).
 
 const kickerClass =
-  "font-mono text-[13px] font-medium uppercase tracking-wide text-footer-muted";
+  "font-mono text-[13px] font-bold uppercase tracking-wide text-footer-muted";
 const linkClass =
   "py-0 text-[15px] leading-[1.35] text-white/85 hover:text-white after:bg-white";
 
@@ -60,7 +60,7 @@ export function Footer() {
           {/* Site Haritası — 2 kolon genişlik, iç 2 sütun */}
           <div className="flex min-w-0 flex-col gap-3 lg:col-span-2">
             <p className={kickerClass}>Site Haritası</p>
-            <div className="flex flex-col items-start gap-1">
+            <div className="flex flex-col items-start gap-1.5">
               {siteMapNav.map((i) => (
                 <UnderlineLink key={i.href} href={i.href} className={linkClass}>
                   {i.label}

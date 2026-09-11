@@ -1,28 +1,32 @@
 "use client";
 
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
-import { Menu, X } from "lucide-react";
-import { mainNav, siteConfig } from "@/content/site";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
+import { ChevronDown, Menu, X, ArrowRight } from "lucide-react";
+import { mainNav, siteConfig, type NavItem } from "@/content/site";
 import ArrowFillButton from "@/components/ui/arrow-fill-button";
 import { UnderlineLink } from "@/components/ui/underline-link";
 import { cn } from "@/lib/utils";
 
+const EASE = [0.22, 1, 0.36, 1] as const;
+
 // Orijinal logomuz. `solid`: hero üstünde beyaz zemin olunca logo siyaha (invert) dönüyor.
 function Wordmark({ solid }: { solid: boolean }) {
   return (
-    <Link href="/" className="flex items-center" aria-label={siteConfig.name}>
+    <Link href="/" className="flex items-center -ml-6 lg:-ml-12" aria-label={siteConfig.name}>
       <Image
         src="/logo_main.png"
         alt="Özdemir Makine Logo"
-        width={240}
-        height={74}
+        width={480}
+        height={148}
+        quality={100}
+        priority
         className={cn(
-          "object-contain h-9 lg:h-11 w-auto transition-all duration-500 ease-out-soft",
-          solid ? "invert" : "invert-0"
+          "object-contain h-[42px] lg:h-[46px] w-auto transition-all duration-500 ease-out-soft",
+          solid ? "invert" : "invert-0",
         )}
       />
     </Link>
@@ -53,6 +57,139 @@ function QuoteButton({
   );
 }
 
+// Masaüstü: alt menülü öğe. Tıklama → ana sayfaya (ör. /makineler); hover/focus → alt kategoriler.
+function NavDropdown({ item, navColor }: { item: NavItem; navColor: string }) {
+  const [open, setOpen] = useState(false);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const openNow = () => {
+    if (timer.current) clearTimeout(timer.current);
+    setOpen(true);
+  };
+  const closeSoon = () => {
+    timer.current = setTimeout(() => setOpen(false), 120);
+  };
+
+  return (
+    <div
+      className="relative"
+      onMouseEnter={openNow}
+      onMouseLeave={closeSoon}
+      onFocusCapture={openNow}
+      onBlurCapture={closeSoon}
+    >
+      <Link
+        href={item.href}
+        className={cn(
+          "inline-flex items-center gap-1 text-[16px] font-medium tracking-[-0.02em] transition-colors duration-300",
+          navColor,
+        )}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        onKeyDown={(e) => e.key === "Escape" && setOpen(false)}
+      >
+        {item.label}
+        <ChevronDown
+          className={cn("size-4 transition-transform duration-300", open && "rotate-180")}
+          aria-hidden="true"
+        />
+      </Link>
+
+      <AnimatePresence>
+        {open && item.children && (
+          <motion.div
+            initial={{ opacity: 0, y: 8, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 8, scale: 0.98 }}
+            transition={{ duration: 0.26, ease: EASE }}
+            style={{ transformOrigin: "top left" }}
+            className="absolute left-0 top-full pt-3"
+            role="menu"
+          >
+            {/* Premium panel — yumuşak derin gölge, ince kenarlık, stagger'lı öğeler */}
+            <motion.div
+              variants={{ hidden: {}, show: { transition: { staggerChildren: 0.045, delayChildren: 0.04 } } }}
+              initial="hidden"
+              animate="show"
+              className="min-w-[248px] rounded-2xl border border-ink/[0.08] bg-white p-2 shadow-[0_24px_48px_-16px_rgba(14,14,14,0.22)]"
+            >
+              {item.children.map((c) => (
+                <motion.div
+                  key={c.href}
+                  variants={{ hidden: { opacity: 0, y: 6 }, show: { opacity: 1, y: 0, transition: { duration: 0.2, ease: EASE } } }}
+                >
+                  <Link
+                    href={c.href}
+                    role="menuitem"
+                    className="group/mi flex items-center justify-between gap-3 rounded-xl px-4 py-3 text-[14.5px] font-medium text-ink/70 transition-colors duration-200 hover:bg-paper hover:text-ink focus-visible:bg-paper focus-visible:text-ink focus-visible:outline-none"
+                  >
+                    <span>{c.label}</span>
+                    <ArrowRight
+                      className="size-4 -translate-x-1 text-ink/40 opacity-0 transition-all duration-200 group-hover/mi:translate-x-0 group-hover/mi:opacity-100"
+                      aria-hidden="true"
+                    />
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+// Mobil: alt menülü öğe → accordion.
+function MobileNavGroup({ item, onNavigate }: { item: NavItem; onNavigate: () => void }) {
+  const [expanded, setExpanded] = useState(false);
+  return (
+    <div className="border-b border-ink/5">
+      <div className="flex items-center justify-between">
+        <Link
+          href={item.href}
+          onClick={onNavigate}
+          className="flex-1 py-4 text-base font-medium text-ink transition-colors hover:text-brand"
+        >
+          {item.label}
+        </Link>
+        <button
+          type="button"
+          onClick={() => setExpanded((v) => !v)}
+          className="grid size-10 place-items-center text-ink/60"
+          aria-label={`${item.label} alt menüsünü ${expanded ? "kapat" : "aç"}`}
+          aria-expanded={expanded}
+        >
+          <ChevronDown
+            className={cn("size-5 transition-transform duration-300", expanded && "rotate-180")}
+          />
+        </button>
+      </div>
+      <AnimatePresence initial={false}>
+        {expanded && item.children && (
+          <motion.ul
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.28, ease: EASE }}
+            className="overflow-hidden"
+          >
+            {item.children.map((c) => (
+              <li key={c.href}>
+                <Link
+                  href={c.href}
+                  onClick={onNavigate}
+                  className="block py-2.5 pl-4 text-[15px] text-ink/70 transition-colors hover:text-brand"
+                >
+                  {c.label}
+                </Link>
+              </li>
+            ))}
+          </motion.ul>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export function Header() {
   const pathname = usePathname();
   const overlay = pathname === "/"; // ana sayfada hero var → header hero üstünde şeffaf başlar
@@ -63,22 +200,20 @@ export function Header() {
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
-    
-    // Şeffaf/beyaz zemin geçişi
+
     if (overlay) {
       setScrolled(latest > 24);
     }
 
-    // Klasik premium scroll akışı: Aşağı kaydırınca gizlenir, yukarı kaydırınca gelir
+    // Aşağı kaydırınca gizlenir, yukarı kaydırınca gelir.
     if (latest > 120 && latest > previous) {
       setHidden(true);
-      setOpen(false); // gizlenirken mobil menüyü kapat
+      setOpen(false);
     } else {
       setHidden(false);
     }
   });
 
-  // Sayfa yüklendiğinde mevcut scroll pozisyonunu al (rAF: setState'i effect gövdesi dışına al)
   useEffect(() => {
     if (!overlay) return;
     const raf = requestAnimationFrame(() => setScrolled(window.scrollY > 24));
@@ -87,40 +222,43 @@ export function Header() {
 
   // solid = beyaz zemin + koyu yazı. Overlay dışı sayfalar hep solid; hero'da scroll/menü açık → solid.
   const solid = !overlay || scrolled || open;
-  const navColor = solid ? "" : "text-white after:bg-white hover:text-white";
+  const linkColor = solid ? "" : "text-white after:bg-white hover:text-white";
+  const triggerColor = solid ? "text-ink hover:text-brand" : "text-white/90 hover:text-white";
 
   return (
     <motion.header
-      variants={{
-        visible: { y: 0 },
-        hidden: { y: "-100%" },
-      }}
+      variants={{ visible: { y: 0 }, hidden: { y: "-100%" } }}
       animate={hidden ? "hidden" : "visible"}
-      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.4, ease: EASE }}
       className={cn(
         "sticky top-0 z-50 border-b transition-colors duration-500 ease-out-soft w-full",
         solid ? "border-ink/10 bg-white" : "border-transparent bg-transparent",
       )}
     >
-      <div className="mx-auto flex h-20 max-w-[104rem] items-center px-6 lg:px-10">
+      <div className="mx-auto grid h-20 max-w-[110rem] grid-cols-[auto_1fr_auto] items-center gap-4 px-5 lg:px-8">
         <Wordmark solid={solid} />
 
+        {/* himon: nav ortada, logodan ferah boşlukla — 16px / 500 / tight tracking / Geist */}
         <nav
-          className="ml-12 hidden items-center gap-6 lg:flex xl:ml-20"
+          className="hidden items-center justify-center gap-7 lg:flex"
           aria-label="Ana menü"
         >
-          {mainNav.map((item) => (
-            <UnderlineLink
-              key={item.href}
-              href={item.href}
-              className={cn("text-[15px]", navColor)}
-            >
-              {item.label}
-            </UnderlineLink>
-          ))}
+          {mainNav.map((item) =>
+            item.children ? (
+              <NavDropdown key={item.href} item={item} navColor={triggerColor} />
+            ) : (
+              <UnderlineLink
+                key={item.href}
+                href={item.href}
+                className={cn("text-[16px] font-medium tracking-[-0.02em]", linkColor)}
+              >
+                {item.label}
+              </UnderlineLink>
+            ),
+          )}
         </nav>
 
-        <div className="ml-auto flex items-center gap-3">
+        <div className="flex items-center justify-end gap-3">
           <QuoteButton
             solid={solid}
             className="hidden lg:inline-flex"
@@ -141,23 +279,39 @@ export function Header() {
         </div>
       </div>
 
-      {open && (
-        <div className="border-t border-ink/10 bg-white lg:hidden">
-          <nav className="mx-auto flex max-w-7xl flex-col px-5" aria-label="Mobil menü">
-            {mainNav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="border-b border-ink/5 py-4 text-base font-medium text-ink transition-colors hover:text-brand"
-              >
-                {item.label}
-              </Link>
-            ))}
-            <QuoteButton solid className="my-5 w-fit" />
-          </nav>
-        </div>
-      )}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: EASE }}
+            className="overflow-hidden border-t border-ink/10 bg-white lg:hidden"
+          >
+            <nav className="mx-auto flex max-w-7xl flex-col px-5" aria-label="Mobil menü">
+              {mainNav.map((item) =>
+                item.children ? (
+                  <MobileNavGroup
+                    key={item.href}
+                    item={item}
+                    onNavigate={() => setOpen(false)}
+                  />
+                ) : (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setOpen(false)}
+                    className="border-b border-ink/5 py-4 text-base font-medium text-ink transition-colors hover:text-brand"
+                  >
+                    {item.label}
+                  </Link>
+                ),
+              )}
+              <QuoteButton solid className="my-5 w-fit" />
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 }

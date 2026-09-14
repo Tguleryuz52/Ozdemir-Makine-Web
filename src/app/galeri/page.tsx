@@ -11,10 +11,18 @@ export const metadata: Metadata = {
     "Showroom, depo, teslim edilen makineler ve fuar görselleriyle Özdemir Makine galerisi.",
 };
 
+// Studio yeterince görsel yüklenene kadar sayfa yine dolu (Pinterest masonry) kalsın diye
+// hedef minimum tile sayısı. Sanity'den gelen gerçek görseller önce, eksik kalan yer
+// placeholder'larla tamamlanır. Gerçek görsel sayısı bunu aşınca placeholder çıkmaz.
+const MIN_TILES = 10;
+
 export default async function GaleriPage() {
-  const items = await getGalleryItems();
-  // Sanity boşsa statik placeholder tile'lar görünür (sayfa tasarımlı kalır).
-  const finalItems = items.length ? items : galleryContent.items;
+  const real = await getGalleryItems();
+  const placeholders = galleryContent.items;
+  const finalItems =
+    real.length >= MIN_TILES
+      ? real
+      : [...real, ...placeholders.slice(0, MIN_TILES - real.length)];
   return (
     <GallerySection
       kicker={galleryContent.kicker}

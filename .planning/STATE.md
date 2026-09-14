@@ -2,7 +2,27 @@
 
 > Her oturum başında **ilk okunan** dosya. Ayrıntılı devir: `.continue-here.md`.
 
-## 📍 Şu An (2026-09-11 — Faz 7: Sanity CMS — Makine + Blog + Galeri + Ayarlar ✅ + harita güncel)
+## 📍 Şu An (2026-09-14 — Faz 8: Backend & Ölçüm ✅ TAMAM)
+- **✅ Sanity Webhook** (`/api/revalidate`): `next-sanity/webhook` parseBody + secret. Publish edilince `_type in [machine, post, galleryItem, siteSettings]` → tag revalidate `{ expire: 0 }`. `.env.local`: `SANITY_WEBHOOK_SECRET`. Studio webhook URL prod'a bağlanacak (deploy sonrası).
+- **✅ Zoho CRM Lead entegrasyonu** (`/api/lead` + `src/lib/zoho/client.ts`): OAuth refresh flow (in-memory cache, 1 saatlik access token) + Insert Leads v8. **Description mükemmel format** — emojisiz ASCII, "===" başlıklar, `>> ILGILENDIGI MAKINE / >> MUSTERI MESAJI / >> KAYNAK BILGISI` blokları, **tıklanır makine sayfa linki** (`https://<site>/makineler/<slug>`). Kaynak → `Website — Makine Teklifi / — İletişim / — <Kampanya adı>`. **Zoho MCP ile doğrulandı** (bağlı, tool listesi tam, field oluşturma HARİÇ read/write hepsi). Test: 3 lead düştü, hepsinde link doğru.
+- **✅ Custom View "Websiteden Gelenler"** (Talha manuel kurdu): Zoho Leads modülünde `Müşteri Adayı Kaynağı içerir "Website"` filter. Kutucuk/Kanban görünüm ile "Görüşülmedi → İletişim → Kazanıldı" akışı.
+- **✅ Resend mail** (`src/lib/mail/send.ts`): 2 branded HTML — kullanıcıya "Talebiniz alındı — <makine>" (paper zemin, brand aksanı, ofis adresi) + ofise "Yeni Lead" bildirimi (Zoho status + tüm alanlar). Test modu (henüz domain doğrulanmadı) → sadece hesap sahibi mail alır (`mirstore.hesap@gmail.com`). Prod'da `MAIL_FROM=info@ozdemirmakine.com.tr` domain doğrulanınca herkese gider.
+- **✅ KVKK + Gizlilik**: `ui/cookie-banner/` (2-buton "Reddet / Kabul Et", spring animasyon, sağ altta), `/gizlilik` sayfası (minimum KVKK metni, banner link'i). GA4 default consent `denied` (KVKK) → "Kabul Et" ile `granted` update. GDPR/KVKK uyumlu.
+- **✅ GA4** (`ui/analytics/ga4.tsx` + `@next/third-parties`): `NEXT_PUBLIC_GA_ID=G-ZQ9989Y9P2`, `.trim()` guard (env whitespace fix), consent-first setup, `generate_lead` event form submit'te. UTM localStorage capture (`utm-capture.tsx`) → form `kampanya` alanına ilk-tıklama attribution.
+- **✅ Rate-limit + Honeypot** (`src/lib/rate-limit/ip.ts` + form gizli `website` alanı): IP başına 5 dk / 3 istek, aşımda 429. Bot şüpheli honeypot dolarsa 200 döner ama Zoho/mail atılmaz. B2B trafik için yeter (KV/Redis'e taşıma sonra).
+- **✅ Kampanya UI** (`src/content/campaigns.ts` + `ui/campaign-card.tsx`): `?kampanya=<slug>` ile Avrasya/Drupa/vb özel form. Küçük kart (makine kartıyla aynı stil), Lead Source otomatik `Website — <Campaign Title>`. Zoho Campaigns mail buton URL'i: `/iletisim?kampanya=<slug>`. Yeni kampanya = 5 satır config.
+- **Yeni deps:** `resend` · `zod` · `@next/third-parties` · **`sanity` 6.12.0 → 6.13.2** (React 19 flex prop warning fix — bugün ekstra hediye).
+- **Test:** ✅ Zoho'ya 3 lead düştü, description düzgün, link doğru, mail geldi (test hesabına), form spinner+success ekran, GA4 script yüklü, tsc temiz.
+
+## ⏭️ Sıradaki (Faz 8'in "ertelenen" parçası → Faz 9)
+**Faz 9 — Sanity ↔ Zoho Products SYNC + CRM'de Makine Lookup** (Talha isteği 2026-09-14, ertelendi):
+- **Akış:** Sanity'de makine ekle/güncelle → Sanity webhook `_type == machine` → `/api/revalidate` bunu yakalar + **paralel Zoho Products'a upsert** (Product_Code = Sanity urunKodu).
+- **Zoho tarafı manuel:** Leads modülünde yeni **Lookup field** oluştur: `İlgilendiği Makine (Website)` → Aranan Modül: Products.
+- **Kodda:** `insertLead()` machine adı → Zoho Products search → Product ID → yeni field'a ata.
+- **Ek gereklilik:** Sanity API READ token yenile (bugünkü scriptte 401 aldı — muhtemelen rotate edilmiş). Yeni token .env'e + `SANITY_API_READ_TOKEN` güncellensin.
+- **Yeni scope gerekli:** `ZohoCRM.modules.products.CREATE` — Talha yeni bir grant code alır, `_zoho-refresh.ts` ile refresh token'ı yeniler (mevcut script hazır).
+
+## 📍 Önceki (2026-09-11 — Faz 7: Sanity CMS — Makine + Blog + Galeri + Ayarlar ✅ + harita güncel)
 - **✅ Gömülü Sanity Studio (`/studio`) + `machine` şeması + 17 makine migration + site bağlandı.** Makine ekle/çıkar artık Studio'dan, kod yok. Uçtan uca tarayıcıda doğrulandı: katalog 17 ürün (filtre/sayılar doğru), anasayfa vitrin 3 kart, detay tam (açıklama+spec+format), konsol temiz.
   - **Proje:** Sanity `Ozdemir Makine` — projectId `qgzvu8g9`, dataset `production`. Env `.env.local` (git-dışı): PROJECT_ID/DATASET/API_VERSION + `SANITY_API_READ_TOKEN` (Editor). Token rotate edildi (ilk sohbette düz metin sızmıştı → yeni üretildi).
   - **Kod:** `src/sanity/` (env · lib/client · lib/image · lib/machines · schemaTypes/machine · structure · config) + root `sanity.config.ts`/`sanity.cli.ts` + `app/studio/[[...tool]]/{page,Studio}.tsx`. `next.config`→cdn.sanity.io. `layout` içinde `SiteChrome` (client gate) header/footer/smooth-scroll'ü `/studio`'da gizler.

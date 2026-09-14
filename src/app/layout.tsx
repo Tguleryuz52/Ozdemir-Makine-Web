@@ -5,6 +5,9 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { SmoothScroll } from "@/components/ui/smooth-scroll";
 import { SiteChrome } from "@/components/layout/site-chrome";
+import { CookieBanner } from "@/components/ui/cookie-banner/cookie-banner";
+import { GA4 } from "@/components/analytics/ga4";
+import { UtmCapture } from "@/components/analytics/utm-capture";
 
 const geistSans = Geist({
   variable: "--font-sans",
@@ -32,6 +35,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <GA4 />
+        <UtmCapture />
         <SiteChrome>
           <SmoothScroll />
           <Header />
@@ -40,6 +45,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SiteChrome>
           <Footer />
         </SiteChrome>
+        <CookieBanner />
       </body>
     </html>
   );

@@ -48,6 +48,7 @@ export function GallerySection({
                   id={item.id}
                   src={item.src}
                   alt={item.alt}
+                  title={item.title}
                   className={item.src ? undefined : ratioClass[item.ratio]}
                 />
               ))}

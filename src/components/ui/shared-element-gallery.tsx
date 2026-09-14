@@ -75,11 +75,13 @@ export function GalleryGrid({
 export function GalleryImage({
   src,
   alt,
+  title,
   id,
   className,
 }: {
   src: string;
   alt?: string;
+  title?: string;
   id: string;
   className?: string;
 }) {
@@ -124,9 +126,19 @@ export function GalleryImage({
       <motion.div
         variants={{ hover: { opacity: 1 }, tap: { opacity: 1 } }}
         initial={{ opacity: 0 }}
-        transition={{ duration: 0.2 }}
-        className="pointer-events-none absolute inset-0 rounded-lg bg-ink/10"
+        transition={{ duration: 0.25 }}
+        className="pointer-events-none absolute inset-0 rounded-lg bg-gradient-to-t from-ink/80 via-ink/15 to-transparent"
       />
+      {title && (
+        <motion.p
+          variants={{ hover: { opacity: 1, y: 0 }, tap: { opacity: 1, y: 0 } }}
+          initial={{ opacity: 0, y: 12 }}
+          transition={spring}
+          className="pointer-events-none absolute inset-x-0 bottom-0 p-4 text-[15px] font-medium leading-snug text-white lg:p-5 lg:text-base"
+        >
+          {title}
+        </motion.p>
+      )}
     </motion.div>
   );
 }

@@ -187,6 +187,12 @@ Plans:
 | 5. Makine Kataloğu | 0/2 | Not started | - |
 | 6. Kurumsal & Diğer Sayfalar | 0/3 | Not started | - |
 | 7. Etkileşim & Cila | 0/2 | Not started | - |
-| 8. SEO & Performans | 0/2 | Not started | - |
-| 9. CMS (Sanity) | 0/2 | Not started | - |
-| 10. Entegrasyon & Yayın | 0/2 | Not started | - |
+| 8. SEO & Performans | — | Ertelendi (Faz 11'e) | - |
+| 9. CMS (Sanity) | 4/2 | ✅ Tamam | 2026-09-11 |
+| 10. Entegrasyon & Yayın | 1/2 | ✅ Form→Zoho tamam (deploy kalan) | 2026-09-14 |
+
+## Yeni Fazlar (2026-09-14 Talha isteği)
+- **Faz 8 Backend & Ölçüm** ✅ TAMAM 2026-09-14 — Zoho CRM Lead + Resend mail + KVKK banner + GA4 + Sanity webhook + rate-limit + honeypot + kampanya UI. Detay `.planning/specs/faz-8-backend-olcum.md`.
+- **Faz 9 Sanity ↔ Zoho Products SYNC** ⏭️ AÇIK — Sanity makine → Zoho Products upsert + Leads modülüne "İlgilendiği Makine (Website)" Lookup field. Ön koşul: Sanity token yenile + Zoho `products.CREATE` scope. Detay `STATE.md` "Sıradaki" bölümü.
+- **Faz 10 Vercel Deploy** ⏭️ Faz 9 sonrası, sadece vercel.app URL'inde (domain cutover YOK — mevcut ozdemirmakine.com.tr korunacak).
+- **Faz 11 SEO & Performans** ⏭️ (Faz 8'in ertelenen SEO/CWV kısmı — canlıya çıkınca).

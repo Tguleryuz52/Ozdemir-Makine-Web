@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { ContactForm } from "@/components/ui/contact-form";
+import { CampaignCard } from "@/components/ui/campaign-card";
 import { contactContent } from "@/content/site";
 import type { MachineDoc } from "@/sanity/lib/machines";
+import type { Campaign } from "@/content/campaigns";
 import { getSiteSettings } from "@/sanity/lib/settings";
 
 // himon "/contact" (TALK WITH US) uyarlaması — server bileşen, veriyi prop/import ile alır.
@@ -17,9 +19,10 @@ const detailLabelCls =
 
 export interface ContactSectionProps {
   machine?: MachineDoc;
+  campaign?: Campaign;
 }
 
-export async function ContactSection({ machine }: ContactSectionProps) {
+export async function ContactSection({ machine, campaign }: ContactSectionProps) {
   const { kicker, heading, quoteHeading, lead, detailsHeading, form } =
     contactContent;
   const s = await getSiteSettings();
@@ -30,17 +33,29 @@ export async function ContactSection({ machine }: ContactSectionProps) {
     { label: "Ofis — Almanya", value: s.addressDE, href: "" },
   ];
   const isQuote = Boolean(machine);
-  const prefill = machine
-    ? `Merhaba, ${machine.title}${machine.productCode ? ` (${machine.productCode})` : ""} hakkında fiyat teklifi almak istiyorum. Lütfen benimle iletişime geçin.`
-    : "";
+  const isCampaign = Boolean(campaign);
+  // Kampanya modunda başlık/kicker DEĞİŞMEZ — sadece form üstünde küçük bağlam kartı çıkar
+  // (makine akışıyla aynı disiplin). Kullanıcı hangi kampanya için başvurduğunu kart üzerinden anlar.
+  const activeKicker = kicker;
+  const activeHeading = isQuote ? quoteHeading : heading;
+  const prefill = campaign
+    ? `Merhaba, ${campaign.title} için başvurumu iletmek istiyorum. Bilgilerimi bırakıyorum, benimle iletişime geçebilirsiniz.`
+    : machine
+      ? `Merhaba, ${machine.title}${machine.productCode ? ` (${machine.productCode})` : ""} hakkında fiyat teklifi almak istiyorum. Lütfen benimle iletişime geçin.`
+      : "";
+  const leadSource = campaign
+    ? `Website — ${campaign.title}`
+    : isQuote
+      ? "Website — Makine Teklifi"
+      : "Website — İletişim";
 
   return (
     <section className="bg-white">
       <div className="mx-auto max-w-[104rem] px-6 pb-[var(--spacing-section)] pt-[calc(var(--spacing-section)+3rem)] lg:px-10">
         {/* Başlık bloğu */}
-        <p className={kickerCls}>{kicker}</p>
+        <p className={kickerCls}>{activeKicker}</p>
         <h1 className="mt-4 max-w-[14ch] text-display-xl uppercase text-ink">
-          {isQuote ? quoteHeading : heading}
+          {activeHeading}
         </h1>
         <p className="mt-6 max-w-xl text-[17px] leading-relaxed tracking-[-0.01em] text-ink/60">
           {lead}
@@ -78,9 +93,10 @@ export async function ContactSection({ machine }: ContactSectionProps) {
             </dl>
           </div>
 
-          {/* Sağ — form (+ makine bağlam kartı) */}
+          {/* Sağ — form (+ kampanya kartı VEYA makine bağlam kartı) */}
           <div>
-            {machine && (
+            {campaign && <CampaignCard campaign={campaign} />}
+            {!campaign && machine && (
               <div className="mb-8 flex items-center gap-4 rounded-2xl border border-ink/10 bg-paper/60 p-4">
                 <div className="flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-brand/15 to-ink/10">
                   <span className="font-mono text-[11px] font-medium uppercase tracking-wide text-brand">
@@ -103,8 +119,12 @@ export async function ContactSection({ machine }: ContactSectionProps) {
             )}
             <ContactForm
               prefillMessage={prefill}
-              machineCode={machine?.productCode || machine?.slug || ""}
-              isQuote={isQuote}
+              machineCode={machine?.productCode || ""}
+              machineSlug={machine?.slug || ""}
+              machineTitle={machine?.title || ""}
+              leadSource={leadSource}
+              submitLabel={campaign?.cta}
+              isQuote={isQuote || isCampaign}
             />
           </div>
         </div>

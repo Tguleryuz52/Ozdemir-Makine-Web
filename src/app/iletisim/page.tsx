@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getMachineBySlug } from "@/sanity/lib/machines";
+import { findCampaign } from "@/content/campaigns";
 import { ContactSection } from "@/components/sections/contact-section";
 
 export const metadata: Metadata = {
@@ -11,12 +12,13 @@ export const metadata: Metadata = {
 export default async function IletisimPage({
   searchParams,
 }: {
-  searchParams: Promise<{ makine?: string }>;
+  searchParams: Promise<{ makine?: string; kampanya?: string }>;
 }) {
-  // ?makine=<slug> ile gelinir (detay sayfası "Fiyat Teklifi Al" düğmesi). Slug her makinede
-  // benzersiz + doludur; ürün kodu boş olabilir, o yüzden yönlendirme slug'la yapılır.
-  const { makine } = await searchParams;
+  // ?makine=<slug>   → detay sayfasından "Fiyat Teklifi Al" akışı
+  // ?kampanya=<slug> → Zoho Campaigns mail'inden gelen fuar/etkinlik başvurusu
+  const { makine, kampanya } = await searchParams;
   const machine = makine ? (await getMachineBySlug(makine)) ?? undefined : undefined;
+  const campaign = kampanya ? findCampaign(kampanya) : undefined;
 
-  return <ContactSection machine={machine} />;
+  return <ContactSection machine={machine} campaign={campaign} />;
 }

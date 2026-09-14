@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { contactContent } from "@/content/site";
 import { cn } from "@/lib/utils";
+import { readStoredUtm } from "@/components/analytics/utm-capture";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -54,28 +55,96 @@ const fieldCls =
 export interface ContactFormProps {
   /** ?makine=... ile gelindiğinde mesaj alanına önden yazılır. */
   prefillMessage?: string;
-  /** Zoho gizli alanı: talebin hangi makineden geldiği. */
+  /** Zoho gizli alanı: talebin hangi makineden geldiği (ürün kodu). */
   machineCode?: string;
+  /** Zoho description'da makine sayfa linki için (slug). */
+  machineSlug?: string;
+  /** Zoho + mail için makinenin okunur adı (örn "2026 DGM Technocut 1050-S"). */
+  machineTitle?: string;
+  /** Zoho'ya gidecek Lead Source (kampanya varsa "Website — <kampanya>"). */
+  leadSource?: string;
+  /** Buton metni override (kampanya için "Başvurumu Gönder" gibi). */
+  submitLabel?: string;
   /** Teklif akışında buton metni değişir. */
   isQuote?: boolean;
   className?: string;
 }
 
+type SubmitState = "idle" | "sending" | "error";
+
 export function ContactForm({
   prefillMessage = "",
   machineCode = "",
+  machineSlug = "",
+  machineTitle = "",
+  leadSource,
+  submitLabel,
   isQuote = false,
   className,
 }: ContactFormProps) {
   const { fields, submit, submitQuote, assurances, success } = contactContent.form;
   const [sent, setSent] = useState(false);
+  const [state, setState] = useState<SubmitState>("idle");
+  const [errorMsg, setErrorMsg] = useState<string>("");
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // Native HTML5 doğrulaması geçtiyse buraya gelir (form'da noValidate yok).
-    // TODO(Zoho): FormData'yı Zoho CRM web formuna / API route'a POST et.
-    // Gizli alanlar (makineKodu, leadSource, kampanya) form içinde hazır.
-    setSent(true);
+    if (state === "sending") return;
+
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+    const phoneCode = String(fd.get("telefonKodu") ?? "");
+    const phoneNumber = String(fd.get("phone") ?? "");
+
+    const payload = {
+      firstName: String(fd.get("firstName") ?? "").trim(),
+      lastName: String(fd.get("lastName") ?? "").trim(),
+      email: String(fd.get("email") ?? "").trim(),
+      phone: `${phoneCode} ${phoneNumber}`.trim(),
+      company: String(fd.get("company") ?? "").trim() || undefined,
+      message: String(fd.get("message") ?? "").trim(),
+      makineKodu: String(fd.get("makineKodu") ?? "") || undefined,
+      makineSlug: machineSlug || undefined,
+      leadSource: String(fd.get("leadSource") ?? "Website — İletişim"),
+      kampanya: readStoredUtm() || undefined,
+      makineBaslik: machineTitle || undefined,
+      website: String(fd.get("website") ?? ""), // honeypot
+    };
+
+    setState("sending");
+    setErrorMsg("");
+    try {
+      const res = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (res.status === 429) {
+        setState("error");
+        setErrorMsg("Çok fazla deneme. Lütfen birkaç dakika sonra tekrar deneyin.");
+        return;
+      }
+      if (!res.ok) {
+        setState("error");
+        setErrorMsg("Talebiniz iletilirken bir sorun oluştu. Lütfen tekrar deneyin.");
+        return;
+      }
+      // GA4 conversion event (consent varsa iletilir)
+      type GTagFn = (...args: unknown[]) => void;
+      const w = window as unknown as { gtag?: GTagFn };
+      if (typeof w.gtag === "function") {
+        w.gtag("event", "generate_lead", {
+          currency: "TRY",
+          value: 0,
+          machine_code: payload.makineKodu ?? "",
+        });
+      }
+      setState("idle");
+      setSent(true);
+    } catch {
+      setState("error");
+      setErrorMsg("Bağlantı hatası. İnternet bağlantınızı kontrol edin.");
+    }
   }
 
   if (sent) {
@@ -112,8 +181,20 @@ export function ContactForm({
     <form onSubmit={handleSubmit} className={cn("flex flex-col", className)}>
       {/* Gizli Zoho alanları — lead kaynağı asla boş gitmesin */}
       <input type="hidden" name="makineKodu" value={machineCode} />
-      <input type="hidden" name="leadSource" value={machineCode ? "Website — Makine Teklifi" : "Website — İletişim"} />
-      <input type="hidden" name="kampanya" value="" />
+      <input
+        type="hidden"
+        name="leadSource"
+        value={leadSource ?? (machineCode ? "Website — Makine Teklifi" : "Website — İletişim")}
+      />
+      {/* Honeypot: bot form doldurucu bunu görür ve doldurur; insan görmeyecek */}
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="absolute -left-[9999px] top-auto h-0 w-0 opacity-0"
+      />
 
       <div className="grid grid-cols-1 gap-x-5 gap-y-6 sm:grid-cols-2">
         {ORDER.map((name) => {
@@ -178,13 +259,32 @@ export function ContactForm({
 
       <button
         type="submit"
-        className="group mt-8 inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-ink px-8 py-4 text-[15px] font-medium tracking-tight text-white transition-colors duration-300 hover:bg-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+        disabled={state === "sending"}
+        className="group mt-8 inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-ink px-8 py-4 text-[15px] font-medium tracking-tight text-white transition-colors duration-300 hover:bg-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-70"
       >
-        {isQuote ? submitQuote : submit}
-        <span className="transition-transform duration-300 group-hover:translate-x-1">
-          <ArrowIcon />
-        </span>
+        {state === "sending" ? (
+          <>
+            <svg width="16" height="16" viewBox="0 0 24 24" className="animate-spin" aria-hidden="true">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeOpacity="0.25" fill="none" />
+              <path d="M22 12a10 10 0 0 0-10-10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" fill="none" />
+            </svg>
+            Gönderiliyor…
+          </>
+        ) : (
+          <>
+            {submitLabel ?? (isQuote ? submitQuote : submit)}
+            <span className="transition-transform duration-300 group-hover:translate-x-1">
+              <ArrowIcon />
+            </span>
+          </>
+        )}
       </button>
+
+      {state === "error" && errorMsg && (
+        <p role="alert" className="mt-3 text-[13px] text-red-600">
+          {errorMsg}
+        </p>
+      )}
 
       <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-2">
         {assurances.map((a) => (

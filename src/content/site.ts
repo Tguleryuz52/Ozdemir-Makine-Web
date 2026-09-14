@@ -489,6 +489,7 @@ export type GalleryItem = {
   id: string;
   src: string; // "" → placeholder tile
   alt: string;
+  title?: string; // hover'da görselin üstünde çıkan başlık — yoksa hover sadece görseli büyütür
   ratio: "portrait" | "tall" | "landscape" | "square";
 };
 

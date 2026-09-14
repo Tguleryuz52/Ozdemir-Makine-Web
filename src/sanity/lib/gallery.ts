@@ -10,7 +10,7 @@ const cacheOpts = { next: { revalidate: 60, tags: ["gallery"] } };
 type RawGallery = {
   id: string;
   gorsel?: Parameters<typeof urlForImage>[0];
-  alt?: string;
+  baslik?: string;
   etiket?: string;
 };
 
@@ -19,7 +19,7 @@ export async function getGalleryItems(): Promise<GalleryItem[]> {
     `*[_type == "galleryItem" && defined(gorsel)] | order(coalesce(sira, 9999) asc, _createdAt desc){
       "id": _id,
       gorsel,
-      "alt": baslik,
+      baslik,
       etiket
     }`,
     {},
@@ -30,7 +30,8 @@ export async function getGalleryItems(): Promise<GalleryItem[]> {
     .map((r) => ({
       id: r.id,
       src: urlForImage(r.gorsel!).width(1400).fit("max").auto("format").url(),
-      alt: r.alt ?? r.etiket ?? "Özdemir Makine galeri görseli",
+      alt: r.baslik ?? r.etiket ?? "Özdemir Makine galeri görseli",
+      title: r.baslik,
       ratio: "landscape" as const,
     }));
 }

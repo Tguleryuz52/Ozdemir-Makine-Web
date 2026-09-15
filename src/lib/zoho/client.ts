@@ -60,6 +60,35 @@ export type LeadInput = {
   campaign?: string;
 };
 
+// Zoho Leads modülüne oluşturduğumuz "İlgilendiği Makine (PressXchange)" Lookup field'ı.
+// Semantik olarak "PressXchange" ama pratikte tüm website lead'leri de buraya bağlanıyor —
+// Lead_Source zaten kaynağı ayırıyor. Yeni bir "Website" field açmadık, aynı slotu paylaşıyoruz.
+const PRODUCT_LOOKUP_API_NAME = "lgilendi_i_Makine_PressXchange";
+
+// Product_Code (ör "60016") ile Zoho Products modülünde arama. Bulursa {id, name} döner,
+// bulamazsa null. Fail-soft: hata durumunda null, lead yine oluşsun (lookup atanmaz sadece).
+async function findProductByCode(
+  token: string,
+  code: string,
+): Promise<{ id: string; name: string } | null> {
+  const criteria = encodeURIComponent(`(Product_Code:equals:${code})`);
+  const url = `https://${API}/crm/v8/Products/search?criteria=${criteria}&fields=Product_Name,Product_Code`;
+  try {
+    const res = await fetch(url, {
+      headers: { Authorization: `Zoho-oauthtoken ${token}` },
+      cache: "no-store",
+    });
+    if (res.status === 204 || !res.ok) return null;
+    const json = (await res.json()) as {
+      data?: Array<{ id: string; Product_Name?: string }>;
+    };
+    const hit = json.data?.[0];
+    return hit ? { id: hit.id, name: hit.Product_Name ?? "" } : null;
+  } catch {
+    return null;
+  }
+}
+
 export type LeadResult = {
   ok: boolean;
   id?: string;
@@ -118,7 +147,15 @@ export async function insertLead(input: LeadInput): Promise<LeadResult> {
     .filter((s) => s !== "")
     .join("\n");
 
-  const data = {
+  // Makine kodu varsa Zoho Products'ta ara → bulursa Lookup field'a bağla.
+  // Fail-soft: bulamazsa/hata olursa lead yine oluşur, sadece dropdown boş kalır.
+  let productLookup: { id: string } | null = null;
+  if (input.machineCode) {
+    const hit = await findProductByCode(token, input.machineCode);
+    if (hit) productLookup = { id: hit.id };
+  }
+
+  const data: Record<string, unknown> = {
     First_Name: input.firstName,
     Last_Name: input.lastName || "—",
     Email: input.email,
@@ -127,6 +164,9 @@ export async function insertLead(input: LeadInput): Promise<LeadResult> {
     Lead_Source: input.leadSource,
     Description: description,
   };
+  if (productLookup) {
+    data[PRODUCT_LOOKUP_API_NAME] = productLookup;
+  }
 
   const res = await fetch(`https://${API}/crm/v8/Leads`, {
     method: "POST",

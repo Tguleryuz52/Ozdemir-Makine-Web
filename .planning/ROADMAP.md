@@ -191,8 +191,9 @@ Plans:
 | 9. CMS (Sanity) | 4/2 | ✅ Tamam | 2026-09-11 |
 | 10. Entegrasyon & Yayın | 1/2 | ✅ Form→Zoho tamam (deploy kalan) | 2026-09-14 |
 
-## Yeni Fazlar (2026-09-14 Talha isteği)
+## Yeni Fazlar (2026-09-14+ Talha isteği)
 - **Faz 8 Backend & Ölçüm** ✅ TAMAM 2026-09-14 — Zoho CRM Lead + Resend mail + KVKK banner + GA4 + Sanity webhook + rate-limit + honeypot + kampanya UI. Detay `.planning/specs/faz-8-backend-olcum.md`.
-- **Faz 9 Sanity ↔ Zoho Products SYNC** ⏭️ AÇIK — Sanity makine → Zoho Products upsert + Leads modülüne "İlgilendiği Makine (Website)" Lookup field. Ön koşul: Sanity token yenile + Zoho `products.CREATE` scope. Detay `STATE.md` "Sıradaki" bölümü.
-- **Faz 10 Vercel Deploy** ⏭️ Faz 9 sonrası, sadece vercel.app URL'inde (domain cutover YOK — mevcut ozdemirmakine.com.tr korunacak).
-- **Faz 11 SEO & Performans** ⏭️ (Faz 8'in ertelenen SEO/CWV kısmı — canlıya çıkınca).
+- **Faz 9 CRM Makine Lookup** ✅ TAMAM 2026-09-15 — Zoho **master data** kararı (sync yok, Sanity onun aynası). `insertLead()` `machineCode` → Zoho Products search → mevcut `lgilendi_i_Makine_PressXchange` Lookup field'ına ID bind. Sanity `machine.ts` `urunKodu` field'ı Zoho Product_Code ile birebir eşleşecek şekilde netleştirildi. Uçtan uca test (Zoho MCP) ✓.
+- **Faz 11 Frontend Cila & Markalaşma** ⏭️ AÇIK — Hero + arama birleştirme, logo/tipografi denge, distribütör logoları renkli, kurumsal görseller, footer link'leri, adres düzenleme.
+- **Faz 10 Vercel Deploy** ⏭️ Faz 11 sonrası, sadece vercel.app URL'inde (domain cutover YOK — mevcut ozdemirmakine.com.tr korunacak).
+- **Faz 12 SEO & Performans** ⏭️ (Faz 8'in ertelenen SEO/CWV kısmı — canlıya çıkınca).

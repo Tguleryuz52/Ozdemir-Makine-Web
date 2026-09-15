@@ -54,8 +54,20 @@ export const machine = defineType({
       description: "Marka olmadan model adı. Örn: Speedmaster CX 104",
     }),
     defineField({
-      name: "urunKodu", title: "Ürün Kodu", type: "string", group: "temel",
-      description: "Kendi stok kodun (opsiyonel). Örn: OF-2015-014",
+      name: "urunKodu", title: "Ürün Kodu (Zoho CRM ile eşleşme)", type: "string", group: "temel",
+      description:
+        "⚠️ ÖNEMLİ: Bu kod, Zoho CRM'deki 'Product Code' alanı ile BİREBİR AYNI olmalı. " +
+        "Doğru yazarsan → bir müşteri bu makinenin sayfasından teklif gönderdiğinde, Zoho lead'inde " +
+        "'İlgilendiği Makine' alanı otomatik dolar (satış temsilcisi CRM'de anında görür). " +
+        "Yanlış/boş yazarsan lead yine gelir ama makine bağlantısı boş kalır — sadece açıklamada görünür. " +
+        "Zoho'daki kodlar genelde numerik: örn 60016, 80022, 120009. " +
+        "Zoho'ya git → Ürünler → makineyi bul → 'Ürün Kodu' alanındaki değeri buraya birebir yaz.",
+      validation: (r) =>
+        r.custom((val?: string) => {
+          if (!val) return true;
+          if (val.trim() !== val) return "Başında/sonunda boşluk olmasın (Zoho eşleşmesini bozar).";
+          return true;
+        }),
     }),
     defineField({
       name: "yil", title: "Üretim Yılı", type: "number", group: "temel",

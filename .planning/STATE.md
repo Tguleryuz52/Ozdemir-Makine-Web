@@ -2,7 +2,15 @@
 
 > Her oturum başında **ilk okunan** dosya. Ayrıntılı devir: `.continue-here.md`.
 
-## 📍 Şu An (2026-09-14 — Faz 8: Backend & Ölçüm ✅ TAMAM)
+## 📍 Şu An (2026-09-15 — Faz 9: CRM Makine Lookup ✅ TAMAM)
+- **✅ Zoho Products Lookup entegrasyonu.** `src/lib/zoho/client.ts` içinde `findProductByCode(code)` helper eklendi → `insertLead()` `machineCode` gelirse Zoho Products'ta `Product_Code:equals:<code>` araması yapıyor → bulursa Lookup field `lgilendi_i_Makine_PressXchange`'e ID bind ediyor → bulamazsa fail-soft (lead yine oluşur, sadece dropdown boş kalır).
+- **Karar (kritik):** Zoho **master data**, Sanity/Web onu okur. Sync YOK (Zoho→Sanity ya da tersi) — 164 makine zaten Zoho'da, Talha elle giriyor. Sanity'ye eklenirken **`urunKodu` = Zoho Product_Code birebir** olacak (numerik: 60016, 80022, 120009...).
+- **Yeni Lookup field oluşturmadık** — Talha'nın önerisiyle mevcut `lgilendi_i_Makine_PressXchange` field'ı reuse edildi (semantik "PressXchange" der ama Lead_Source zaten kaynağı ayırıyor, lookup sadece "hangi makine" sorusuna cevap). Yeni field açmak = gereksiz karmaşa.
+- **Sanity şema güncellendi:** `machine.ts` `urunKodu` field'ının title'ı "Ürün Kodu (Zoho CRM ile eşleşme)" oldu, uzun açıklama Zoho eşleşme kritik olduğunu net söylüyor + boşluk validation'ı eklendi.
+- **Test (Zoho MCP ile end-to-end):** Product_Code `60016` (DGM TECHNOCUT 1650 S) → search → ID `997203000001002091` → test Lead oluştur → `getRecord` doğrulama: `lgilendi_i_Makine_PressXchange: { name: "DGM TECHNOCUT 1650 S", id: "997203000001002091" }` ✓ **Uçtan uca çalışıyor.** Test lead ID `997203000001945001` (Talha silecek).
+- **Faz 9 hedeflenen "Sanity→Zoho Products sync" iptal edildi** — mimari terse döndü. Zoho zaten master; Sanity onun aynası olacak (sonra karar, şimdi gerek yok). Dolayısıyla Sanity token yenileme + `products.CREATE` scope da gerekli değil (`products.READ` yeter — muhtemelen mevcut refresh token'da zaten var, yoksa 401 alacağız görürüz).
+
+## 📍 Önceki (2026-09-14 — Faz 8: Backend & Ölçüm ✅ TAMAM)
 - **✅ Sanity Webhook** (`/api/revalidate`): `next-sanity/webhook` parseBody + secret. Publish edilince `_type in [machine, post, galleryItem, siteSettings]` → tag revalidate `{ expire: 0 }`. `.env.local`: `SANITY_WEBHOOK_SECRET`. Studio webhook URL prod'a bağlanacak (deploy sonrası).
 - **✅ Zoho CRM Lead entegrasyonu** (`/api/lead` + `src/lib/zoho/client.ts`): OAuth refresh flow (in-memory cache, 1 saatlik access token) + Insert Leads v8. **Description mükemmel format** — emojisiz ASCII, "===" başlıklar, `>> ILGILENDIGI MAKINE / >> MUSTERI MESAJI / >> KAYNAK BILGISI` blokları, **tıklanır makine sayfa linki** (`https://<site>/makineler/<slug>`). Kaynak → `Website — Makine Teklifi / — İletişim / — <Kampanya adı>`. **Zoho MCP ile doğrulandı** (bağlı, tool listesi tam, field oluşturma HARİÇ read/write hepsi). Test: 3 lead düştü, hepsinde link doğru.
 - **✅ Custom View "Websiteden Gelenler"** (Talha manuel kurdu): Zoho Leads modülünde `Müşteri Adayı Kaynağı içerir "Website"` filter. Kutucuk/Kanban görünüm ile "Görüşülmedi → İletişim → Kazanıldı" akışı.
@@ -14,13 +22,15 @@
 - **Yeni deps:** `resend` · `zod` · `@next/third-parties` · **`sanity` 6.12.0 → 6.13.2** (React 19 flex prop warning fix — bugün ekstra hediye).
 - **Test:** ✅ Zoho'ya 3 lead düştü, description düzgün, link doğru, mail geldi (test hesabına), form spinner+success ekran, GA4 script yüklü, tsc temiz.
 
-## ⏭️ Sıradaki (Faz 8'in "ertelenen" parçası → Faz 9)
-**Faz 9 — Sanity ↔ Zoho Products SYNC + CRM'de Makine Lookup** (Talha isteği 2026-09-14, ertelendi):
-- **Akış:** Sanity'de makine ekle/güncelle → Sanity webhook `_type == machine` → `/api/revalidate` bunu yakalar + **paralel Zoho Products'a upsert** (Product_Code = Sanity urunKodu).
-- **Zoho tarafı manuel:** Leads modülünde yeni **Lookup field** oluştur: `İlgilendiği Makine (Website)` → Aranan Modül: Products.
-- **Kodda:** `insertLead()` machine adı → Zoho Products search → Product ID → yeni field'a ata.
-- **Ek gereklilik:** Sanity API READ token yenile (bugünkü scriptte 401 aldı — muhtemelen rotate edilmiş). Yeni token .env'e + `SANITY_API_READ_TOKEN` güncellensin.
-- **Yeni scope gerekli:** `ZohoCRM.modules.products.CREATE` — Talha yeni bir grant code alır, `_zoho-refresh.ts` ile refresh token'ı yeniler (mevcut script hazır).
+## ⏭️ Sıradaki — Faz 11 (Frontend Cila) → sonra Faz 10 (Vercel Deploy)
+**Faz 11 — Frontend Cila & Markalaşma** (Talha isteği 2026-09-15):
+- **Hero + "Ne arıyorsunuz?" birleştirme** — ilk ekran satın alma dürtüsü aşılasın (butonlar yeniden).
+- **Header logo büyüt / hero yazı küçült** — logo hero yazılarından küçük, header'dan büyük — dengeli.
+- **Markalaşma** — statik görsel/renk/logo → kurumsal renk + gerçek görsel. **Distribütör logoları renkli** olacak (şu an siyah). Görselleri Talha atacak.
+- **Footer** — yeni sayfa linkleri + logo (uygun yere).
+- **Adres düzenleme** — birkaç detay.
+- **Genel:** "uçurmalıyız" — patron revizeleri gelebilir, esnek kalınacak.
+- **Akış:** GSD `plan-phase` ile Faz 11 açılacak → mockup/build/review kapıları → sonra Faz 10 deploy (vercel.app URL, domain cutover YOK).
 
 ## 📍 Önceki (2026-09-11 — Faz 7: Sanity CMS — Makine + Blog + Galeri + Ayarlar ✅ + harita güncel)
 - **✅ Gömülü Sanity Studio (`/studio`) + `machine` şeması + 17 makine migration + site bağlandı.** Makine ekle/çıkar artık Studio'dan, kod yok. Uçtan uca tarayıcıda doğrulandı: katalog 17 ürün (filtre/sayılar doğru), anasayfa vitrin 3 kart, detay tam (açıklama+spec+format), konsol temiz.

@@ -27,7 +27,7 @@ export function PagePlaceholder({
             btnText="Bize Ulaşın"
             bgColor="#0e0e0e"
             textColor="#ffffff"
-            fillBgColor="#234d9c"
+            fillBgColor="#0a509e"
             fillTextColor="#ffffff"
           />
           <ArrowFillButton

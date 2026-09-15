@@ -40,7 +40,8 @@ export function ProductCard({
       className={cn("w-full h-full", className)}
     >
       <Link href={href} className="block h-full">
-        <div className="group relative h-full flex flex-col overflow-hidden rounded-[1.25rem] border border-ink/10 bg-white shadow-sm transition-all duration-300 hover:border-brand/30 hover:shadow-xl hover:shadow-brand/5">
+        {/* Daha az yuvarlak (rounded-xl) keskin ve profesyonel kart tasarımı */}
+        <div className="group relative h-full flex flex-col overflow-hidden rounded-xl border border-ink/10 bg-white shadow-sm transition-all duration-300 hover:border-brand/30 hover:shadow-lg hover:shadow-brand/5">
           {/* Image Section */}
           <div className="relative aspect-[4/3] overflow-hidden bg-ink shrink-0">
             <motion.div
@@ -55,20 +56,20 @@ export function ProductCard({
             <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-40" />
 
             {/* Badges */}
-            <div className="absolute top-4 left-4 flex flex-col gap-2">
+            <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
               <Badge
                 variant="secondary"
-                className="bg-white/90 backdrop-blur-md text-ink hover:bg-white border-none px-3 py-1 font-mono text-[10px] uppercase tracking-widest font-semibold"
+                className="bg-white/95 backdrop-blur-md text-ink hover:bg-white border-none px-3 py-1 font-mono text-[10px] uppercase tracking-widest font-semibold shadow-sm"
               >
                 {condition}
               </Badge>
             </div>
             
             {year ? (
-              <div className="absolute bottom-4 left-4 flex gap-2">
+              <div className="absolute bottom-4 left-4 flex gap-2 z-10">
                 <Badge
                   variant="secondary"
-                  className="bg-ink/60 text-white backdrop-blur-md hover:bg-ink/80 border-white/10"
+                  className="bg-ink/70 text-white backdrop-blur-md hover:bg-ink/80 border-white/10 shadow-sm"
                 >
                   Yıl: {year}
                 </Badge>
@@ -76,7 +77,7 @@ export function ProductCard({
             ) : null}
 
             {/* Hover Overlay Action */}
-            <div className="absolute inset-0 flex items-center justify-center bg-ink/20 backdrop-blur-[2px] opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <div className="absolute inset-0 flex items-center justify-center bg-ink/20 backdrop-blur-[2px] opacity-0 transition-opacity duration-300 group-hover:opacity-100 z-20">
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -93,14 +94,14 @@ export function ProductCard({
             <span className="mb-2 block font-mono text-[11px] font-medium uppercase tracking-widest text-ink/50">
               {brand}
             </span>
-            <h3 className="mb-4 text-[1.25rem] font-medium leading-[1.2] tracking-tight text-ink transition-colors group-hover:text-brand lg:text-[1.35rem]">
+            <h3 className="mb-4 text-[1.2rem] font-medium leading-[1.2] tracking-tight text-ink transition-colors group-hover:text-brand lg:text-[1.3rem]">
               {model}
             </h3>
 
             <div className="mt-auto flex items-center justify-between border-t border-ink/10 pt-4">
               <div className="flex items-center gap-1.5 text-ink/60">
                 <Tag className="h-4 w-4" />
-                <span className="text-sm">Fiyat</span>
+                <span className="text-[13.5px]">Fiyat</span>
               </div>
               <span
                 className={cn(

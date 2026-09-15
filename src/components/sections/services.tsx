@@ -11,11 +11,11 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 // Placeholder gradient — gerçek servis fotoları gelene kadar.
 // Anahtar = servis num'u ("01"..). Foto gelince site.ts'te image doldurulur, buradan düşer.
 const GRADIENTS: Record<string, string> = {
-  "01": "linear-gradient(135deg,#0e0e0e 0%,#13224a 50%,#234d9c 100%)",
-  "02": "linear-gradient(135deg,#164295 0%,#0e92dd 100%)",
+  "01": "linear-gradient(135deg,#0e0e0e 0%,#13224a 50%,#0a509e 100%)",
+  "02": "linear-gradient(135deg,#0e4193 0%,#0171b9 100%)",
   "03": "linear-gradient(135deg,#0e0e0e 0%,#2a2a2a 100%)",
-  "04": "linear-gradient(135deg,#234d9c 0%,#0e0e0e 100%)",
-  "05": "linear-gradient(135deg,#0e92dd 0%,#164295 60%,#0e0e0e 100%)",
+  "04": "linear-gradient(135deg,#0a509e 0%,#0e0e0e 100%)",
+  "05": "linear-gradient(135deg,#0171b9 0%,#0e4193 60%,#0e0e0e 100%)",
 };
 
 export function Services() {
@@ -168,7 +168,7 @@ export function Services() {
                     btnText={activeItem.ctaLabel}
                     bgColor="#0e0e0e"
                     textColor="#ffffff"
-                    fillBgColor="#234d9c"
+                    fillBgColor="#0a509e"
                     fillTextColor="#ffffff"
                   />
                 </motion.div>

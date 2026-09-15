@@ -3,9 +3,9 @@ import { ArrowRight } from "lucide-react";
 // GEÇİCİ — Faz 2 token doğrulama sayfası. Faz sonunda kaldırılır.
 
 const swatches = [
-  { name: "brand", cls: "bg-brand text-white", hex: "#234D9C" },
-  { name: "brand-deep", cls: "bg-brand-deep text-white", hex: "#164295" },
-  { name: "brand-bright", cls: "bg-brand-bright text-white", hex: "#0E92DD" },
+  { name: "brand", cls: "bg-brand text-white", hex: "#0a509e" },
+  { name: "brand-deep", cls: "bg-brand-deep text-white", hex: "#0e4193" },
+  { name: "brand-bright", cls: "bg-brand-bright text-white", hex: "#0171b9" },
   { name: "ink", cls: "bg-ink text-paper", hex: "#0E0E0E" },
   { name: "paper", cls: "bg-paper text-ink border border-ink/10", hex: "#F2F0EC" },
   { name: "white", cls: "bg-white text-ink border border-ink/10", hex: "#FFFFFF" },

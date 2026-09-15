@@ -122,10 +122,10 @@ export function MachineDetail({ machine, related }: { machine: MachineDoc; relat
               <ArrowFillButton
                 href={quoteHref}
                 btnText="Fiyat Teklifi Al"
-                bgColor="#234d9c"
+                bgColor="#0a509e"
                 textColor="#ffffff"
                 fillBgColor="#ffffff"
-                fillTextColor="#234d9c"
+                fillTextColor="#0a509e"
                 className="[--afb-arrow:1.25rem] [--afb-circle:3rem] [--afb-gap:0.5rem] [--afb-h:4rem] [--afb-px:2.25rem] [--afb-text:1.0625rem]"
               />
               {d.pdfUrl && (
@@ -134,7 +134,7 @@ export function MachineDetail({ machine, related }: { machine: MachineDoc; relat
                   btnText="PDF Döküman"
                   bgColor="#0e0e0e"
                   textColor="#ffffff"
-                  fillBgColor="#234d9c"
+                  fillBgColor="#0a509e"
                   fillTextColor="#ffffff"
                   className="[--afb-arrow:1.25rem] [--afb-circle:3rem] [--afb-gap:0.5rem] [--afb-h:4rem] [--afb-px:2.25rem] [--afb-text:1.0625rem]"
                 />

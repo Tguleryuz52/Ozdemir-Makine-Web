@@ -82,14 +82,22 @@
 }
 
 :root {
-  /* Özdemir marka renkleri — canlı siteden örneklendi */
-  --brand: #234d9c;
-  --brand-deep: #164295;
-  --brand-bright: #0e92dd;
+  /* Özdemir marka renkleri — logodan birebir örneklendi (logo-renkli.svg),
+     kurumsal/premium uyum için ölçek. Tek aksan: mavi (kırmızı sadece logoda). */
+  --brand: #0a509e; /* wordmark ana mavi — kurumsal, doygun */
+  --brand-deep: #0e4193; /* logo derin navy — hover/koyu varyant */
+  --brand-bright: #0171b9; /* logo parlak mavi — link/ikincil vurgu */
   --ink: #0e0e0e;
   --footer-bg: #1c1c1c; /* himon footer zemini (Talha karari) */
   --footer-muted: #bdbdc2; /* himon kicker etiket grisi */
   --paper: #f2f0ec;
+
+  /* Kategori kartı gradyanları — premium tonal mavi ailesi (himon'un
+     mor/turuncu'su yerine). Tek hue, derinlik varyasyonu = kurumsal + premium. */
+  --grad-card-vivid: linear-gradient(135deg, #1e6fd0 0%, #071a45 100%);
+  --grad-card-deep: radial-gradient(150% 120% at 0% 0%, #0a509e 0%, #060a14 60%);
+  --grad-card-steel: radial-gradient(150% 120% at 100% 0%, #4a8fc7 0%, #060a14 60%);
+  --card-body-dark: #070b16; /* near-black, hafif mavi tint — kart gövdesi */
 
   /* Motion süreleri (Framer Motion / geçişler) */
   --dur-fast: 200ms;

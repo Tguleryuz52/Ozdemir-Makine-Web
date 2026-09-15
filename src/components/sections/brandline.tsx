@@ -3,15 +3,15 @@
 import Image from "next/image";
 
 const DISTRIBUTORS = [
-  { name: "ADGM", src: "/distributors/adgm.png", w: 90, h: 32 },
-  { name: "DAYUAN", src: "/distributors/dayuan.png", w: 90, h: 32 },
-  { name: "HPM", src: "/distributors/hpm.png", w: 80, h: 32 },
-  { name: "HORDA", src: "/distributors/horda.png", w: 90, h: 32 },
-  { name: "BEIJING RUNDA", src: "/distributors/runda.png", w: 80, h: 32 },
-  { name: "GMB", src: "/distributors/gmb.png", w: 90, h: 32 },
-  { name: "HUATAI", src: "/distributors/huatai.png", w: 90, h: 32 },
-  { name: "OYANG", src: "/distributors/oyang.png", w: 90, h: 32 },
-  { name: "KETCHVIEW", src: "/distributors/ketchview.png", w: 90, h: 32 },
+  { name: "ADGM", src: "/distributors/01-DGM.svg", w: 140, h: 48, style: "h-9 md:h-11" },
+  { name: "GMB", src: "/distributors/02-GMB-GUANGMING.svg", w: 140, h: 48, style: "h-9 md:h-11" },
+  { name: "HPM", src: "/distributors/03-HPM.svg", w: 120, h: 48, style: "h-10 md:h-14" },
+  { name: "OYANG", src: "/distributors/05-OYANG.svg", w: 140, h: 48, style: "h-11 md:h-14" },
+  { name: "HUATAI", src: "/distributors/07-HUATAI.svg", w: 140, h: 48, style: "h-8 md:h-10" },
+  { name: "KETCHVIEW", src: "/distributors/08-KETCHVIEW-SPM.svg", w: 140, h: 48, style: "h-9 md:h-11" },
+  { name: "HORDA", src: "/distributors/04-HORDA.svg", w: 140, h: 48, style: "h-9 md:h-11" },
+  { name: "DAYUAN", src: "/distributors/06-DAYUAN.svg", w: 140, h: 48, style: "h-10 md:h-12" },
+  { name: "BEIJING RUNDA", src: "/distributors/09-RUNDA.svg", w: 120, h: 48, style: "h-12 md:h-16" },
 ];
 
 export default function Brandline() {
@@ -28,14 +28,14 @@ export default function Brandline() {
               {DISTRIBUTORS.map((item, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center justify-center w-24 md:w-28 invert opacity-80 hover:opacity-100 transition-opacity duration-300"
+                  className="flex items-center justify-center w-32 md:w-40 transition-transform duration-300 hover:scale-110"
                 >
                   <Image
                     src={item.src}
                     alt={item.name}
                     width={item.w}
                     height={item.h}
-                    className="object-contain h-6 md:h-8 w-auto"
+                    className={`object-contain w-auto ${item.style}`}
                   />
                 </div>
               ))}

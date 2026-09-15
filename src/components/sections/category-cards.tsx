@@ -3,24 +3,20 @@
 import Link from "next/link";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { categoryCardsContent, type CategoryCard } from "@/content/site";
-import { MachineSearch } from "@/components/ui/ai-search-input";
 import { cn } from "@/lib/utils";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 type Tone = CategoryCard["tone"];
 
-// Birebir Framer renkleri ve gradientleri
+// Marka mavisi ailesi — premium tonal set (token'dan). Tek aksan mavi.
 const GRADIENTS: Record<Tone, string> = {
-  blue: "linear-gradient(135deg, #4d14ff 0%, #0a0063 100%)",
-  light: "radial-gradient(150% 120% at 0% 0%, #ff4200 0%, #0a0a0a 60%)",
-  dark: "radial-gradient(150% 120% at 100% 0%, #87c5de 0%, #0a0a0a 60%)",
+  blue: "var(--grad-card-vivid)",
+  light: "var(--grad-card-deep)",
+  dark: "var(--grad-card-steel)",
 };
 
-const BODY: Record<Tone, string> = {
-  blue: "#050210",
-  light: "#eaeaec",
-  dark: "#121418",
-};
+// Tüm gövdeler koyu (near-black mavi tint) — kohezyon + premium.
+const CARD_BODY = "var(--card-body-dark)";
 
 const NoiseOverlay = () => (
   <svg className="pointer-events-none absolute inset-0 z-10 h-full w-full opacity-60 mix-blend-overlay">
@@ -45,28 +41,30 @@ export function CategoryCards() {
   const reduce = useReducedMotion();
 
   return (
-    <div id="kategoriler" className="w-full">
+    <section
+      id="kategoriler"
+      className="w-full bg-paper text-ink pt-6 pb-10 lg:pt-8 lg:pb-12"
+    >
       <div className="mx-auto w-full max-w-[104rem] px-6 lg:px-10">
-        {/* Başlık ve Arama (Sola dayalı default hali) */}
+        {/* Başlık — kompakt, sola dayalı. Sağdaki boşluğa şimdilik bir şey konmuyor
+            (stat grid + microcopy denemesi kaldırıldı — sade duruş tercih edildi). */}
         <motion.div
           initial={reduce ? false : { opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, ease: EASE }}
-          className="mb-8 lg:mb-10"
+          className="mb-4 lg:mb-6"
         >
-          <span className="mb-4 block font-mono text-[0.8125rem] uppercase tracking-[0.08em] text-brand">
+          <span className="mb-3 block font-mono text-[0.8125rem] uppercase tracking-[0.08em] text-brand">
             {categoryCardsContent.kicker}
           </span>
-          <h2 className="text-[2.5rem] font-medium leading-[1] tracking-tight md:text-[3.5rem] lg:text-[4.5rem]">
+          <h2 className="text-[2rem] font-medium leading-[1] tracking-tight md:text-[2.5rem] lg:text-[3rem]">
             {categoryCardsContent.title}
           </h2>
-          <div className="mt-8 max-w-[680px]">
-            <MachineSearch />
-          </div>
         </motion.div>
 
-        {/* Kartlar — Orijinal kompakt ve ortalanmış hali */}
+        {/* Kartlar — sade, kompakt, ortalı. Hover magnetic effect kaldırıldı;
+            kartın kendi iç top-gradient reveal'ı zaten mevcut (CategoryTile içinde). */}
         <motion.div
           variants={container}
           initial={reduce ? false : "hidden"}
@@ -81,14 +79,13 @@ export function CategoryCards() {
           ))}
         </motion.div>
       </div>
-    </div>
+    </section>
   );
 }
 
 function CategoryTile({ cat, reduce }: { cat: CategoryCard; reduce: boolean }) {
-  const light = cat.tone === "light";
-  const fg = light ? "#111111" : "#ffffff";
-  const sub = light ? "rgba(0,0,0,0.5)" : "rgba(255,255,255,0.5)";
+  const fg = "#ffffff";
+  const sub = "rgba(255,255,255,0.5)";
 
   return (
     <Link
@@ -101,12 +98,12 @@ function CategoryTile({ cat, reduce }: { cat: CategoryCard; reduce: boolean }) {
         animate="rest"
         whileHover={reduce ? undefined : "hover"}
         className={cn(
-          "relative flex h-[24rem] w-full flex-col overflow-hidden rounded-[2rem]",
-          light ? "border border-black/10 shadow-sm" : "border border-white/5"
+          "relative flex h-[20rem] w-full flex-col overflow-hidden rounded-[2rem]",
+          "border border-white/5"
         )}
-        style={{ 
-          background: BODY[cat.tone],
-          padding: "8px" // <--- İŞTE O KALIN DIŞ ÇERÇEVE
+        style={{
+          background: CARD_BODY,
+          padding: "8px", // kalın dış çerçeve (folder-tab efekti)
         }}
       >
         {/* Üst Reveal Görseli (Gradient) */}
@@ -145,7 +142,7 @@ function CategoryTile({ cat, reduce }: { cat: CategoryCard; reduce: boolean }) {
           {/* Klasör Tabı (Folder Notch) */}
           <div
             className="relative -mt-[3.5rem] w-fit rounded-tr-[1.25rem] pr-6 pt-3"
-            style={{ background: BODY[cat.tone] }}
+            style={{ background: CARD_BODY }}
           >
             <span
               className="block pl-4 pr-1 text-[3.5rem] font-light leading-none tracking-tight"
@@ -158,7 +155,7 @@ function CategoryTile({ cat, reduce }: { cat: CategoryCard; reduce: boolean }) {
               aria-hidden="true"
               className="absolute left-full bottom-0 h-[32px] w-[32px]"
               style={{
-                background: BODY[cat.tone],
+                background: CARD_BODY,
                 WebkitMaskImage: "radial-gradient(circle at top right, transparent 32px, #000 32px)",
                 maskImage: "radial-gradient(circle at top right, transparent 32px, #000 32px)",
               }}

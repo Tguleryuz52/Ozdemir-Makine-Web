@@ -21,7 +21,7 @@ export function BrandCard({ brand }: { brand: Brand }) {
             alt={name}
             width={240}
             height={90}
-            className="h-16 w-auto max-w-[62%] object-contain opacity-90 [filter:invert(1)] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.08]"
+            className="h-24 w-auto max-w-[65%] object-contain transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.12]"
           />
         ) : (
           <span className="text-[24px] font-semibold uppercase tracking-[-0.01em] text-ink/60 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.08]">
@@ -34,21 +34,14 @@ export function BrandCard({ brand }: { brand: Brand }) {
       <div className="flex flex-1 flex-col px-6 pb-6 pt-5">
         <h3 className="text-[20px] font-medium tracking-[-0.02em] text-ink">{name}</h3>
         <p className="mt-2 text-[14px] leading-relaxed text-ink/55">{blurb}</p>
-        {website ? (
+        {website && (
           <a
             href={website}
             target="_blank"
             rel="noopener noreferrer"
-            className={`${websiteBase} text-ink/70 transition-colors hover:text-brand`}
-          >
-            Website
-            <ArrowRight className="size-3.5" strokeWidth={1.8} aria-hidden="true" />
-          </a>
-        ) : (
-          <span className={`${websiteBase} text-ink/40`} aria-hidden="true">
-            Website
-            <ArrowRight className="size-3.5" strokeWidth={1.8} />
-          </span>
+            className="absolute inset-0 z-10"
+            aria-label={`${name} websitesine git`}
+          />
         )}
       </div>
     </div>

@@ -5,7 +5,6 @@ import ArrowFillButton from "@/components/ui/arrow-fill-button";
 import { featuredMachinesContent } from "@/content/site";
 import type { MachineDoc } from "@/sanity/lib/machines";
 import { ProductCard } from "./productcard";
-import { CategoryCards } from "./category-cards";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -25,13 +24,12 @@ export function FeaturedMachines({ items }: { items: MachineDoc[] }) {
   return (
     <section
       id="vitrin"
-      className="bg-paper text-ink pt-16 pb-24 lg:pt-20 lg:pb-32 overflow-hidden"
+      className="bg-paper text-ink pt-10 pb-24 lg:pt-14 lg:pb-32 overflow-hidden"
     >
-      {/* 1. KISIM: ARAMA VE KATEGORİLER (Birleştirildi) */}
-      <CategoryCards />
-
-      {/* 2. KISIM: ÖNE ÇIKAN MAKİNELER (VİTRİN) */}
-      <div className="mx-auto w-full max-w-[104rem] px-6 lg:px-10 mt-16 lg:mt-20">
+      {/* CategoryCards ayrı bir section olarak page.tsx'ten çağrılıyor (hero'nun hemen altı).
+          Brandline (marka şeridi) araya girip iki bloğu görsel olarak ayırıyor.
+          Bu section artık sadece "Öne Çıkan Makineler" vitrini. */}
+      <div className="mx-auto w-full max-w-[104rem] px-6 lg:px-10">
         
         {/* Üst Şerit: Başlık ve CTA */}
         <motion.div
@@ -56,7 +54,7 @@ export function FeaturedMachines({ items }: { items: MachineDoc[] }) {
               btnText={featuredMachinesContent.cta.label}
               bgColor="#0e0e0e"
               textColor="#ffffff"
-              fillBgColor="#234d9c"
+              fillBgColor="#0a509e"
               fillTextColor="#ffffff"
             />
           </div>

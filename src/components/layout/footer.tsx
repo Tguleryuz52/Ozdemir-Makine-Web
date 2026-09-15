@@ -1,3 +1,4 @@
+import Image from "next/image";
 import ArrowFillButton from "@/components/ui/arrow-fill-button";
 import { UnderlineLink } from "@/components/ui/underline-link";
 import { siteMapNav, footerContent } from "@/content/site";
@@ -8,7 +9,7 @@ import { getSiteSettings } from "@/sanity/lib/settings";
 // Zemin #1C1C1C, kicker mono grisi, sıkı satır ritmi (himon: link adımı ~23px).
 
 const kickerClass =
-  "font-mono text-[13px] font-bold uppercase tracking-wide text-footer-muted";
+  "font-mono text-[13px] font-bold uppercase tracking-wide text-white/55";
 const linkClass =
   "py-0 text-[15px] leading-[1.35] text-white/85 hover:text-white after:bg-white";
 
@@ -30,7 +31,7 @@ function Column({
 export async function Footer() {
   const s = await getSiteSettings();
   return (
-    <footer className="bg-footer-bg text-white">
+    <footer className="bg-[linear-gradient(180deg,#0e4193_0%,#08203f_100%)] text-white">
       <div className="mx-auto max-w-[104rem] px-6 lg:px-10">
         {/* CTA */}
         <div className="flex flex-col gap-10 border-b border-white/10 py-16 lg:flex-row lg:items-end lg:justify-between lg:py-24">
@@ -45,9 +46,9 @@ export async function Footer() {
           <ArrowFillButton
             href={footerContent.ctaButton.href}
             btnText={footerContent.ctaButton.label}
-            bgColor="#ffffff"
-            textColor="#0e0e0e"
-            fillBgColor="#234d9c"
+            bgColor="#0e0e0e"
+            textColor="#ffffff"
+            fillBgColor="#0e4193"
             fillTextColor="#ffffff"
           />
         </div>
@@ -103,8 +104,15 @@ export async function Footer() {
           </Column>
         </div>
 
-        {/* Legal */}
-        <div className="border-t border-white/10 py-8">
+        {/* Legal — logo imzası solda, telif sağda */}
+        <div className="flex flex-col gap-6 border-t border-white/10 py-8 sm:flex-row sm:items-center sm:justify-between">
+          <Image
+            src="/logo_main.png"
+            alt="Özdemir Makine"
+            width={980}
+            height={247}
+            className="h-12 w-auto object-contain brightness-0 invert sm:h-14"
+          />
           <p className="text-[13px] text-white/50">{footerContent.legal}</p>
         </div>
       </div>

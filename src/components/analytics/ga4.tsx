@@ -1,10 +1,10 @@
-"use client";
-
 import Script from "next/script";
 
 // GA4 — consent-first setup.
 // - Default consent = "denied" (KVKK); Kabul edilince cookie-banner "granted"e günceller.
 // - Measurement ID env'den (NEXT_PUBLIC_GA_ID); yoksa hiç yüklenmez, DOM'a script eklenmez.
+// - Server component (client hook YOK) — Next 16'da beforeInteractive strategy'sinin doğru
+//   çalışması için Script'in server tree'de render edilmesi gerekiyor (client'ta uyarı çıkar).
 
 export function GA4() {
   // trim: env'e yanlışlıkla başında/sonunda boşluk ile yazılmış olabilir (yaygın hata).

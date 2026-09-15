@@ -66,7 +66,7 @@ export function Introduction() {
             transition={{ duration: 1, ease: EASE }}
             className="relative aspect-square w-full overflow-hidden bg-ink"
           >
-            <div className="absolute inset-0 bg-[linear-gradient(130deg,#0e0e0e_0%,#13224a_55%,#234d9c_100%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(130deg,#0e0e0e_0%,#13224a_55%,#0a509e_100%)]" />
             <div className="absolute inset-0 bg-[radial-gradient(120%_100%_at_80%_12%,transparent_45%,rgba(0,0,0,0.5)_100%)]" />
           </motion.div>
 
@@ -87,17 +87,18 @@ export function Introduction() {
             </motion.p>
 
             {/* İstatistik Satırları */}
-            <div className="mt-20 flex flex-col border-b border-ink/15">
+            <div className="mt-16 flex flex-col border-b border-ink/10">
               {introContent.stats.map((s) => (
                 <motion.div
                   key={s.num}
                   variants={reveal}
-                  className="flex flex-col md:flex-row md:items-start gap-4 md:gap-12 py-8 border-t border-ink/15"
+                  className="flex flex-col md:flex-row md:items-center gap-3 md:gap-8 py-6 border-t border-ink/10"
                 >
-                  <div className="text-[3.5rem] lg:text-[4rem] font-medium leading-none tracking-tight shrink-0 md:w-[38%] text-ink">
+                  <div className="text-[2.5rem] lg:text-[2.75rem] font-medium leading-none tracking-tight shrink-0 md:w-[40%] text-ink">
                     {s.num}
+                    {s.suffix && <span className="text-[1.5rem] lg:text-[1.75rem] text-ink/70 ml-1">{s.suffix}</span>}
                   </div>
-                  <div className="text-[15px] leading-relaxed text-ink/60 max-w-xs md:pt-2">
+                  <div className="text-[14px] leading-relaxed text-ink/60 max-w-xs">
                     {s.desc}
                   </div>
                 </motion.div>
@@ -111,7 +112,7 @@ export function Introduction() {
                 btnText={introContent.cta.label}
                 bgColor="#0e0e0e"
                 textColor="#ffffff"
-                fillBgColor="#234d9c"
+                fillBgColor="#0a509e"
                 fillTextColor="#ffffff"
               />
             </motion.div>

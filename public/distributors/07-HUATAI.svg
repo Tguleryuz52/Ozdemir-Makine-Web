@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg2"
+   width="59.381733"
+   height="11.280666"
+   viewBox="0 0 59.381734 11.280667"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs6">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath16">
+      <path
+         d="M 0,89.933 H 112.116 V 0 H 0 Z"
+         id="path14" />
+    </clipPath>
+  </defs>
+  <g
+     id="g8"
+     transform="matrix(1.3333333,0,0,-1.3333333,-4.0262665,42.846799)">
+    <g
+       id="g10">
+      <g
+         id="g12"
+         clip-path="url(#clipPath16)">
+        <g
+           id="07_HUATAI">
+          <g
+             id="g218"
+             transform="translate(10.1486,31.3851)">
+            <path
+               d="m 0,0 -1.149,-2.389 c 0,0 -0.643,0.202 -1.688,-0.007 -0.864,-0.171 -1.677,-0.631 -1.944,-0.793 l 0.977,2.307 z"
+               style="fill:#d12227;fill-opacity:1;fill-rule:nonzero;stroke:none"
+               id="path220" />
+          </g>
+          <g
+             id="g222"
+             transform="translate(7.3117,25.0122)">
+            <path
+               d="m 0,0 c 0,-0.203 -0.025,-0.398 -0.072,-0.587 h -3.47 l 1.283,3.032 C -0.995,2.346 0,1.289 0,0"
+               style="fill:#d12227;fill-opacity:1;fill-rule:nonzero;stroke:none"
+               id="path224" />
+          </g>
+          <g
+             id="g226"
+             transform="translate(8.7754,24.4252)">
+            <path
+               d="m 0,0 c 0.003,0.028 0.003,0.058 0.003,0.086 0,1.736 -1.408,3.143 -3.144,3.143 -0.176,0 -0.347,-0.014 -0.515,-0.042 l 0.098,0.234 c 0.674,0.342 1.439,0.535 2.247,0.535 2.398,0 4.4,-1.697 4.869,-3.956 z"
+               style="fill:#d12227;fill-opacity:1;fill-rule:nonzero;stroke:none"
+               id="path228" />
+          </g>
+          <g
+             id="g230"
+             transform="translate(18.6265,27.3437)">
+            <path
+               d="m 0,0 h -2.635 v 1.633 h -1.564 v -4.551 h 1.564 v 1.632 H 0 V -2.918 H 1.564 V 1.633 H 0 Z"
+               style="fill:#21263b;fill-opacity:1;fill-rule:nonzero;stroke:none"
+               id="path232" />
+          </g>
+          <g
+             id="g234"
+             transform="translate(38.6015,27.6368)">
+            <path
+               d="M 0,0 V 1.339 H -5.62 V 0 h 2.054 v -3.212 h 1.565 V 0 Z"
+               style="fill:#21263b;fill-opacity:1;fill-rule:nonzero;stroke:none"
+               id="path236" />
+          </g>
+          <g
+             id="g238"
+             transform="translate(40.6835,26.3726)">
+            <path
+               d="M 0,0 0.677,1.359 1.354,0 Z M -0.494,2.603 -2.76,-1.948 h 1.79 l 0.36,0.722 h 2.573 l 0.36,-0.722 h 1.79 L 1.847,2.603 Z"
+               style="fill:#21263b;fill-opacity:1;fill-rule:nonzero;stroke:none"
+               id="path240" />
+          </g>
+          <g
+             id="g242"
+             transform="translate(29.5201,26.3197)">
+            <path
+               d="M 0,0 0.703,1.412 1.406,0 Z m -0.468,2.656 -2.265,-4.551 h 1.789 l 0.36,0.722 H 1.99 l 0.359,-0.722 h 1.79 L 1.873,2.656 Z"
+               style="fill:#21263b;fill-opacity:1;fill-rule:nonzero;stroke:none"
+               id="path244" />
+          </g>
+          <path
+             d="m 45.242,24.425 h 1.564 v 4.551 h -1.564 z"
+             style="fill:#21263b;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path246" />
+          <g
+             id="g248"
+             transform="translate(25.1204,26.313)">
+            <path
+               d="m 0,0 c 0,-0.31 -0.252,-0.562 -0.562,-0.562 h -1.511 c -0.311,0 -0.562,0.252 -0.562,0.562 V 2.663 H -4.2 v -3.145 c 0,-0.776 0.63,-1.406 1.406,-1.406 h 2.952 c 0.777,0 1.406,0.629 1.406,1.406 V 2.663 H 0 Z"
+               style="fill:#21263b;fill-opacity:1;fill-rule:nonzero;stroke:none"
+               id="path250" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

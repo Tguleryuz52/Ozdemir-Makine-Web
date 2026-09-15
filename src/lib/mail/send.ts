@@ -30,7 +30,7 @@ async function send(to: string, subject: string, html: string): Promise<SendResu
   }
 }
 
-const BRAND = "#234D9C";
+const BRAND = "#0a509e";
 
 // -- Kullanıcıya teşekkür ---------------------------------------------------
 export function sendThankYou(input: {

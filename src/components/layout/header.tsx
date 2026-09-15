@@ -13,27 +13,28 @@ import { cn } from "@/lib/utils";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-// Orijinal logomuz. `solid`: hero üstünde beyaz zemin olunca logo siyaha (invert) dönüyor.
+// Orijinal logomuz. `solid`: hero üstünde beyaz zemin olunca logo siyaha, koyu zeminde beyaza dönüyor.
 function Wordmark({ solid }: { solid: boolean }) {
   return (
-    <Link href="/" className="flex items-center -ml-6 lg:-ml-12" aria-label={siteConfig.name}>
+    <Link href="/" className="flex items-center" aria-label={siteConfig.name}>
       <Image
         src="/logo_main.png"
         alt="Özdemir Makine Logo"
-        width={480}
-        height={148}
+        width={980}
+        height={247}
         quality={100}
         priority
         className={cn(
-          "object-contain h-[42px] lg:h-[46px] w-auto transition-all duration-500 ease-out-soft",
-          solid ? "invert" : "invert-0",
+          "object-contain h-[54px] lg:h-[62px] w-auto transition-all duration-500 ease-out-soft",
+          solid ? "brightness-0" : "brightness-0 invert"
         )}
       />
     </Link>
   );
 }
 
-// Teklif Al: hero üstünde beyaz pill + mavi ok dairesi; solid'de siyah pill (himon dili).
+// Teklif Al: hero üstünde (koyu zemin) beyaz pill, scroll'da (beyaz header) siyah pill —
+// yani hero'ya gelince renk değiştirir. Hover dolumu her iki durumda da mavi (tek dil).
 function QuoteButton({
   solid,
   className,
@@ -49,8 +50,8 @@ function QuoteButton({
       btnText="Teklif Al"
       bgColor={solid ? "#0e0e0e" : "#ffffff"}
       textColor={solid ? "#ffffff" : "#0e0e0e"}
-      fillBgColor={solid ? "#ffffff" : "#234d9c"}
-      fillTextColor={solid ? "#0e0e0e" : "#ffffff"}
+      fillBgColor="#0a509e"
+      fillTextColor="#ffffff"
       className={className}
       style={style}
     />
@@ -231,11 +232,11 @@ export function Header() {
       animate={hidden ? "hidden" : "visible"}
       transition={{ duration: 0.4, ease: EASE }}
       className={cn(
-        "sticky top-0 z-50 border-b transition-colors duration-500 ease-out-soft w-full",
-        solid ? "border-ink/10 bg-white" : "border-transparent bg-transparent",
+        "sticky top-0 z-50 transition-colors duration-500 ease-out-soft w-full",
+        solid ? "border-b border-ink/10 bg-white" : "bg-transparent",
       )}
     >
-      <div className="mx-auto grid h-20 max-w-[110rem] grid-cols-[auto_1fr_auto] items-center gap-4 px-5 lg:px-8">
+      <div className="mx-auto grid h-24 max-w-[110rem] grid-cols-[auto_1fr_auto] items-center gap-4 px-5 lg:px-8">
         <Wordmark solid={solid} />
 
         {/* himon: nav ortada, logodan ferah boşlukla — 16px / 500 / tight tracking / Geist */}

@@ -54,9 +54,9 @@ export const socialLinks: NavItem[] = [
 // kicker + headline'daki "\n" bilinçli satır kırılımıdır (whitespace-pre-line ile render).
 // image: gerçek foto gelince doldurulacak (şimdilik gradient placeholder).
 export const heroContent = {
-  kicker: "SIFIR & İKİNCİ EL\nMATBAA MAKİNELERİ",
-  headline: "MATBAA\nMAKİNELERİNDE\nDOĞRU ADRES.",
-  cta: { label: "Teklif Al", href: "/iletisim" },
+  kicker: "SIFIR & İKİNCİ EL\nMATBAA & AMBALAJ MAKİNELERİ",
+  headline: "MATBAA & AMBALAJ\nMAKİNELERİNDE\nDOĞRU ADRES.",
+  cta: { label: "Makineleri İncele", href: "/makineler" },
   body: "30 yıllık tecrübeyle sıfır ve ikinci el matbaa makineleri, yedek parça ve teknik destek. Türkiye ve Almanya ofisleriyle uçtan uca güvenilir tedarik.",
   image: "", // TODO: gerçek hero fotoğrafı (matbaa/ambalaj makinesi) — gelince next/image fill
 } as const;
@@ -76,7 +76,8 @@ export const introContent = {
   stats: [
     {
       num: "30",
-      desc: "Yıldır sıfır ve ikinci el matbaa makineleri alım-satımı, yedek parça ve teknik servis.",
+      suffix: " Yıl",
+      desc: "Sıfır ve ikinci el matbaa makineleri alım-satımı, yedek parça ve teknik servis tecrübesi.",
     },
     {
       num: "TR & DE",
@@ -86,7 +87,7 @@ export const introContent = {
       num: "1000+",
       desc: "m² kapalı depo ve showroom'da sevkiyata hazır makine stoğu.", // DOĞRULA
     },
-  ],
+  ] as { num: string; suffix?: string; desc: string }[],
 } as const;
 
 // Services — himon canlı kalıbı: master-detail hover.
@@ -161,7 +162,7 @@ export const aboutContent = {
   kicker: "Kurumsal",
   heading: "30 YILDIR MATBAA MAKİNELERİNDE DOĞRU ADRES",
   lead: "Sıfır ve ikinci el matbaa & ambalaj makinelerinde; tedarikten montaja, yedek parçadan gümrük ve lojistiğe kadar uçtan uca çözüm ortağınız.",
-  heroImage: "", // geniş (16:10) — showroom / bina / logo görseli
+  heroImage: "/hakkımızda-kurumsal/1.png", // geniş — matbaa makineleri çekim
   story: {
     statement: "Doğru makineyi, doğru koşullarla, eksiksiz teslim ediyoruz.",
     paragraphs: [
@@ -169,7 +170,7 @@ export const aboutContent = {
       "Merkez ofisimiz İstanbul Bağcılar'da; şubelerimiz Topkapı ve Güneşli'de, bakım-onarım tesisimiz Çatalca'da. Güneşli'deki 1000 m²'lik depomuzda kendi ekip ve montörlerimizle makinelerin temizlik, bakım ve montajını yaparak eksiksiz teslim ediyoruz.",
       "Leasing ve vadeli akreditif kolaylıkları sağlıyor; ithalat, yatırım teşvik belgesi, nakliye sigortası ve gümrükleme süreçlerini tek elden yönetiyoruz.",
     ],
-    gallery: ["", "", ""], // marka / makine / showroom slotları
+    gallery: ["", "/hakkımızda-kurumsal/2.webp", ""], // [1] makine çekim — diğerleri Talha'dan gelecek
   },
   founder: {
     kicker: "Kurucumuz",
@@ -424,15 +425,15 @@ export const brandsContent = {
   // Gerçek distribütör/partner markalarımız — logolar public/distributors içinde (beyaz saydam).
   // blurb metinleri TASLAK, website'ler eklenince BrandCard'da "Website →" linki belirir.
   items: [
-    { name: "ADGM", logo: "/distributors/adgm.png", blurb: "Uzun yıllardır birlikte çalıştığımız üretici partnerlerimizden biri. Ürün gamımıza kattığımız makinelerin tedarik ve satış sonrası desteğini birlikte yürütüyoruz." },
-    { name: "Dayuan", logo: "/distributors/dayuan.png", blurb: "Matbaa ve ambalaj hatları için makine tedarik ettiğimiz üreticilerden. Kurulum ve teknik destek süreçlerinde yakın iş birliği içindeyiz." },
-    { name: "HPM", logo: "/distributors/hpm.png", blurb: "Distribütörlüğünü yürüttüğümüz güvenilir markalarımızdan. Geniş makine yelpazesiyle müşterilerimize uçtan uca çözüm sunmamıza katkı sağlıyor." },
-    { name: "Horda", logo: "/distributors/horda.png", blurb: "Baskı ve ambalaj çözümlerinde iş birliği yaptığımız üreticilerden. Tedarik ettiğimiz makinelerin devreye alma ve bakım desteğini sağlıyoruz." },
-    { name: "Beijing Runda", logo: "/distributors/runda.png", blurb: "Makine tedarik ve teknik destekte uzun soluklu çalıştığımız partnerimiz. Projelerimizde güvenilir bir çözüm ortağı olarak yer alıyor." },
-    { name: "GMB", logo: "/distributors/gmb.png", blurb: "Ürün gamımıza katkı sağlayan üretici markalarımızdan. Kaliteli makine parkı ihtiyaçlarında tercih ettiğimiz iş ortaklarımızdan biri." },
-    { name: "Huatai", logo: "/distributors/huatai.png", blurb: "Sektörün ihtiyaçlarına yönelik makineler sunan üretici partnerimiz. Tedarik ve satış sonrası hizmetlerini birlikte yürütüyoruz." },
-    { name: "Oyang", logo: "/distributors/oyang.png", blurb: "Tedarik ağımızda yer alan üretici markalarımızdan biri. Müşterilerimize sunduğumuz çözümleri zenginleştiren iş ortaklarımızdan." },
-    { name: "Ketchview", logo: "/distributors/ketchview.png", blurb: "Baskı sonrası çözümlerde çalıştığımız üretici partnerimiz. Tamamlayıcı makine ihtiyaçlarında ürün yelpazemizi güçlendiriyor." },
+    { name: "ADGM", logo: "/distributors/01-DGM.svg", blurb: "Uzun yıllardır birlikte çalıştığımız üretici partnerlerimizden biri. Ürün gamımıza kattığımız makinelerin tedarik ve satış sonrası desteğini birlikte yürütüyoruz." },
+    { name: "GMB", logo: "/distributors/02-GMB-GUANGMING.svg", blurb: "Ürün gamımıza katkı sağlayan üretici markalarımızdan. Kaliteli makine parkı ihtiyaçlarında tercih ettiğimiz iş ortaklarımızdan biri." },
+    { name: "HPM", logo: "/distributors/03-HPM.svg", blurb: "Distribütörlüğünü yürüttüğümüz güvenilir markalarımızdan. Geniş makine yelpazesiyle müşterilerimize uçtan uca çözüm sunmamıza katkı sağlıyor." },
+    { name: "Horda", logo: "/distributors/04-HORDA.svg", blurb: "Baskı ve ambalaj çözümlerinde iş birliği yaptığımız üreticilerden. Tedarik ettiğimiz makinelerin devreye alma ve bakım desteğini sağlıyoruz." },
+    { name: "Oyang", logo: "/distributors/05-OYANG.svg", blurb: "Tedarik ağımızda yer alan üretici markalarımızdan biri. Müşterilerimize sunduğumuz çözümleri zenginleştiren iş ortaklarımızdan." },
+    { name: "Dayuan", logo: "/distributors/06-DAYUAN.svg", blurb: "Matbaa ve ambalaj hatları için makine tedarik ettiğimiz üreticilerden. Kurulum ve teknik destek süreçlerinde yakın iş birliği içindeyiz." },
+    { name: "Huatai", logo: "/distributors/07-HUATAI.svg", blurb: "Sektörün ihtiyaçlarına yönelik makineler sunan üretici partnerimiz. Tedarik ve satış sonrası hizmetlerini birlikte yürütüyoruz." },
+    { name: "Ketchview", logo: "/distributors/08-KETCHVIEW-SPM.svg", blurb: "Baskı sonrası çözümlerde çalıştığımız üretici partnerimiz. Tamamlayıcı makine ihtiyaçlarında ürün yelpazemizi güçlendiriyor." },
+    { name: "Beijing Runda", logo: "/distributors/09-RUNDA.svg", blurb: "Makine tedarik ve teknik destekte uzun soluklu çalıştığımız partnerimiz. Projelerimizde güvenilir bir çözüm ortağı olarak yer alıyor." },
   ] as Brand[],
 };
 

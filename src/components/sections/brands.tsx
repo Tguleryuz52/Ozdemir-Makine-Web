@@ -4,15 +4,15 @@ import Image from "next/image";
 
 // Çıkartılan gerçek logolarımız (beyaz, saydam, premium versiyonları public/distributors içinde)
 const DISTRIBUTORS = [
-  { name: "ADGM", src: "/distributors/adgm.png", w: 140, h: 48 },
-  { name: "DAYUAN", src: "/distributors/dayuan.png", w: 140, h: 48 },
-  { name: "HPM", src: "/distributors/hpm.png", w: 120, h: 48 },
-  { name: "HORDA", src: "/distributors/horda.png", w: 140, h: 48 },
-  { name: "BEIJING RUNDA", src: "/distributors/runda.png", w: 120, h: 48 },
-  { name: "GMB", src: "/distributors/gmb.png", w: 140, h: 48 },
-  { name: "HUATAI", src: "/distributors/huatai.png", w: 140, h: 48 },
-  { name: "OYANG", src: "/distributors/oyang.png", w: 140, h: 48 },
-  { name: "KETCHVIEW", src: "/distributors/ketchview.png", w: 140, h: 48 },
+  { name: "ADGM", src: "/distributors/01-DGM.svg", w: 140, h: 48 },
+  { name: "GMB", src: "/distributors/02-GMB-GUANGMING.svg", w: 140, h: 48 },
+  { name: "HPM", src: "/distributors/03-HPM.svg", w: 120, h: 48 },
+  { name: "OYANG", src: "/distributors/05-OYANG.svg", w: 140, h: 48 },
+  { name: "HUATAI", src: "/distributors/07-HUATAI.svg", w: 140, h: 48 },
+  { name: "KETCHVIEW", src: "/distributors/08-KETCHVIEW-SPM.svg", w: 140, h: 48 },
+  { name: "HORDA", src: "/distributors/04-HORDA.svg", w: 140, h: 48 },
+  { name: "DAYUAN", src: "/distributors/06-DAYUAN.svg", w: 140, h: 48 },
+  { name: "BEIJING RUNDA", src: "/distributors/09-RUNDA.svg", w: 120, h: 48 },
 ];
 
 export function Brands() {
@@ -37,7 +37,7 @@ export function Brands() {
               {DISTRIBUTORS.map((item, idx) => (
                 <div
                   key={`${item.name}-${idx}`}
-                  className="flex items-center justify-center opacity-50 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0 hover:scale-105"
+                  className="flex items-center justify-center transition-all duration-500 hover:scale-110"
                 >
                   <div className="relative flex h-16 w-32 items-center justify-center lg:w-40">
                     <Image

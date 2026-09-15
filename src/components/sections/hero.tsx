@@ -3,6 +3,7 @@
 import type { CSSProperties } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import ArrowFillButton from "@/components/ui/arrow-fill-button";
+import { MachineSearch } from "@/components/ui/ai-search-input";
 import { heroContent } from "@/content/site";
 
 // himon 1. bölüm (hero) — Özdemir'e uyarlandı. Referans: design/references/himon/himon-01-hero.png
@@ -43,7 +44,7 @@ export function Hero() {
   const initial = reduce ? false : "hidden";
 
   return (
-    <section className="relative -mt-20 min-h-[100svh] overflow-hidden text-white">
+    <section className="relative -mt-24 min-h-[82svh] overflow-hidden text-white">
       {/* Arka plan — GEÇİCİ gradient placeholder. Gerçek foto: bu bloğu next/image fill ile değiştir. */}
       <motion.div
         aria-hidden
@@ -52,7 +53,7 @@ export function Hero() {
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 1.2, ease: EASE }}
       >
-        <div className="absolute inset-0 bg-[linear-gradient(120deg,#0e0e0e_0%,#13224a_52%,#164295_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,#0e0e0e_0%,#13224a_52%,#0e4193_100%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_78%_18%,transparent_38%,rgba(14,14,14,0.55)_100%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-black/55" />
       </motion.div>
@@ -61,11 +62,11 @@ export function Hero() {
         variants={container}
         initial={initial}
         animate="show"
-        className="mx-auto flex min-h-[100svh] max-w-[110rem] flex-col px-5 pb-10 pt-28 lg:px-8 lg:pb-12 lg:pt-32"
+        className="mx-auto flex min-h-[82svh] max-w-[110rem] flex-col px-5 pb-10 pt-24 lg:px-8 lg:pb-12 lg:pt-28"
       >
         <div className="grid flex-1 grid-cols-1 lg:grid-cols-[17rem_minmax(0,1fr)]">
           {/* Sol kolon (masaüstü): kicker üstte + scroll oku altta, sağ ayraç */}
-          <div className="hidden flex-col justify-between border-white/15 pr-8 -ml-6 lg:flex lg:border-r lg:-ml-[45px]">
+          <div className="hidden flex-col justify-between border-white/15 pr-8 lg:flex lg:border-r">
             <motion.p variants={fadeUp} className={`${kickerClass} leading-[1.5] tracking-[0.06em]`}>
               {heroContent.kicker}
             </motion.p>
@@ -87,7 +88,10 @@ export function Hero() {
               {heroContent.kicker}
             </motion.p>
 
-            <h1 className="max-w-[15ch] text-display-xl uppercase text-balance">
+            {/* Başlık — logo revizesi sonrası daha da küçüldü. Talha kararı 2026-09-15:
+                logoyu büyütüyoruz, bu yazı marka'yı baskılamasın diye dengeye çekiliyor.
+                Clamp: mobil 2rem → desktop 3.5rem. */}
+            <h1 className="max-w-[18ch] text-[clamp(1.75rem,3.6vw,3rem)] font-medium uppercase leading-[0.95] tracking-tight text-balance">
               {lines.map((line, i) => (
                 <span key={i} className="block overflow-hidden">
                   <motion.span variants={lineReveal} className="block">
@@ -97,13 +101,22 @@ export function Hero() {
               ))}
             </h1>
 
-            <motion.div variants={fadeUp} className="mt-10">
+            {/* ARAMA — hero'nun ana etkileşimi. Koyu zeminde MachineSearch (ink zemin) belirgin görünsün diye
+                dışına parlak beyaz ring + shadow ekliyoruz. */}
+            <motion.div variants={fadeUp} className="mt-10 max-w-[680px]">
+              <div className="rounded-[30px] ring-1 ring-white/20 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.6)]">
+                <MachineSearch />
+              </div>
+            </motion.div>
+
+            {/* CTA — ikincil, aramanın altında. "Aradığın yoksa tüm katalogu gez." */}
+            <motion.div variants={fadeUp} className="mt-6">
               <ArrowFillButton
                 href={heroContent.cta.href}
                 btnText={heroContent.cta.label}
                 bgColor="#ffffff"
                 textColor="#0e0e0e"
-                fillBgColor="#234d9c"
+                fillBgColor="#0a509e"
                 fillTextColor="#ffffff"
                 style={heroBtnSize}
               />

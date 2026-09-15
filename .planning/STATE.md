@@ -22,8 +22,25 @@
 - **Yeni deps:** `resend` · `zod` · `@next/third-parties` · **`sanity` 6.12.0 → 6.13.2** (React 19 flex prop warning fix — bugün ekstra hediye).
 - **Test:** ✅ Zoho'ya 3 lead düştü, description düzgün, link doğru, mail geldi (test hesabına), form spinner+success ekran, GA4 script yüklü, tsc temiz.
 
-## ⏭️ Sıradaki — Faz 11 (Frontend Cila) → sonra Faz 10 (Vercel Deploy)
-**Faz 11 — Frontend Cila & Markalaşma** (Talha isteği 2026-09-15):
+## 🎨 Faz 11 — Frontend Cila & Markalaşma (2026-09-15 — DEVAM EDİYOR)
+**✅ Renk tutarlılığı geçişi (Adım 1-2 + premium dokunuşlar):**
+- **Marka mavisi logoya eşlendi** (`public/logo-renkli.svg` VTracer trace'ten örneklendi). `globals.css` token: `--brand #234d9c→#0a509e` · `--brand-deep #164295→#0e4193` · `--brand-bright #0e92dd→#0171b9`. Karar: **tek aksan mavi, kırmızı YOK** (logo alt satırı kırmızı ama arayüzde kullanılmıyor — Talha kararı). Mavi kurumsal/premium/uyumlu olacak.
+- **Kategori kartları** (`category-cards.tsx`): himon'dan kopyalanmış **mor `#4d14ff`/turuncu `#ff4200`/teal** gradyanları silindi → **premium tonal mavi ailesi** token'ı (`--grad-card-vivid/deep/steel` + `--card-body-dark` globals.css'te). `light` özel-durumu kaldırıldı, tüm gövdeler koyu.
+- **Eski-mavi hex süpürmesi:** tüm `src` içinde `#234d9c/#164295/#0e92dd` → yeni marka hex (hero, services, featured, machine-detail, page-placeholder gradyan+buton props). 0 eski kaldı.
+- **Footer zemini → premium LinkedIn mavisi** (Talha: "siyahımsı sevmediler, linkedin mavisi gibi olsun"): `#1c1c1c` → `linear-gradient(180deg,#0a66c2,#07396e)`. Kicker `text-white/55`.
+- **Footer logo eklendi** (`/logo_main.png` beyaz — `brightness-0 invert`, h-40/44px) — CTA başlığının üstünde ölçülü marka çıpası.
+- **Stat sayıları** (`introduction.tsx`): `30 / 1000+ / TR & DE` → `text-brand` (mavi, güçlü marka duruşu).
+- **TÜM butonlar tek dil** (Talha kararı — "Tüm Kataloğu" stili premium): **siyah pill `#0e0e0e` + mavi ok dairesi + hover'da mavi dolum**. Teklif Al'ın solid-mavisi geri alındı (`header.tsx` QuoteButton `solid` prop kaldırıldı). Footer butonu mavi zeminde görünür kalsın diye hover dolumu `#0e4193` (derin, footer'dan koyu).
+- **Distribütör logoları** (`brandline.tsx`): renkli asset yok → interim hover opasite `60→100`. **⚠️ Talha renkli logo atınca gerçek renklendirme yapılacak.**
+- Doğrulama: `tsc` temiz, tarayıcıda footer/stat/kartlar görsel onay. **autocheck hook bozuk** (proje yolundaki boşluk → `'C:\Software' is not recognized`) — hook komutu tırnaklanmalı, ayrı iş.
+
+**⏭️ Faz 11 kalan (ritim/yapı — ayrı lokma):**
+- Stat'lar her biri ~1 ekran = aşırı scroll → kompakt satıra alınabilir.
+- Bölüm geçişleri sert kesim → ince ayraç/yumuşak geçiş.
+- Makine kartı görsel placeholder (gerçek foto Talha'dan) + "Fiyat" satırı tutarsızlığı.
+- Hero+"Ne arıyorsunuz?" birleştirme, header logo/hero yazı denge, footer yeni sayfa linkleri, adres detay.
+
+**Faz 11 — orijinal istek listesi** (Talha 2026-09-15):
 - **Hero + "Ne arıyorsunuz?" birleştirme** — ilk ekran satın alma dürtüsü aşılasın (butonlar yeniden).
 - **Header logo büyüt / hero yazı küçült** — logo hero yazılarından küçük, header'dan büyük — dengeli.
 - **Markalaşma** — statik görsel/renk/logo → kurumsal renk + gerçek görsel. **Distribütör logoları renkli** olacak (şu an siyah). Görselleri Talha atacak.

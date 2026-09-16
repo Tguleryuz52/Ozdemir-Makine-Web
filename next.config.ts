@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withSentryConfig } from "@sentry/nextjs/config";
 
 const nextConfig: NextConfig = {
   images: {
@@ -7,4 +8,9 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+// Sentry sarmalayıcı. Kaynak harita (okunaklı stack trace) yüklemesi için ileride
+// SENTRY_AUTH_TOKEN + org/project slug eklenecek; şimdilik hatalar yakalanır (minified trace).
+export default withSentryConfig(nextConfig, {
+  silent: !process.env.CI,
+  widenClientFileUpload: true,
+});

@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
 import type { Brand } from "@/content/site";
 
 // himon "/investors" kartı birebir: ince çerçeveli kart (hafif keskin köşe) · üstte
@@ -8,8 +7,6 @@ import type { Brand } from "@/content/site";
 // Server bileşen — hover saf CSS. Logolar beyaz saydam → açık panelde invert.
 export function BrandCard({ brand }: { brand: Brand }) {
   const { name, logo, blurb, website } = brand;
-  const websiteBase =
-    "mt-auto inline-flex items-center gap-1.5 pt-6 text-[13px] font-medium";
 
   return (
     <div className="group flex h-full flex-col overflow-hidden rounded-lg border border-ink/[0.18] bg-white transition-colors duration-300 hover:border-ink/[0.28]">

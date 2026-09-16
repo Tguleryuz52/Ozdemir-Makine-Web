@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
 import { z } from "zod";
 import { insertLead, type LeadInput } from "@/lib/zoho/client";
 import { sendOfficeNotify, sendThankYou } from "@/lib/mail/send";
@@ -109,10 +110,17 @@ export async function POST(req: NextRequest) {
 
   // Kullanıcıya sadece "aldık" cevabı ver — arka plandaki hatalar loglara ve ofis mail'ine düşer.
   if (!zoho.ok || !userResult.ok || !officeResult.ok) {
-    console.error("[lead] partial failure", {
+    const detail = {
       zoho: zoho.ok ? "ok" : zoho.code,
       userMail: userResult.ok ? "ok" : userResult.error,
       officeMail: officeResult.ok ? "ok" : officeResult.error,
+    };
+    console.error("[lead] partial failure", detail);
+    // Sentry alarmı — lead kaybı riskini anında gör (email dahil: kaybolan lead'i kurtarabilmek için;
+    // kendi özel Sentry projemiz, meşru iş amacı).
+    Sentry.captureMessage("Lead partial failure (Zoho/mail)", {
+      level: zoho.ok ? "warning" : "error",
+      extra: { ...detail, email: b.email, machineCode: b.makineKodu, campaign: b.kampanya },
     });
   }
   return NextResponse.json({ ok: true });

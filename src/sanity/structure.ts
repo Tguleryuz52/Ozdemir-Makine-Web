@@ -46,6 +46,18 @@ export const structure: StructureResolver = (S) =>
 
       S.divider(),
 
+      // ——— Stok Listemiz (kategori → PDF listeleri) ———
+      S.listItem()
+        .title("Stok Listemiz")
+        .icon(() => "📄")
+        .child(
+          S.documentTypeList("stockCategory")
+            .title("Stok Listesi Kategorileri")
+            .defaultOrdering([{ field: "order", direction: "asc" }]),
+        ),
+
+      S.divider(),
+
       // ——— Blog & Galeri ———
       S.documentTypeListItem("post").title("Blog Yazıları").icon(() => "✍️"),
       S.documentTypeListItem("galleryItem").title("Galeri").icon(() => "🖼️"),

@@ -6,7 +6,7 @@ import { parseBody } from "next-sanity/webhook";
 // Studio → API → Webhooks → Create:
 //   URL:     https://<domain>/api/revalidate
 //   Trigger: On create/update/delete
-//   Filter:  _type in ["machine","post","galleryItem","siteSettings"]
+//   Filter:  _type in ["machine","post","galleryItem","siteSettings","stockCategory"]
 //   Secret:  SANITY_WEBHOOK_SECRET .env değeri (Sensitive)
 //   Payload: Include drafts YES (Studio drafts test edilebilsin)
 
@@ -17,6 +17,7 @@ const TYPE_TO_TAG: Record<string, string> = {
   post: "post",
   galleryItem: "gallery",
   siteSettings: "settings",
+  stockCategory: "stock",
 };
 
 export async function POST(req: NextRequest) {

@@ -38,7 +38,7 @@ export const mainNav: NavItem[] = [
   { label: "Markalar", href: "/markalar" },
   { label: "Blog", href: "/blog" },
   { label: "Galeri", href: "/galeri" },
-  { label: "İletişim", href: "/iletisim" },
+  { label: "Stok Listemiz", href: "/stok-listesi" },
 ];
 
 export const socialLinks: NavItem[] = [
@@ -286,6 +286,7 @@ export const siteMapNav: NavItem[] = [
   { label: "Markalar", href: "/markalar" },
   { label: "Blog", href: "/blog" },
   { label: "Galeri", href: "/galeri" },
+  { label: "Stok Listemiz", href: "/stok-listesi" },
   { label: "İletişim", href: "/iletisim" },
 ];
 
@@ -510,4 +511,64 @@ export const galleryContent = {
     { id: "g9", src: "", alt: "Makine detayı", ratio: "portrait" },
     { id: "g10", src: "", alt: "Sevkiyat", ratio: "landscape" },
   ] as GalleryItem[],
+};
+
+// ── Stok Listemiz — himon "kategori → alt liste → PDF" akışı ─────────────
+// Frontend statik (Faz 11); sonra Sanity `stockCategory` şemasına taşınacak.
+// Her kategori bir index kartı; içindeki her `list` bir PDF dokümanı (indir/görüntüle).
+// pdf boşsa UI "yakında" gösterir (sahte dosya yok — Sanity'de gerçek PDF bağlanacak).
+export type StockList = {
+  slug: string; // kategori içi benzersiz
+  title: string; // liste/doküman adı
+  pdf: string; // PDF yolu (public/ veya sonra Sanity CDN). Boşsa "yakında".
+  note?: string; // opsiyonel kısa açıklama (marka/kapsam)
+};
+
+export type StockCategory = {
+  slug: string; // URL: /stok-listesi/<slug>
+  title: string; // kategori adı
+  summary: string; // kart + detay başlığı altı kısa metin
+  lists: StockList[];
+};
+
+export const stockListContent: {
+  kicker: string;
+  title: string;
+  intro: string;
+  categories: StockCategory[];
+} = {
+  kicker: "Stok Listemiz",
+  title: "Güncel Stok Listelerimiz",
+  intro:
+    "Sıfır ve ikinci el matbaa & ambalaj makineleri ile baskı sonrası ekipman stoklarımızı kategori kategori, güncel PDF listeler halinde inceleyin. Fiyat ve detay için bizimle iletişime geçin.",
+  categories: [
+    {
+      slug: "ofset-baski-makineleri",
+      title: "Ofset Baskı Makineleri",
+      summary: "Kullanılmış ve revize ofset baskı makineleri ile baskı aksesuarları.",
+      lists: [
+        { slug: "ofset-baski-makineleri", title: "Ofset Baskı Makineleri", pdf: "" },
+        { slug: "aksesuarlar", title: "Aksesuarlar", pdf: "" },
+      ],
+    },
+    {
+      slug: "baski-sonrasi-makineler",
+      title: "Baskı Sonrası Makineler",
+      summary: "Kesim, katlama, cilt ve baskı sonrası işlem makineleri.",
+      lists: [
+        { slug: "baski-sonrasi-1", title: "Baskı Sonrası Makineler — Liste 1", pdf: "" },
+        { slug: "baski-sonrasi-2", title: "Baskı Sonrası Makineler — Liste 2", pdf: "" },
+      ],
+    },
+    {
+      slug: "sifir-baski-sonrasi-makineler",
+      title: "Sıfır Baskı Sonrası Makineler",
+      summary: "Avrupa menşeli, sıfır (brand new) baskı sonrası ekipman listeleri.",
+      lists: [
+        { slug: "sifir-baski-sonrasi-1", title: "Sıfır Baskı Sonrası Makineler — Liste 1", pdf: "" },
+        { slug: "sifir-baski-sonrasi-2", title: "Sıfır Baskı Sonrası Makineler — Liste 2", pdf: "" },
+        { slug: "sifir-baski-sonrasi-3", title: "Sıfır Baskı Sonrası Makineler — Liste 3", pdf: "" },
+      ],
+    },
+  ],
 };

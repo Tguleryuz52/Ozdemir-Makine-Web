@@ -34,6 +34,15 @@
 - **Distribütör logoları** (`brandline.tsx`): renkli asset yok → interim hover opasite `60→100`. **⚠️ Talha renkli logo atınca gerçek renklendirme yapılacak.**
 - Doğrulama: `tsc` temiz, tarayıcıda footer/stat/kartlar görsel onay. **autocheck hook bozuk** (proje yolundaki boşluk → `'C:\Software' is not recognized`) — hook komutu tırnaklanmalı, ayrı iş.
 
+**✅ Stok Listemiz sayfası (frontend — statik, Sanity öncesi):**
+- **Yeni route'lar:** `/stok-listesi` (index) + `/stok-listesi/[slug]` (kategori detay). Next 16 kalıbı (`params: Promise`, `generateStaticParams`, `generateMetadata`).
+- **İçerik:** `src/content/site.ts` → `stockListContent` (3 kategori: ofset-baski / baski-sonrasi / sifir-baski-sonrasi, her birinde `lists[]` = PDF dokümanları). Tipler `StockCategory` + `StockList`. **pdf alanları boş → UI "Yakında"** (sahte dosya yok; Sanity'de gerçek PDF bağlanacak).
+- **Bileşenler (prop-driven, "use client" + Framer reveal):** `sections/stock-categories.tsx` (himon kart grid: numara + liste sayısı + başlık + "Listeleri Gör ↗", hover lift + mavi glow) · `sections/stock-category-detail.tsx` (breadcrumb + klasik başlık + PDF liste satırları: FileText ikon + başlık + PDF⬇/Yakında, ince ayraç).
+- **Nav (`site.ts`):** header mainNav'da **İletişim → Stok Listemiz** (Teklif Al butonu KALDI — lead CTA). Footer siteMapNav'a Stok Listemiz eklendi, İletişim korundu.
+- Doğrulama: tsc temiz, tarayıcıda index (3 kart) + detay (3 satır, Yakında) görsel onay.
+- **✅ Sanity fazı TAMAM (2026-09-16):** `stockCategory` şeması (`schemaTypes/stockCategory.ts`, net TR etiket+açıklama: Kategori Adı, Sayfa Adresi/slug, Kısa Açıklama, Sıra No, PDF Listeleri[]={Liste Adı, **PDF Dosyası** accept=application/pdf, Not}). Index'e kaydedildi, Studio menüsüne "Stok Listemiz 📄" eklendi (`structure.ts`). Lib `sanity/lib/stock.ts` (getStockCategories / BySlug / Slugs, PDF url = `pdf.asset->url`, **boşsa statik fallback**). Route'lar Sanity'den okuyor (prop-driven → bileşen değişmedi). Webhook'a `stockCategory→"stock"` tag eklendi. **3 kategori seed edildi** (idempotent createOrReplace, sabit _id, scratchpad/seed-stock.cjs) → Studio'da hazır, PDF alanları boş ("YAKINDA"). Test: public index + detay Sanity'den render, tsc temiz.
+  - **⏭️ Kalan (Talha):** Studio → Stok Listemiz → her liste satırına gerçek PDF yükle → publish. Ayrıca prod webhook filtresine `stockCategory` eklenmeli (deploy sonrası).
+
 **⏭️ Faz 11 kalan (ritim/yapı — ayrı lokma):**
 - Stat'lar her biri ~1 ekran = aşırı scroll → kompakt satıra alınabilir.
 - Bölüm geçişleri sert kesim → ince ayraç/yumuşak geçiş.

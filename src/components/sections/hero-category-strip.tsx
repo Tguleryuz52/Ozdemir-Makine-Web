@@ -31,7 +31,7 @@ export function HeroCategoryStrip() {
       variants={container}
       initial={reduce ? false : "hidden"}
       animate="show"
-      className="grid max-w-[30rem] grid-cols-3 gap-3 sm:max-w-[44rem] sm:gap-4"
+      className="grid grid-cols-1 gap-4 max-w-[21rem] sm:max-w-[44rem] sm:grid-cols-3"
     >
       {categoryCardsContent.items.map((cat) => (
         <motion.div key={cat.num} variants={cardReveal}>

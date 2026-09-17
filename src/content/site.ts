@@ -125,7 +125,7 @@ export const servicesContent: {
     {
       num: "02",
       title: "İkinci El Alım-Satım",
-      body: "Kontrollü, revize edilmiş ikinci el matbaa makinelerini alıyor, satıyor ve ihtiyaca göre eşleştiriyoruz.",
+      body: "Kontrolleri ve bakımları yapılmış ikinci el matbaa makinelerini alıyor, satıyor ve ihtiyaca göre eşleştiriyoruz.",
       href: "/ikinci-el-makineler",
       ctaLabel: "İkinci El Katalog",
       image: "",
@@ -331,7 +331,7 @@ export const categoryCardsContent: {
     {
       num: "02",
       title: "İkinci El Makineler",
-      desc: "Kontrollü, revize edilmiş ikinci el matbaa makineleri — alım, satım ve eşleştirme.",
+      desc: "Kontrolleri ve bakımları yapılmış ikinci el matbaa makineleri — alım, satım ve eşleştirme.",
       href: "/ikinci-el-makineler",
       tone: "light",
     },
@@ -547,8 +547,8 @@ export const stockListContent: {
   categories: [
     {
       slug: "sifir-baski-sonrasi-makineler",
-      title: "Sıfır Baskı Sonrası Makineler",
-      summary: "Sıfır (hiç kullanılmamış) kesim, katlama, ciltleme ve baskı sonrası işlem makineleri.",
+      title: "Baskı Sonrası Sıfır Makineler",
+      summary: "Sıfır (yeni) kesim, katlama, ciltleme ve baskı sonrası makineler.",
       lists: [
         { slug: "sifir-baski-sonrasi-1", title: "Sıfır Baskı Sonrası Makineler — Liste 1", pdf: "" },
         { slug: "sifir-baski-sonrasi-2", title: "Sıfır Baskı Sonrası Makineler — Liste 2", pdf: "" },
@@ -558,7 +558,7 @@ export const stockListContent: {
     {
       slug: "ofset-baski-makineleri",
       title: "Ofset Baskı Makineleri",
-      summary: "İkinci el ofset baskı makineleri ve baskı aksesuarları.",
+      summary: "İkinci el ofset baskı makineleri ve baskı ekipmanları.",
       lists: [
         { slug: "ofset-baski-makineleri", title: "Ofset Baskı Makineleri", pdf: "" },
         { slug: "aksesuarlar", title: "Aksesuarlar", pdf: "" },
@@ -566,8 +566,8 @@ export const stockListContent: {
     },
     {
       slug: "baski-sonrasi-makineler",
-      title: "Baskı Sonrası Makineler",
-      summary: "İkinci el kesim, katlama, ciltleme ve baskı sonrası işlem makineleri.",
+      title: "Baskı Sonrası İkinci El Makineler",
+      summary: "İkinci el kesim, katlama, ciltleme ve baskı sonrası makineler.",
       lists: [
         { slug: "baski-sonrasi-1", title: "Baskı Sonrası Makineler — Liste 1", pdf: "" },
         { slug: "baski-sonrasi-2", title: "Baskı Sonrası Makineler — Liste 2", pdf: "" },

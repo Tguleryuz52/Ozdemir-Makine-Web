@@ -61,7 +61,7 @@ export const groupMeta: Record<MachineGroup | "all", { kicker: string; title: st
   "ikinci-el": {
     kicker: "İkinci El Makineler",
     title: "İkinci El Makineler",
-    desc: "Kontrollü, revize edilmiş ikinci el matbaa makineleri — alım, satım ve ihtiyaca göre eşleştirme.",
+    desc: "Kontrolleri ve bakımları yapılmış ikinci el matbaa makineleri — alım, satım ve ihtiyaca göre eşleştirme.",
   },
   "yedek-parca": {
     kicker: "Yedek Parçalar",

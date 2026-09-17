@@ -20,25 +20,43 @@ const cardReveal: Variants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE } },
 };
 
-// Kartın orantılı ölçeği — orijinal 20rem yükseklik → ~14rem.
-const CARD_SCALE = 0.7;
+// Kartın orantılı ölçeği — masaüstü ~14rem (0.7). Mobilde 3'lü düzen korunur ama uniform küçültülür
+// (Talha: "desktopdaki gibi görünsün, sadece küçük"), tall-narrow olmasın diye ölçek düşürülür.
+const CARD_SCALE_DESKTOP = 0.7;
+const CARD_SCALE_MOBILE = 0.5;
 
 export function HeroCategoryStrip() {
   const reduce = useReducedMotion();
 
+  const tiles = (scale: number) =>
+    categoryCardsContent.items.map((cat) => (
+      <motion.div key={cat.num} variants={cardReveal}>
+        <CategoryTile cat={cat} reduce={!!reduce} scale={scale} />
+      </motion.div>
+    ));
+
   return (
-    <motion.div
-      variants={container}
-      initial={reduce ? false : "hidden"}
-      animate="show"
-      className="grid grid-cols-1 gap-4 max-w-[21rem] sm:max-w-[44rem] sm:grid-cols-3"
-    >
-      {categoryCardsContent.items.map((cat) => (
-        <motion.div key={cat.num} variants={cardReveal}>
-          <CategoryTile cat={cat} reduce={!!reduce} scale={CARD_SCALE} />
-        </motion.div>
-      ))}
-    </motion.div>
+    <>
+      {/* Mobil: 3'lü düzen (masaüstünün küçültülmüş hali) */}
+      <motion.div
+        variants={container}
+        initial={reduce ? false : "hidden"}
+        animate="show"
+        className="grid grid-cols-3 gap-2 sm:hidden"
+      >
+        {tiles(CARD_SCALE_MOBILE)}
+      </motion.div>
+
+      {/* Masaüstü */}
+      <motion.div
+        variants={container}
+        initial={reduce ? false : "hidden"}
+        animate="show"
+        className="hidden max-w-[44rem] grid-cols-3 gap-4 sm:grid"
+      >
+        {tiles(CARD_SCALE_DESKTOP)}
+      </motion.div>
+    </>
   );
 }
 

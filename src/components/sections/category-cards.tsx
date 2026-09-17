@@ -83,48 +83,64 @@ export function CategoryCards() {
   );
 }
 
-function CategoryTile({ cat, reduce }: { cat: CategoryCard; reduce: boolean }) {
+// scale: tüm sabit ölçüler (yükseklik, font, notch, reveal) orantılı küçülür/büyür.
+// default 1 = orijinal section görünümü birebir. Hero şeridi ~0.7 geçer (Faz 12).
+export function CategoryTile({
+  cat,
+  reduce,
+  scale = 1,
+}: {
+  cat: CategoryCard;
+  reduce: boolean;
+  scale?: number;
+}) {
   const fg = "#ffffff";
   const sub = "rgba(255,255,255,0.5)";
+  const rem = (x: number) => `${x * scale}rem`;
+  const px = (x: number) => `${x * scale}px`;
 
   return (
     <Link
       href={cat.href}
       aria-label={`${cat.title} kategorisi`}
-      className="group block rounded-[2rem] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+      className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+      style={{ borderRadius: rem(2) }}
     >
       <motion.article
         initial="rest"
         animate="rest"
         whileHover={reduce ? undefined : "hover"}
-        className={cn(
-          "relative flex h-[20rem] w-full flex-col overflow-hidden rounded-[2rem]",
-          "border border-white/5"
-        )}
+        className={cn("relative flex w-full flex-col overflow-hidden", "border border-white/5")}
         style={{
+          height: rem(20),
+          borderRadius: rem(2),
           background: CARD_BODY,
-          padding: "8px", // kalın dış çerçeve (folder-tab efekti)
+          padding: px(8), // kalın dış çerçeve (folder-tab efekti)
         }}
       >
         {/* Üst Reveal Görseli (Gradient) */}
-        {/* 8px padding'in içinden başlar, card rounded-[2rem] olduğu için t-[1.5rem] tam oturur */}
         <motion.div
-          variants={{ rest: { height: 160 }, hover: { height: 210 } }}
+          variants={{ rest: { height: 160 * scale }, hover: { height: 210 * scale } }}
           transition={{ duration: 0.5, ease: EASE }}
-          className="relative w-full shrink-0 overflow-hidden rounded-t-[1.5rem]"
-          style={{ background: GRADIENTS[cat.tone] }}
+          className="relative w-full shrink-0 overflow-hidden"
+          style={{
+            background: GRADIENTS[cat.tone],
+            borderTopLeftRadius: rem(1.5),
+            borderTopRightRadius: rem(1.5),
+          }}
         >
           <NoiseOverlay />
-          
+
           {/* Ok İkonu (Gradient'in üzerinde) */}
           <motion.span
             variants={{ rest: { x: 0, y: 0 }, hover: { x: 3, y: -3 } }}
             transition={{ duration: 0.4, ease: EASE }}
-            className="absolute right-5 top-5 z-20 text-white"
+            className="absolute z-20 text-white"
+            style={{ right: rem(1.25), top: rem(1.25) }}
           >
             <svg
               viewBox="0 0 24 24"
-              className="size-5"
+              style={{ width: rem(1.25), height: rem(1.25) }}
               fill="none"
               stroke="currentColor"
               strokeWidth={1.5}
@@ -141,32 +157,46 @@ function CategoryTile({ cat, reduce }: { cat: CategoryCard; reduce: boolean }) {
         <div className="relative z-10 flex flex-1 flex-col">
           {/* Klasör Tabı (Folder Notch) */}
           <div
-            className="relative -mt-[3.5rem] w-fit rounded-tr-[1.25rem] pr-6 pt-3"
-            style={{ background: CARD_BODY }}
+            className="relative w-fit"
+            style={{
+              marginTop: rem(-3.5),
+              borderTopRightRadius: rem(1.25),
+              paddingRight: rem(1.5),
+              paddingTop: rem(0.75),
+              background: CARD_BODY,
+            }}
           >
             <span
-              className="block pl-4 pr-1 text-[3.5rem] font-light leading-none tracking-tight"
-              style={{ color: fg }}
+              className="block font-light leading-none tracking-tight"
+              style={{ color: fg, fontSize: rem(3.5), paddingLeft: rem(1), paddingRight: rem(0.25) }}
             >
               {cat.num}
             </span>
-            {/* Konkav Kıvrım — Pürüzsüz geçiş için 32px yarıçap */}
+            {/* Konkav Kıvrım — orantılı yarıçap */}
             <span
               aria-hidden="true"
-              className="absolute left-full bottom-0 h-[32px] w-[32px]"
+              className="absolute left-full bottom-0"
               style={{
+                height: px(32),
+                width: px(32),
                 background: CARD_BODY,
-                WebkitMaskImage: "radial-gradient(circle at top right, transparent 32px, #000 32px)",
-                maskImage: "radial-gradient(circle at top right, transparent 32px, #000 32px)",
+                WebkitMaskImage: `radial-gradient(circle at top right, transparent ${px(32)}, #000 ${px(32)})`,
+                maskImage: `radial-gradient(circle at top right, transparent ${px(32)}, #000 ${px(32)})`,
               }}
             />
           </div>
 
-          <div className="flex flex-1 flex-col justify-end px-4 pb-4 pt-4">
-            <h3 className="text-lg font-medium tracking-tight" style={{ color: fg }}>
+          <div
+            className="flex flex-1 flex-col justify-end"
+            style={{ padding: rem(1) }}
+          >
+            <h3 className="font-medium tracking-tight" style={{ color: fg, fontSize: rem(1.125) }}>
               {cat.title}
             </h3>
-            <p className="mt-1 text-[0.8125rem] leading-relaxed" style={{ color: sub }}>
+            <p
+              className="leading-relaxed"
+              style={{ color: sub, fontSize: rem(0.8125), marginTop: rem(0.25) }}
+            >
               {cat.desc}
             </p>
           </div>

@@ -196,4 +196,5 @@ Plans:
 - **Faz 9 CRM Makine Lookup** ✅ TAMAM 2026-09-15 — Zoho **master data** kararı (sync yok, Sanity onun aynası). `insertLead()` `machineCode` → Zoho Products search → mevcut `lgilendi_i_Makine_PressXchange` Lookup field'ına ID bind. Sanity `machine.ts` `urunKodu` field'ı Zoho Product_Code ile birebir eşleşecek şekilde netleştirildi. Uçtan uca test (Zoho MCP) ✓.
 - **Faz 11 Frontend Cila & Markalaşma** ⏭️ AÇIK — Hero + arama birleştirme, logo/tipografi denge, distribütör logoları renkli, kurumsal görseller, footer link'leri, adres düzenleme.
 - **Faz 10 Vercel Deploy** ⏭️ Faz 11 sonrası, sadece vercel.app URL'inde (domain cutover YOK — mevcut ozdemirmakine.com.tr korunacak).
-- **Faz 12 SEO & Performans** ⏭️ (Faz 8'in ertelenen SEO/CWV kısmı — canlıya çıkınca).
+- **Faz 12 Hero + Kategori Birleştirme & Logo Dengesi** ⏭️ AÇIK (Talha 2026-09-17) — Hero başlık 3→2 satır+küçült, arama çubuğu+CTA küçült, "Ne arıyorsunuz?" kategori kartları kompaktlaşıp hero'ya (aramanın altında yatay şerit) taşınır, ayrı CategoryCards section kalkar, hero alt paragrafı kaldırılır, header logosu büyütülür. Yeni akış: Hero(başlık+arama+CTA+kompakt kategoriler) → Brandline → Öne Çıkan Makineler. Layout kararı Talha onayı: yatay şerit + paragraf kaldır.
+- **Faz 13 SEO & Performans** ⏭️ (Faz 8'in ertelenen SEO/CWV kısmı — canlıya çıkınca).

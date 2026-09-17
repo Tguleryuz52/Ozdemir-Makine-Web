@@ -25,7 +25,7 @@ function Wordmark({ solid }: { solid: boolean }) {
         quality={100}
         priority
         className={cn(
-          "object-contain h-[54px] lg:h-[62px] w-auto transition-all duration-500 ease-out-soft",
+          "object-contain h-[62px] lg:h-[74px] w-auto transition-all duration-500 ease-out-soft",
           solid ? "brightness-0" : "brightness-0 invert"
         )}
       />

@@ -266,7 +266,7 @@ function CatalogInner({ group, machines }: { group?: MachineGroup; machines: Mac
           </span>
           <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
             <div className="max-w-[46rem]">
-              <h1 className="text-[2.75rem] font-medium leading-[1] tracking-tight md:text-[3.5rem] lg:text-[4.5rem]">{meta.title}</h1>
+              <h1 className="text-[2rem] font-medium leading-[1] tracking-tight md:text-[2.75rem] lg:text-[3.25rem]">{meta.title}</h1>
               <p className="mt-5 max-w-[52ch] text-[0.95rem] leading-relaxed text-ink/55">{meta.desc}</p>
             </div>
             <div className="shrink-0 text-left md:text-right">

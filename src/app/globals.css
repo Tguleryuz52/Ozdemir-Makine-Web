@@ -57,11 +57,13 @@
   --text-heading--line-height: 1.2;
   --text-heading--letter-spacing: -0.02em;
   --text-heading--font-weight: 500;
-  --text-display-lg: clamp(2rem, 4vw, 3.25rem);
+  --text-display-lg: clamp(1.75rem, 3.2vw, 2.5rem);
   --text-display-lg--line-height: 1.08;
   --text-display-lg--letter-spacing: -0.03em;
   --text-display-lg--font-weight: 500;
-  --text-display-xl: clamp(2.75rem, 6vw, 4.5rem);
+  /* Faz 12 kuralı (Talha): hiçbir başlık logodan (ÖZDEMİR wordmark ~47px / lockup 74px) büyük
+     olmayacak → display ölçeği bir tık küçültüldü (eski maks 4.5rem/72px). */
+  --text-display-xl: clamp(2rem, 4.4vw, 3.25rem);
   --text-display-xl--line-height: 1;
   --text-display-xl--letter-spacing: -0.04em;
   --text-display-xl--font-weight: 500;

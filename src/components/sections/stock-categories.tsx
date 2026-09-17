@@ -46,7 +46,7 @@ export function StockCategories({
           <span className="mb-4 block font-mono text-[0.8125rem] uppercase tracking-[0.08em] text-brand">
             {kicker}
           </span>
-          <h1 className="text-[2.25rem] font-medium leading-[1.05] tracking-tight md:text-[3rem] lg:text-[3.5rem]">
+          <h1 className="text-[2rem] font-medium leading-[1.05] tracking-tight md:text-[2.75rem] lg:text-[3.25rem]">
             {title}
           </h1>
           <p className="mt-6 text-[1.0625rem] leading-relaxed text-ink/55">

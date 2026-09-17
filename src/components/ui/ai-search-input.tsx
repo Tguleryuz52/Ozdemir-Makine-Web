@@ -79,9 +79,21 @@ function MorphingText({ text }: { text: string }) {
 export interface MachineSearchProps {
   className?: string;
   onSubmit?: (query: string, meta: { brand: string; category: string }) => void;
+  // Boyut ayarları — default'lar mevcut hero ölçüleri. Hero'da (Faz 12) daha küçük geçilir.
+  collapsedWidth?: number;
+  expandedWidth?: number;
+  collapsedHeight?: number;
+  expandedHeight?: number;
 }
 
-export function MachineSearch({ className, onSubmit }: MachineSearchProps) {
+export function MachineSearch({
+  className,
+  onSubmit,
+  collapsedWidth = 440,
+  expandedWidth = 680,
+  collapsedHeight = 60,
+  expandedHeight = 150,
+}: MachineSearchProps) {
   const router = useRouter();
   const { placeholder, brands, categories, basePath } = searchContent;
 
@@ -137,7 +149,7 @@ export function MachineSearch({ className, onSubmit }: MachineSearchProps) {
     <div
       ref={containerRef}
       className={cn("relative w-full text-paper", className)}
-      style={{ maxWidth: expanded ? 680 : 440, transition: `max-width 0.4s ${SPRING}` }}
+      style={{ maxWidth: expanded ? expandedWidth : collapsedWidth, transition: `max-width 0.4s ${SPRING}` }}
     >
       <div
         onMouseDown={(e) => {
@@ -147,13 +159,13 @@ export function MachineSearch({ className, onSubmit }: MachineSearchProps) {
           }
         }}
         style={{
-          height: expanded ? 150 : 60,
+          height: expanded ? expandedHeight : collapsedHeight,
           borderRadius: 30,
           transition: `height 0.4s ${SPRING}`,
           background: "var(--ink)",
         }}
         className={cn(
-          "relative w-full overflow-visible border border-paper/10 shadow-lg",
+          "relative w-full overflow-visible border border-paper/10 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.55)] ring-1 ring-paper/15",
           expanded ? "cursor-text" : "cursor-pointer",
         )}
       >
@@ -267,7 +279,11 @@ export function MachineSearch({ className, onSubmit }: MachineSearchProps) {
             submit();
           }}
           aria-label={hasValue ? "Ara" : "Aramayı aç"}
-          className="absolute bottom-2.5 right-2.5 z-[10] flex size-10 items-center justify-center rounded-full bg-brand text-paper outline-none transition-all duration-300 hover:opacity-90 focus-visible:ring-2 focus-visible:ring-brand-bright"
+          className={cn(
+            "absolute right-2.5 z-[10] flex size-10 items-center justify-center rounded-full bg-brand text-paper outline-none transition-all duration-300 hover:opacity-90 focus-visible:ring-2 focus-visible:ring-brand-bright",
+            // Kapalıyken dikey ortalı; açılınca alt kontrol satırına hizalı (bottom).
+            expanded ? "bottom-2.5" : "top-1/2 -translate-y-1/2",
+          )}
         >
           <span className="relative flex size-full items-center justify-center">
             <span

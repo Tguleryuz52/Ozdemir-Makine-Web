@@ -54,8 +54,10 @@ export const socialLinks: NavItem[] = [
 // kicker + headline'daki "\n" bilinçli satır kırılımıdır (whitespace-pre-line ile render).
 // image: gerçek foto gelince doldurulacak (şimdilik gradient placeholder).
 export const heroContent = {
-  kicker: "SIFIR & İKİNCİ EL\nMATBAA & AMBALAJ MAKİNELERİ",
-  headline: "MATBAA & AMBALAJ\nMAKİNELERİNDE\nDOĞRU ADRES.",
+  // Sol kolon kicker — eski "SIFIR & İKİNCİ EL / MATBAA & AMBALAJ MAKİNELERİ" başlıkla tekrar
+  // ediyordu (Talha 2026-09-17). Yerine kısa değer önermesi: 30 yıl + yedek parça/servis + TR&DE.
+  kicker: "30 YILLIK TECRÜBE\nYEDEK PARÇA & TEKNİK SERVİS\nTÜRKİYE & ALMANYA TEDARİK",
+  headline: "MATBAA & AMBALAJ\nMAKİNELERİNDE DOĞRU ADRES.",
   cta: { label: "Makineleri İncele", href: "/makineler" },
   body: "30 yıllık tecrübeyle sıfır ve ikinci el matbaa makineleri, yedek parça ve teknik destek. Türkiye ve Almanya ofisleriyle uçtan uca güvenilir tedarik.",
   image: "", // TODO: gerçek hero fotoğrafı (matbaa/ambalaj makinesi) — gelince next/image fill
@@ -540,12 +542,23 @@ export const stockListContent: {
   kicker: "Stok Listemiz",
   title: "Güncel Stok Listelerimiz",
   intro:
-    "Sıfır ve ikinci el matbaa & ambalaj makineleri ile baskı sonrası ekipman stoklarımızı kategori kategori, güncel PDF listeler halinde inceleyin. Fiyat ve detay için bizimle iletişime geçin.",
+    "Sıfır ve ikinci el matbaa & ambalaj makineleri ile baskı sonrası ekipmanlarımızı, kategorilere ayrılmış güncel PDF listelerimizde inceleyebilirsiniz. Fiyat ve teknik detay için bizimle iletişime geçin.",
+  // Sıra (Talha 2026-09-17): Sıfır Baskı Sonrası 01'e alındı. Canlı sıra Sanity `order` alanından gelir.
   categories: [
+    {
+      slug: "sifir-baski-sonrasi-makineler",
+      title: "Sıfır Baskı Sonrası Makineler",
+      summary: "Sıfır (hiç kullanılmamış) kesim, katlama, ciltleme ve baskı sonrası işlem makineleri.",
+      lists: [
+        { slug: "sifir-baski-sonrasi-1", title: "Sıfır Baskı Sonrası Makineler — Liste 1", pdf: "" },
+        { slug: "sifir-baski-sonrasi-2", title: "Sıfır Baskı Sonrası Makineler — Liste 2", pdf: "" },
+        { slug: "sifir-baski-sonrasi-3", title: "Sıfır Baskı Sonrası Makineler — Liste 3", pdf: "" },
+      ],
+    },
     {
       slug: "ofset-baski-makineleri",
       title: "Ofset Baskı Makineleri",
-      summary: "Kullanılmış ve revize ofset baskı makineleri ile baskı aksesuarları.",
+      summary: "İkinci el ofset baskı makineleri ve baskı aksesuarları.",
       lists: [
         { slug: "ofset-baski-makineleri", title: "Ofset Baskı Makineleri", pdf: "" },
         { slug: "aksesuarlar", title: "Aksesuarlar", pdf: "" },
@@ -554,20 +567,10 @@ export const stockListContent: {
     {
       slug: "baski-sonrasi-makineler",
       title: "Baskı Sonrası Makineler",
-      summary: "Kesim, katlama, cilt ve baskı sonrası işlem makineleri.",
+      summary: "İkinci el kesim, katlama, ciltleme ve baskı sonrası işlem makineleri.",
       lists: [
         { slug: "baski-sonrasi-1", title: "Baskı Sonrası Makineler — Liste 1", pdf: "" },
         { slug: "baski-sonrasi-2", title: "Baskı Sonrası Makineler — Liste 2", pdf: "" },
-      ],
-    },
-    {
-      slug: "sifir-baski-sonrasi-makineler",
-      title: "Sıfır Baskı Sonrası Makineler",
-      summary: "Avrupa menşeli, sıfır (brand new) baskı sonrası ekipman listeleri.",
-      lists: [
-        { slug: "sifir-baski-sonrasi-1", title: "Sıfır Baskı Sonrası Makineler — Liste 1", pdf: "" },
-        { slug: "sifir-baski-sonrasi-2", title: "Sıfır Baskı Sonrası Makineler — Liste 2", pdf: "" },
-        { slug: "sifir-baski-sonrasi-3", title: "Sıfır Baskı Sonrası Makineler — Liste 3", pdf: "" },
       ],
     },
   ],

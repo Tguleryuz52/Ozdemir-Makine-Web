@@ -56,7 +56,7 @@ export function StockCategoryDetail({
           transition={{ duration: 0.7, ease: EASE }}
           className="mt-6 max-w-3xl"
         >
-          <h1 className="text-[2.25rem] font-medium leading-[1.05] tracking-tight md:text-[3rem] lg:text-[3.5rem]">
+          <h1 className="text-[2rem] font-medium leading-[1.05] tracking-tight md:text-[2.75rem] lg:text-[3.25rem]">
             {category.title}
           </h1>
           <p className="mt-6 text-[1.0625rem] leading-relaxed text-ink/55">
@@ -64,70 +64,80 @@ export function StockCategoryDetail({
           </p>
         </motion.div>
 
-        {/* PDF liste satırları */}
+        {/* PDF listeleri — YAN YANA buton-kart grid (2 sütun). PDF'li → basılabilir + indir ikonu
+            (ne açılacağı belli); PDF'siz → "Yakında". (Talha: buton yap, yan yana, indirme işareti koy,
+            sayfa dolu görünsün.) */}
         <motion.ul
           variants={container}
           initial={reduce ? false : "hidden"}
           whileInView="show"
           viewport={{ once: true, margin: "-60px" }}
-          className="mt-14 border-t border-ink/12 lg:mt-16"
+          className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-14 lg:gap-5"
         >
           {category.lists.map((list) => {
             const hasPdf = Boolean(list.pdf);
-            const Row = (
-              <div
+            const Card = (
+              <article
                 className={cn(
-                  "flex items-center justify-between gap-6 py-6 transition-colors duration-300",
-                  hasPdf ? "group-hover:text-brand" : "",
+                  "relative flex h-full min-h-[10.5rem] flex-col justify-between rounded-2xl border bg-white p-6 transition-all duration-300 ease-out-soft sm:p-7",
+                  hasPdf
+                    ? "border-ink/10 group-hover:-translate-y-1 group-hover:border-brand/40 group-hover:shadow-[0_24px_50px_-28px_rgba(10,80,158,0.5)]"
+                    : "border-dashed border-ink/15",
                 )}
               >
-                <div className="flex min-w-0 items-center gap-4">
-                  <FileText
+                <div className="flex items-start justify-between gap-4">
+                  <span
                     className={cn(
-                      "size-6 shrink-0 transition-colors",
-                      hasPdf ? "text-brand" : "text-ink/30",
+                      "grid size-12 shrink-0 place-items-center rounded-xl transition-colors",
+                      hasPdf ? "bg-brand/10 text-brand group-hover:bg-brand/15" : "bg-ink/5 text-ink/30",
                     )}
-                    strokeWidth={1.5}
-                    aria-hidden
-                  />
-                  <div className="min-w-0">
-                    <span className="block truncate text-[1.0625rem] font-medium tracking-tight md:text-[1.1875rem]">
-                      {list.title}
+                  >
+                    <FileText className="size-6" strokeWidth={1.6} aria-hidden />
+                  </span>
+                  {hasPdf ? (
+                    <span
+                      aria-hidden
+                      className="grid size-10 shrink-0 place-items-center rounded-full bg-brand text-white transition-all duration-300 ease-out-soft group-hover:translate-y-0.5 group-hover:bg-brand-deep"
+                    >
+                      <Download className="size-[18px]" strokeWidth={1.9} />
                     </span>
-                    {list.note ? (
-                      <span className="mt-0.5 block truncate text-sm text-ink/50">
-                        {list.note}
-                      </span>
-                    ) : null}
-                  </div>
+                  ) : (
+                    <span className="shrink-0 rounded-full border border-ink/15 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.08em] text-ink/40">
+                      Yakında
+                    </span>
+                  )}
                 </div>
 
-                {hasPdf ? (
-                  <span className="flex shrink-0 items-center gap-2 font-mono text-[0.8125rem] uppercase tracking-[0.08em] text-ink/55 transition-colors group-hover:text-brand">
-                    PDF
-                    <Download className="size-4 transition-transform duration-300 ease-out-soft group-hover:translate-y-0.5" strokeWidth={1.6} />
-                  </span>
-                ) : (
-                  <span className="shrink-0 rounded-full border border-ink/15 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.08em] text-ink/40">
-                    Yakında
-                  </span>
-                )}
-              </div>
+                <div className="mt-6">
+                  <h3 className="text-[1.1875rem] font-medium leading-snug tracking-tight text-ink">
+                    {list.title}
+                  </h3>
+                  <p
+                    className={cn(
+                      "mt-1.5 text-[0.9375rem] font-medium",
+                      hasPdf ? "text-brand" : "text-ink/40",
+                    )}
+                  >
+                    {hasPdf ? "PDF olarak indir" : list.note || "Liste yakında eklenecek"}
+                  </p>
+                </div>
+              </article>
             );
 
             return (
-              <motion.li key={list.slug} variants={rowReveal} className="border-b border-ink/12">
+              <motion.li key={list.slug} variants={rowReveal} className="h-full">
                 {hasPdf ? (
                   <a
                     href={list.pdf}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+                    aria-label={`${list.title} — PDF olarak aç`}
+                    className="group block h-full rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
                   >
-                    {Row}
+                    {Card}
                   </a>
                 ) : (
-                  <div className="cursor-default select-none opacity-80">{Row}</div>
+                  <div className="group h-full cursor-default select-none">{Card}</div>
                 )}
               </motion.li>
             );

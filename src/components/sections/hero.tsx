@@ -4,20 +4,21 @@ import type { CSSProperties } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import ArrowFillButton from "@/components/ui/arrow-fill-button";
 import { MachineSearch } from "@/components/ui/ai-search-input";
+import { HeroCategoryStrip } from "@/components/sections/hero-category-strip";
 import { heroContent } from "@/content/site";
 
 // himon 1. bölüm (hero) — Özdemir'e uyarlandı. Referans: design/references/himon/himon-01-hero.png
 // Full-bleed, header'ın ALTINA girer (-mt-20). Arka plan GEÇİCİ gradient (gerçek foto gelince next/image fill).
 // Giriş animasyonu: başlık satır-maske reveal + kicker/CTA/gövde fade-up + arka plan zoom-out (himon dili).
 
-// Hero CTA header'dan büyük (~56px). Boyut ArrowFillButton'ın CSS değişkenlerinden.
+// Hero CTA — Faz 12'de küçültüldü (arama + kategori şeridine yer açmak için).
 const heroBtnSize = {
-  "--afb-h": "3.5rem",
-  "--afb-px": "1.75rem",
-  "--afb-text": "1.0625rem",
-  "--afb-circle": "2.4rem",
+  "--afb-h": "3rem",
+  "--afb-px": "1.4rem",
+  "--afb-text": "0.95rem",
+  "--afb-circle": "2rem",
   "--afb-gap": "0.5rem",
-  "--afb-arrow": "1.15rem",
+  "--afb-arrow": "1rem",
 } as CSSProperties;
 
 const EASE = [0.22, 1, 0.36, 1] as const; // = --ease-out-soft
@@ -91,7 +92,7 @@ export function Hero() {
             {/* Başlık — logo revizesi sonrası daha da küçüldü. Talha kararı 2026-09-15:
                 logoyu büyütüyoruz, bu yazı marka'yı baskılamasın diye dengeye çekiliyor.
                 Clamp: mobil 2rem → desktop 3.5rem. */}
-            <h1 className="max-w-[18ch] text-[clamp(1.75rem,3.6vw,3rem)] font-medium uppercase leading-[0.95] tracking-tight text-balance">
+            <h1 className="max-w-[26ch] text-[clamp(1.5rem,2.6vw,2.25rem)] font-medium uppercase leading-[1.02] tracking-tight text-balance">
               {lines.map((line, i) => (
                 <span key={i} className="block overflow-hidden">
                   <motion.span variants={lineReveal} className="block">
@@ -103,14 +104,17 @@ export function Hero() {
 
             {/* ARAMA — hero'nun ana etkileşimi. Koyu zeminde MachineSearch (ink zemin) belirgin görünsün diye
                 dışına parlak beyaz ring + shadow ekliyoruz. */}
-            <motion.div variants={fadeUp} className="mt-10 max-w-[680px]">
-              <div className="rounded-[30px] ring-1 ring-white/20 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.6)]">
-                <MachineSearch />
-              </div>
+            <motion.div variants={fadeUp} className="mt-7 max-w-[540px]">
+              <MachineSearch
+                collapsedWidth={360}
+                expandedWidth={540}
+                collapsedHeight={52}
+                expandedHeight={138}
+              />
             </motion.div>
 
             {/* CTA — ikincil, aramanın altında. "Aradığın yoksa tüm katalogu gez." */}
-            <motion.div variants={fadeUp} className="mt-6">
+            <motion.div variants={fadeUp} className="mt-5">
               <ArrowFillButton
                 href={heroContent.cta.href}
                 btnText={heroContent.cta.label}
@@ -121,18 +125,13 @@ export function Hero() {
                 style={heroBtnSize}
               />
             </motion.div>
+
+            {/* Kompakt kategori şeridi — eski "Ne arıyorsunuz?" kartlarının birebir (scale'li) hali. */}
+            <div className="mt-8">
+              <HeroCategoryStrip />
+            </div>
           </div>
         </div>
-
-        {/* Alt paragraf — sağ kolon hizasında, hero altına yakın */}
-        <motion.div
-          variants={fadeUp}
-          className="mt-10 border-t border-white/15 pt-6 lg:mt-0 lg:border-t-0 lg:pl-[calc(17rem+3rem)] lg:pt-0"
-        >
-          <p className="max-w-xl text-[17px] font-medium leading-relaxed tracking-[-0.01em] text-white/85">
-            {heroContent.body}
-          </p>
-        </motion.div>
       </motion.div>
     </section>
   );

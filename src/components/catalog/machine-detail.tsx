@@ -70,25 +70,33 @@ export function MachineDetail({ machine, related }: { machine: MachineDoc; relat
         {/* Üst: Galeri + Bilgi */}
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-14">
           {/* Galeri */}
-          <div className="flex gap-4">
-            <div className="flex shrink-0 flex-col gap-3">
-              {Array.from({ length: tileCount }).map((_, i) => (
-                <button
-                  key={i}
-                  onMouseEnter={() => setActive(i)}
-                  onClick={() => setActive(i)}
-                  aria-label={`Görsel ${i + 1}`}
-                  className={cn("size-16 overflow-hidden rounded-xl border-2 transition-all lg:size-20", active === i ? "border-brand" : "border-transparent opacity-60 hover:opacity-100")}
-                  style={gallery[i] ? { backgroundImage: `url(${gallery[i]})`, backgroundSize: "cover", backgroundPosition: "center" } : { background: PLACEHOLDER[i % PLACEHOLDER.length] }}
-                />
-              ))}
+          <div className="flex items-start gap-4">
+            {/* Thumbnail şeridi — max ~7 görünür, fazlası scroll (alt ok göstergeli) */}
+            <div className="relative shrink-0">
+              <div className="flex max-h-[30rem] flex-col gap-3 overflow-y-auto pr-1 [scrollbar-width:thin] lg:max-h-[34rem]">
+                {Array.from({ length: tileCount }).map((_, i) => (
+                  <button
+                    key={i}
+                    onMouseEnter={() => setActive(i)}
+                    onClick={() => setActive(i)}
+                    aria-label={`Görsel ${i + 1}`}
+                    className={cn("size-16 shrink-0 overflow-hidden rounded-xl border-2 transition-all", active === i ? "border-brand" : "border-transparent opacity-60 hover:opacity-100")}
+                    style={gallery[i] ? { backgroundImage: `url(${gallery[i]})`, backgroundSize: "cover", backgroundPosition: "center" } : { background: PLACEHOLDER[i % PLACEHOLDER.length] }}
+                  />
+                ))}
+              </div>
+              {tileCount > 7 && (
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 flex h-9 items-end justify-center rounded-b-xl bg-gradient-to-t from-paper via-paper/70 to-transparent">
+                  <svg viewBox="0 0 24 24" className="size-4 animate-bounce text-ink/50" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+                </div>
+              )}
             </div>
             <motion.div
               key={active}
               initial={{ opacity: 0.4 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4, ease: EASE }}
-              className="relative aspect-[4/3] flex-1 overflow-hidden rounded-2xl"
+              className="relative aspect-[4/3] flex-1 self-start overflow-hidden rounded-2xl bg-ink/5"
               style={gallery[active] ? { backgroundImage: `url(${gallery[active]})`, backgroundSize: "cover", backgroundPosition: "center" } : { background: bigBg }}
             >
               <span className="absolute left-5 top-5 rounded-full bg-white/90 px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-widest text-ink backdrop-blur-md">
@@ -105,7 +113,7 @@ export function MachineDetail({ machine, related }: { machine: MachineDoc; relat
               {machine.priceOnRequest ? <span className="text-brand">Fiyat Sorunuz</span> : machine.price}
             </div>
 
-            {d.description && <p className="mt-5 max-w-[46ch] text-[0.95rem] leading-relaxed text-ink/60">{d.description}</p>}
+            {d.description && <p className="mt-5 max-w-[46ch] whitespace-pre-line text-[0.95rem] leading-relaxed text-ink/60">{d.description}</p>}
 
             {/* Specs */}
             <dl className="mt-8 border-t border-ink/10">
@@ -176,7 +184,7 @@ export function MachineDetail({ machine, related }: { machine: MachineDoc; relat
                       >
                         <div className="pb-6">
                           {item.type === "text" ? (
-                            <p className="max-w-[60ch] text-[0.95rem] leading-relaxed text-ink/65">{item.body as string}</p>
+                            <p className="max-w-[60ch] whitespace-pre-line text-[0.95rem] leading-relaxed text-ink/65">{item.body as string}</p>
                           ) : (
                             <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                               {(item.body as string[]).map((li, i) => (

@@ -158,6 +158,10 @@ export const machine = defineType({
       description: "Detay sayfasındaki tanıtım paragrafı. Makinenin durumu, avantajları, kısa hikâyesi.",
     }),
     defineField({
+      name: "aciklamaEn", title: "Açıklama (İngilizce)", type: "text", rows: 4, group: "detay",
+      description: "İngilizce açıklama — çok dilli site (ihracat) için saklanır. Şimdilik sitede TR gösterilir; i18n fazında bağlanacak.",
+    }),
+    defineField({
       name: "oneCikanOzellikler", title: "Öne Çıkan Özellikler", type: "array", group: "detay",
       description: "Kısa madde madde artılar. '+ Add item' ile her satıra bir özellik yaz. Örn: 'Otomatik plaka değiştirme'",
       of: [defineArrayMember({ type: "string" })],

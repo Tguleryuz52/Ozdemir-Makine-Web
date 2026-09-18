@@ -132,10 +132,11 @@ export const machine = defineType({
       validation: (r) => r.required().error("Grup seç — bu makine hangi sayfada çıkacak?"),
     }),
     defineField({
-      name: "durumRozeti", title: "Durum Rozeti (kart köşesi)", type: "string", group: "siniflandirma",
-      description: "Kartın sol üst köşesindeki küçük etiket. Genelde grupla aynı: Sıfır makine → 'Sıfır', ikinci el → 'İkinci El'.",
-      options: { layout: "radio", list: ["Sıfır", "İkinci El", "Opsiyonlu"] },
-      validation: (r) => r.required().error("Rozet seç."),
+      name: "durumRozeti", title: "Durum Rozeti (opsiyonel)", type: "string", group: "siniflandirma",
+      description:
+        "Boş bırak — kartın köşesindeki etiket 'Ürün Grubu'ndan otomatik gelir (Sıfır/İkinci El/Yedek Parça). " +
+        "Sadece istisna için doldur (ör. 'Opsiyonlu').",
+      options: { layout: "radio", list: ["Sıfır", "İkinci El", "Yedek Parça", "Opsiyonlu"] },
     }),
     defineField({
       name: "kategori", title: "Kategori", type: "string", group: "siniflandirma",

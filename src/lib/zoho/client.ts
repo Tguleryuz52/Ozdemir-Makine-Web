@@ -60,19 +60,25 @@ export type LeadInput = {
   campaign?: string;
 };
 
-// Zoho Leads modülüne oluşturduğumuz "İlgilendiği Makine (PressXchange)" Lookup field'ı.
-// Semantik olarak "PressXchange" ama pratikte tüm website lead'leri de buraya bağlanıyor —
-// Lead_Source zaten kaynağı ayırıyor. Yeni bir "Website" field açmadık, aynı slotu paylaşıyoruz.
-const PRODUCT_LOOKUP_API_NAME = "lgilendi_i_Makine_PressXchange";
+// Zoho Leads → "İlgilendiği Makine (Özdemir Makine)" Lookup field'ı (Products'a bakar).
+// Website'ten gelen tüm makine teklifleri BU alana bağlanır — PressXchange/PressCity/Machinio
+// ayrı pazaryeri kanalları; web verisi onları kirletmesin diye kendi slotu var.
+// Kod, Product_Code (seri no) ile Zoho Products'ta arar → bulduğu ürün id'sini bu alana yazar.
+const PRODUCT_LOOKUP_API_NAME = "lgilendi_i_Makine_zdemir_Makine";
+
+// Aynı bölümdeki "Makine Yılı" (Number/integer) alanı. Seçilen makinenin yılı
+// (Zoho Products'taki YEAR) buraya otomatik yazılır — lookup makineyi bağlar,
+// bu alan yılını doldurur. İkisi de tek ürün aramasından gelir (ekstra sorgu yok).
+const MACHINE_YEAR_API_NAME = "Makine_Y_l2";
 
 // Product_Code (ör "60016") ile Zoho Products modülünde arama. Bulursa {id, name} döner,
 // bulamazsa null. Fail-soft: hata durumunda null, lead yine oluşsun (lookup atanmaz sadece).
 async function findProductByCode(
   token: string,
   code: string,
-): Promise<{ id: string; name: string } | null> {
+): Promise<{ id: string; name: string; year: number | null } | null> {
   const criteria = encodeURIComponent(`(Product_Code:equals:${code})`);
-  const url = `https://${API}/crm/v8/Products/search?criteria=${criteria}&fields=Product_Name,Product_Code`;
+  const url = `https://${API}/crm/v8/Products/search?criteria=${criteria}&fields=Product_Name,Product_Code,YEAR`;
   try {
     const res = await fetch(url, {
       headers: { Authorization: `Zoho-oauthtoken ${token}` },
@@ -80,10 +86,12 @@ async function findProductByCode(
     });
     if (res.status === 204 || !res.ok) return null;
     const json = (await res.json()) as {
-      data?: Array<{ id: string; Product_Name?: string }>;
+      data?: Array<{ id: string; Product_Name?: string; YEAR?: number | null }>;
     };
     const hit = json.data?.[0];
-    return hit ? { id: hit.id, name: hit.Product_Name ?? "" } : null;
+    return hit
+      ? { id: hit.id, name: hit.Product_Name ?? "", year: hit.YEAR ?? null }
+      : null;
   } catch {
     return null;
   }
@@ -150,9 +158,13 @@ export async function insertLead(input: LeadInput): Promise<LeadResult> {
   // Makine kodu varsa Zoho Products'ta ara → bulursa Lookup field'a bağla.
   // Fail-soft: bulamazsa/hata olursa lead yine oluşur, sadece dropdown boş kalır.
   let productLookup: { id: string } | null = null;
+  let machineYear: number | null = null;
   if (input.machineCode) {
     const hit = await findProductByCode(token, input.machineCode);
-    if (hit) productLookup = { id: hit.id };
+    if (hit) {
+      productLookup = { id: hit.id };
+      if (typeof hit.year === "number") machineYear = hit.year;
+    }
   }
 
   const data: Record<string, unknown> = {
@@ -166,6 +178,9 @@ export async function insertLead(input: LeadInput): Promise<LeadResult> {
   };
   if (productLookup) {
     data[PRODUCT_LOOKUP_API_NAME] = productLookup;
+  }
+  if (machineYear !== null) {
+    data[MACHINE_YEAR_API_NAME] = machineYear;
   }
 
   const res = await fetch(`https://${API}/crm/v8/Leads`, {

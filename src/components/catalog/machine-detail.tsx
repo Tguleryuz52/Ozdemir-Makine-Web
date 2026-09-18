@@ -42,20 +42,9 @@ export function MachineDetail({ machine, related }: { machine: MachineDoc; relat
     if (!el) return;
     setThumbNav({ up: el.scrollTop > 4, down: el.scrollTop + el.clientHeight < el.scrollHeight - 4 });
   };
-  // Fare thumbnail şeridindeyken tekerlek SADECE şeridi kaydırsın (sayfa değil)
-  useEffect(() => {
-    const el = thumbRef.current;
-    if (!el) return;
-    updateThumbNav();
-    const onWheel = (e: WheelEvent) => {
-      if (el.scrollHeight <= el.clientHeight) return; // taşma yoksa sayfa kayabilir
-      e.preventDefault();
-      el.scrollTop += e.deltaY;
-      updateThumbNav();
-    };
-    el.addEventListener("wheel", onWheel, { passive: false });
-    return () => el.removeEventListener("wheel", onWheel);
-  }, [tileCount]);
+  // İlk yüklemede ok durumunu ayarla. Şeridin kendi içinde kayması + sayfanın kaymaması:
+  // container'daki data-lenis-prevent (Lenis wheel hijack'ini kapatır) + overscroll-contain.
+  useEffect(() => { updateThumbNav(); }, [tileCount]);
 
   const specs: [string, string][] = [];
   if (machine.productCode) specs.push(["Ürün Kodu", machine.productCode]);
@@ -98,6 +87,7 @@ export function MachineDetail({ machine, related }: { machine: MachineDoc; relat
               <div
                 ref={thumbRef}
                 onScroll={updateThumbNav}
+                data-lenis-prevent
                 className="flex max-h-[28rem] flex-col gap-3 overflow-y-auto overscroll-contain [scrollbar-width:none] lg:max-h-[32rem] [&::-webkit-scrollbar]:hidden"
               >
                 {Array.from({ length: tileCount }).map((_, i) => (

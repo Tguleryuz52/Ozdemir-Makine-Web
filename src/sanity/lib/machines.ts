@@ -44,6 +44,27 @@ const PROJECTION = /* groq */ `{
   "pdfUrl": pdf.asset->url
 }`;
 
+// Liste/kart projeksiyonu — sadece kartın gösterdiği alanlar + TEK kart görseli.
+// 166 makinede açıklama/özellik/tüm galeri tarayıcıya boşuna gitmesin (detay tam çeker).
+const LIST_PROJECTION = /* groq */ `{
+  "id": _id,
+  "slug": slug.current,
+  "href": "/makineler/" + slug.current,
+  "title": baslik,
+  "brand": marka,
+  "model": model,
+  "productCode": urunKodu,
+  "year": yil,
+  "condition": durumRozeti,
+  "group": grup,
+  "category": kategori,
+  "subcategory": altKategori,
+  "priceOnRequest": fiyatSorunuz,
+  "price": fiyat,
+  "featured": vitrin,
+  "cardImage": gorseller[0]
+}`;
+
 type RawMachine = Omit<MachineDoc, "image" | "gallery"> & {
   gorseller?: SanityImageSource[];
 };
@@ -63,25 +84,38 @@ function mapMachine({ gorseller, ...rest }: RawMachine): MachineDoc {
   return { ...rest, image: gallery[0] ?? "", gallery };
 }
 
+// Liste öğesi: tek kart görseli (~800px), ağır alanlar çekilmez (undefined kalır).
+type RawListItem = Omit<MachineDoc, "image" | "gallery"> & {
+  cardImage?: SanityImageSource;
+};
+
+function mapListItem({ cardImage, ...rest }: RawListItem): MachineDoc {
+  const image =
+    cardImage && hasAsset(cardImage)
+      ? urlForImage(cardImage).width(800).fit("max").auto("format").url()
+      : "";
+  return { ...rest, image };
+}
+
 // Next önbellek: 60sn ISR + 'machine' etiketi (webhook revalidate için).
 const cacheOpts = { next: { revalidate: 60, tags: ["machine"] } };
 
 export async function getMachines(): Promise<MachineDoc[]> {
-  const rows = await client.fetch<RawMachine[]>(
-    `*[_type == "machine"] | order(coalesce(yil, 0) desc) ${PROJECTION}`,
+  const rows = await client.fetch<RawListItem[]>(
+    `*[_type == "machine"] | order(coalesce(yil, 0) desc) ${LIST_PROJECTION}`,
     {},
     cacheOpts,
   );
-  return rows.map(mapMachine);
+  return rows.map(mapListItem);
 }
 
 export async function getFeaturedMachines(): Promise<MachineDoc[]> {
-  const rows = await client.fetch<RawMachine[]>(
-    `*[_type == "machine" && vitrin == true] | order(coalesce(yil, 0) desc) ${PROJECTION}`,
+  const rows = await client.fetch<RawListItem[]>(
+    `*[_type == "machine" && vitrin == true] | order(coalesce(yil, 0) desc) ${LIST_PROJECTION}`,
     {},
     cacheOpts,
   );
-  return rows.map(mapMachine);
+  return rows.map(mapListItem);
 }
 
 export async function getMachineSlugs(): Promise<string[]> {
@@ -102,10 +136,10 @@ export async function getMachineBySlug(slug: string): Promise<MachineDoc | null>
 }
 
 export async function getRelatedMachines(current: MachineDoc): Promise<MachineDoc[]> {
-  const rows = await client.fetch<RawMachine[]>(
-    `*[_type == "machine" && slug.current != $slug && (kategori == $kat || marka == $brand)][0...4] ${PROJECTION}`,
+  const rows = await client.fetch<RawListItem[]>(
+    `*[_type == "machine" && slug.current != $slug && (kategori == $kat || marka == $brand)][0...4] ${LIST_PROJECTION}`,
     { slug: current.slug, kat: current.category, brand: current.brand },
     cacheOpts,
   );
-  return rows.map(mapMachine);
+  return rows.map(mapListItem);
 }

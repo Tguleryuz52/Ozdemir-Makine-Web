@@ -56,7 +56,7 @@ export const socialLinks: NavItem[] = [
 export const heroContent = {
   // Sol kolon kicker — eski "SIFIR & İKİNCİ EL / MATBAA & AMBALAJ MAKİNELERİ" başlıkla tekrar
   // ediyordu (Talha 2026-09-17). Yerine kısa değer önermesi: 30 yıl + yedek parça/servis + TR&DE.
-  kicker: "30 YILLIK TECRÜBE\nYEDEK PARÇA & TEKNİK SERVİS\nTÜRKİYE & ALMANYA TEDARİK",
+  kicker: "30 YILLIK TECRÜBE\nYEDEK PARÇA & TEKNİK SERVİS\nGLOBAL TEDARİK",
   headline: "MATBAA & AMBALAJ\nMAKİNELERİNDE DOĞRU ADRES.",
   cta: { label: "Makineleri İncele", href: "/makineler" },
   body: "30 yıllık tecrübeyle sıfır ve ikinci el matbaa makineleri, yedek parça ve teknik destek. Türkiye ve Almanya ofisleriyle uçtan uca güvenilir tedarik.",
@@ -69,7 +69,7 @@ export const heroContent = {
 export const introContent = {
   // Üstte ortalı büyük cümle-başlık (himon sentence-case h2)
   heading:
-    "Tedarikten kurulumuna, matbaanızın her aşamasında kesintisiz çözüm sunuyoruz.",
+    "Tedarikten kuruluma, işletmenizin her aşamasında kesintisiz çözüm sunuyoruz.",
   // Sağ kolon üstü paragraf
   body: "Sıfır ve ikinci el matbaa makinelerinde 30 yıllık tecrübe. Doğru makine seçiminden montaja, yedek parçadan teknik servise kadar tüm süreci tek elden yönetiyoruz.",
   cta: { label: "Hakkımızda", href: "/kurumsal" },
@@ -82,12 +82,12 @@ export const introContent = {
       desc: "Sıfır ve ikinci el matbaa makineleri alım-satımı, yedek parça ve teknik servis tecrübesi.",
     },
     {
-      num: "TR & DE",
-      desc: "Türkiye ve Almanya ofisleriyle Avrupa'dan Anadolu'ya güvenilir tedarik ve lojistik.",
+      num: "Global",
+      desc: "Türkiye, Almanya ve Çin ofisleriyle tüm dünyaya güvenilir tedarik ve lojistik.",
     },
     {
       num: "1000+",
-      desc: "m² kapalı depo ve showroom'da sevkiyata hazır makine stoğu.", // DOĞRULA
+      desc: "1.000 m² kapalı depo ve showroom'da sevkiyata hazır makine stoğu.", // DOĞRULA
     },
   ] as { num: string; suffix?: string; desc: string }[],
 } as const;
@@ -117,7 +117,7 @@ export const servicesContent: {
     {
       num: "01",
       title: "Sıfır Makine",
-      body: "Avrupa menşeli üreticilerden orijinal sıfır ofset, dijital ve baskı sonrası makinelerini garantili tedarik ediyoruz.",
+      body: "Avrupa menşei üreticilerden orijinal sıfır ofset, dijital ve baskı sonrası makinelerini garantili tedarik ediyoruz.",
       href: "/sifir-makineler",
       ctaLabel: "Sıfır Makine Kataloğu",
       image: "",
@@ -125,7 +125,7 @@ export const servicesContent: {
     {
       num: "02",
       title: "İkinci El Alım-Satım",
-      body: "Kontrolleri ve bakımları yapılmış ikinci el matbaa makinelerini alıyor, satıyor ve ihtiyaca göre eşleştiriyoruz.",
+      body: "Kontrolleri ve bakımları yapılmış ikinci el matbaa makineleri.",
       href: "/ikinci-el-makineler",
       ctaLabel: "İkinci El Katalog",
       image: "",
@@ -149,7 +149,7 @@ export const servicesContent: {
     {
       num: "05",
       title: "Gümrük & Lojistik",
-      body: "Yurt dışı tedarikte gümrük, taşıma sigortası ve nakliye organizasyonu — makine kapınıza sorunsuz teslim.",
+      body: "Yurt dışı tedarikte gümrük, taşıma sigortası ve nakliye organizasyonu ile makineniz kapınıza sorunsuz teslim edilir.",
       href: "/hizmetler/lojistik",
       ctaLabel: "Detayları Gör",
       image: "",
@@ -193,7 +193,7 @@ export const aboutContent = {
   ],
   offices: {
     kicker: "Ofisler & Tesisler",
-    title: "Türkiye ve Almanya'da yanınızdayız",
+    title: "Türkiye ve Almanya'da yanınızdayız.",
     items: [
       { city: "İstanbul · Bağcılar", role: "Merkez Ofis" },
       { city: "İstanbul · Topkapı", role: "Şube" },
@@ -324,14 +324,14 @@ export const categoryCardsContent: {
     {
       num: "01",
       title: "Sıfır Makineler",
-      desc: "Avrupa menşeli üreticilerden garantili, orijinal sıfır ofset ve baskı sonrası makineleri.",
+      desc: "Avrupa menşei üreticilerden garantili, orijinal sıfır ofset ve baskı sonrası makineleri.",
       href: "/sifir-makineler",
       tone: "blue",
     },
     {
       num: "02",
       title: "İkinci El Makineler",
-      desc: "Kontrolleri ve bakımları yapılmış ikinci el matbaa makineleri — alım, satım ve eşleştirme.",
+      desc: "Kontrolleri ve bakımları yapılmış ikinci el matbaa makineleri.",
       href: "/ikinci-el-makineler",
       tone: "light",
     },
@@ -361,7 +361,7 @@ export type Machine = {
 
 export const featuredMachinesContent = {
   kicker: "Vitrin",
-  title: "Öne Çıkan Makineler",
+  title: "ÖNE ÇIKAN MAKİNELER",
   cta: { label: "Tüm Kataloğu İncele", href: "/makineler" },
   items: [
     {
@@ -542,7 +542,7 @@ export const stockListContent: {
   kicker: "Stok Listemiz",
   title: "Güncel Stok Listelerimiz",
   intro:
-    "Sıfır ve ikinci el matbaa & ambalaj makineleri ile baskı sonrası ekipmanlarımızı, kategorilere ayrılmış güncel PDF listelerimizde inceleyebilirsiniz. Fiyat ve teknik detay için bizimle iletişime geçin.",
+    "Sıfır, ikinci el matbaa & ambalaj makinelerimizi ve baskı sonrası ekipmanlarımızı, kategorilere ayrılmış olarak inceleyebilirsiniz. Fiyat ve teknik detay için bizimle iletişime geçin.",
   // Sıra (Talha 2026-09-17): Sıfır Baskı Sonrası 01'e alındı. Canlı sıra Sanity `order` alanından gelir.
   categories: [
     {

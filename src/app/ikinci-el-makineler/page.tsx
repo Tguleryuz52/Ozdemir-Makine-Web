@@ -5,7 +5,7 @@ import { getMachines } from "@/sanity/lib/machines";
 export const metadata: Metadata = {
   title: "İkinci El Makineler",
   description:
-    "Kontrolleri ve bakımları yapılmış ikinci el matbaa makineleri — alım, satım ve ihtiyaca göre eşleştirme.",
+    "Kontrolleri ve bakımları yapılmış ikinci el matbaa makineleri.",
 };
 
 export default async function IkinciElMakinelerPage() {

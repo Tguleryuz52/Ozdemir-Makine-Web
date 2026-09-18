@@ -5,7 +5,7 @@ import { getMachines } from "@/sanity/lib/machines";
 export const metadata: Metadata = {
   title: "Sıfır Makineler",
   description:
-    "Avrupa ve Uzakdoğu menşeli üreticilerden garantili, orijinal sıfır matbaa ve ambalaj makineleri.",
+    "Avrupa ve Uzakdoğu menşeili üreticilerden garantili, orijinal, sıfır matbaa ve ambalaj makineleri.",
 };
 
 export default async function SifirMakinelerPage() {

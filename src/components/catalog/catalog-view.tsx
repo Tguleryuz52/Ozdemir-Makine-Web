@@ -366,7 +366,7 @@ function CatalogInner({ group, machines }: { group?: MachineGroup; machines: Mac
               </motion.div>
             ) : (
               <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-ink/15 py-24 text-center">
-                <p className="text-lg font-medium text-ink">Sonuç bulunamadı</p>
+                <p className="text-lg font-medium text-ink">Sonuç bulunamadı.</p>
                 <p className="mt-2 max-w-[36ch] text-sm text-ink/55">Seçtiğiniz filtrelerle eşleşen makine yok. Filtreleri değiştirin veya temizleyin.</p>
                 <button onClick={clearAll} className="mt-6 rounded-full bg-brand px-6 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90">Filtreleri temizle</button>
               </div>

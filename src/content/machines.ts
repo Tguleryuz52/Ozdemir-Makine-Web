@@ -60,12 +60,12 @@ export const groupMeta: Record<MachineGroup | "all", { kicker: string; title: st
   sifir: {
     kicker: "Sıfır Makineler",
     title: "Sıfır Makineler",
-    desc: "Avrupa ve Uzakdoğu menşeli üreticilerden garantili, orijinal sıfır matbaa ve ambalaj makineleri.",
+    desc: "Avrupa ve Uzakdoğu menşeili üreticilerden garantili, orijinal, sıfır matbaa ve ambalaj makineleri.",
   },
   "ikinci-el": {
     kicker: "İkinci El Makineler",
     title: "İkinci El Makineler",
-    desc: "Kontrolleri ve bakımları yapılmış ikinci el matbaa makineleri — alım, satım ve ihtiyaca göre eşleştirme.",
+    desc: "Kontrolleri ve bakımları yapılmış ikinci el matbaa makineleri.",
   },
   "yedek-parca": {
     kicker: "Yedek Parçalar",

@@ -176,8 +176,7 @@ export function MachineDetail({ machine, related }: { machine: MachineDoc; relat
               )}
             </div>
             <p className="mt-3 text-xs text-ink/45">
-              Teklif formu bu makinenin bilgileriyle otomatik dolu gelir.
-              {d.pdfUrl ? " Teknik detaylar için PDF föyünü inceleyebilirsiniz." : ""}
+              {d.pdfUrl ? "Teknik detaylar için PDF föyünü inceleyebilirsiniz." : ""}
             </p>
           </div>
         </div>

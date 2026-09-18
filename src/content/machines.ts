@@ -25,18 +25,22 @@ export type Machine = {
 
 // Kategori ağacı — arama çubuğu altındaki buton (pill) navigasyonu bunu render eder.
 export type CategoryNode = { name: string; subs: string[] };
+// Zoho'nun gerçek 10 kategorisi (SIFIR/2.EL öneki grup+rozete gidiyor).
+// Alt kategori (renk sayısı) sadece Ofset Baskı'da anlamlı; kalanlar düz.
 export const categoryTree: CategoryNode[] = [
   {
     name: "Ofset Baskı",
     subs: ["Tek Renkli", "2 Renkli", "4 Renkli", "5 Renkli", "6 Renkli", "8 Renkli", "10 Renkli", "Sürekli Form"],
   },
-  {
-    name: "Baskı Sonrası",
-    subs: ["Kutu Kesim", "Katlama & Yapıştırma", "Kağıt Kesim (Giyotin)", "Yaldız & Cilt"],
-  },
-  { name: "Baskı Öncesi", subs: [] },
-  { name: "Baskı Ekipmanları", subs: [] },
-  { name: "Yedek Parça", subs: [] },
+  { name: "Baskı Sonrası", subs: [] },
+  { name: "Katlama & Yapıştırma", subs: [] },
+  { name: "Çanta Yapma", subs: [] },
+  { name: "Kutu Kesim", subs: [] },
+  { name: "Kutu Toplama", subs: [] },
+  { name: "Kağıt Kesim", subs: [] },
+  { name: "Laminasyon", subs: [] },
+  { name: "Palet Çevirme", subs: [] },
+  { name: "Baskı Aksesuarları", subs: [] },
 ];
 
 // Sidebar facet'leri (kategori artık üstte buton olduğu için burada yok)

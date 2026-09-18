@@ -6,13 +6,22 @@ import { defineType, defineField, defineArrayMember } from "sanity";
 // Bu şema BİLEREK "bir çocuğun bile anlayacağı" netlikte tutulur: her alanda örnek,
 // mantıklı sıra, nazik uyarılar. Marka şimdilik sabit dropdown; alt kategori düz liste.
 
+// Markalar — Zoho Products'taki gerçek 26 marka (Title Case; kısaltmalar büyük kalır)
+// + ileride gelebilecek yaygın presler (Komori, Ryobi). Kaynak: Zoho BRAND alanı.
 const MARKALAR = [
-  "Bacher", "Bobst", "DGM", "Heidelberg", "Komori",
-  "Man Roland", "Polar", "Ryobi", "Steinmann",
+  "Aster", "Becker", "Billhofer", "Bluemechanic", "Bobst", "Dayuan", "DGM",
+  "Eurocutter", "FKS", "GMB", "Heidelberg", "Horda", "HPM", "Huatai",
+  "Inramik Vesta", "Koenig & Bauer", "Kolbus", "Komori", "Man Roland",
+  "Müller Martini", "Nagel", "Oyang", "Polar", "Ryobi", "Steinemann Lotus",
+  "Yawa", "Yoco", "Yuanheng",
 ];
 
+// Kategoriler — Zoho Product_Category'nin "SIFIR/2. EL" öneki grup+rozete gider;
+// kalan kısım burası (Title Case, sadeleştirilmiş). Kaynak: Zoho 166 ürün taksonomisi.
 const KATEGORILER = [
-  "Ofset Baskı", "Baskı Sonrası", "Baskı Öncesi", "Baskı Ekipmanları", "Yedek Parça",
+  "Ofset Baskı", "Baskı Sonrası", "Katlama & Yapıştırma", "Çanta Yapma",
+  "Kutu Kesim", "Kutu Toplama", "Kağıt Kesim", "Laminasyon",
+  "Palet Çevirme", "Baskı Aksesuarları",
 ];
 
 const ALT_KATEGORILER = [

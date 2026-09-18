@@ -49,10 +49,17 @@ type RawMachine = Omit<MachineDoc, "image" | "gallery"> & {
 };
 
 // Sanity görsellerini optimize URL'e çevir; ilki ana görsel (kart).
+// Sanity'de görsel slotu açılıp asset yüklenmemişse item {_type:"image"} olur ama
+// 'asset' referansı gelmez → urlForImage patlar. Böyle eksik görselleri ele (166
+// makinenin çoğu fotosuz gelecek → placeholder'a düşsün, katalog çökmesin).
+function hasAsset(g: SanityImageSource): boolean {
+  return !!g && typeof g === "object" && !!(g as { asset?: unknown }).asset;
+}
+
 function mapMachine({ gorseller, ...rest }: RawMachine): MachineDoc {
-  const gallery = (gorseller ?? []).map((g) =>
-    urlForImage(g).width(1400).fit("max").auto("format").url(),
-  );
+  const gallery = (gorseller ?? [])
+    .filter(hasAsset)
+    .map((g) => urlForImage(g).width(1400).fit("max").auto("format").url());
   return { ...rest, image: gallery[0] ?? "", gallery };
 }
 

@@ -38,28 +38,51 @@ function parseCategory(pc) {
   return { grup, durum, kategori: CAT_MAP[rest] ?? rest ?? "Baskı Sonrası" };
 }
 
-// Bir dil bloğunu temizler: tire dizileri, [TR]/[ENG] işaretleri, "ÖZELLİKLER:/DETAILS:"
-// başlıkları atılır; ➢ maddeler bullets'a, kalan metin text'e.
-function cleanBlock(block) {
+// Kategori -> Makine Türü (aile). Eski site: Ofset / Baskı Sonrası / Baskı Ekipmanları / Baskı Öncesi.
+const AILE_MAP = {
+  "Ofset Baskı": "Ofset Baskı",
+  "Baskı Sonrası": "Baskı Sonrası", "Katlama & Yapıştırma": "Baskı Sonrası",
+  "Kağıt Kesim": "Baskı Sonrası", "Laminasyon": "Baskı Sonrası",
+  "Kutu Kesim": "Baskı Sonrası", "Kutu Toplama": "Baskı Sonrası",
+  "Çanta Yapma": "Baskı Sonrası", "Palet Çevirme": "Baskı Sonrası",
+  "Baskı Aksesuarları": "Baskı Ekipmanları",
+};
+
+// Bir dil bloğunu YAPIYA ayırır: kısa intro (aciklama) + özellik listesi + notlar.
+// Zoho Description düz metin ama bölüm başlıklıdır (OPSİYONLAR/ÖZELLİKLER/Standard Ekipmanlar/NOT).
+const SECTION = /^(OPSİYONLAR|ÖZELLİKLER|ÖZELLIKLERI|Özellikleri|Standar[dt] Ekipmanlar|DETAYLAR|DETAILS|SPECIFICATIONS|OPTIONS|Standard Equipment|FEATURES)\s*:?\s*$/i;
+const NOTE = /^(NOT|Note)\b\s*[:：]?/i;
+const SPECLINE = /^\s*[•➢▪]?\s*(TİPİ|TIPI|TYPE|EBAT|SIZE|BASKI|COPY|YILI|YIL|YEAR|SERİ NO|SERI NO)\s*[:：]/i;
+const PRICE = /\s*[:：]?\s*[\d.,]+\s*(USD|EUR|€|\$|TL|₺).*/i;
+function parseBlock(block) {
   if (!block) return {};
-  const bullets = [], keep = [];
+  const intro = [], feats = [], notes = [];
+  let sec = "intro";
   for (const raw of block.split(/\r?\n/)) {
-    let l = raw.replace(/[-–—_]{3,}/g, " ").replace(/\s{2,}/g, " ").trim();
-    if (!l) continue;
-    if (/^\[(TR|EN|DE|ENG)\]$/i.test(l)) continue;
-    if (/^(ÖZELLİKLER|ÖZELLIKLERI|DETAYLAR|DETAILS|FEATURES|Özellikleri)\s*:?\s*$/i.test(l)) continue;
-    if (l.startsWith("➢")) { const b = l.replace(/^➢\s*/, "").trim(); if (b) bullets.push(b); continue; }
-    l = l.replace(/\s*\b(ÖZELLİKLER|DETAYLAR|DETAILS|FEATURES|Özellikleri)\s*:\s*$/i, "").trim();
-    if (l) keep.push(l);
+    let l = raw.replace(/[-–—_]{3,}/g, " ").replace(/\t/g, " ").replace(/\s{2,}/g, " ").trim();
+    if (!l || /^\[(TR|EN|DE|ENG)\]$/i.test(l)) continue;
+    if (SECTION.test(l)) { sec = /OPSİYON|OPTION/i.test(l) ? "opt" : "feat"; continue; }
+    if (NOTE.test(l)) { const n = l.replace(NOTE, "").trim(); if (n) notes.push(n); sec = "note"; continue; }
+    if (SPECLINE.test(l)) continue; // TİPİ/EBAT/YIL — spec tablosunda zaten var
+    const c = l.replace(/^[•➢▪]\s*/, "").trim();
+    if (!c) continue;
+    if (sec === "intro") intro.push(c);
+    else if (sec === "note") notes.push(c);
+    else if (sec === "opt") feats.push(c.replace(PRICE, " (opsiyonel)").trim()); // fiyat gizli
+    else feats.push(c);
   }
-  return { text: keep.join("\n").trim() || undefined, bullets: bullets.length ? bullets : undefined };
+  return {
+    aciklama: intro.join(" ").trim() || undefined,
+    ozellikler: feats.length ? feats : undefined,
+    notlar: notes.length ? notes : undefined,
+  };
 }
-// [ENG]/[EN] işaretinden TR ve EN'i böler, ikisini de temizler.
+// [ENG]/[EN] işaretinden TR/EN böl; TR yapıya ayrılır, EN intro'su saklanır (i18n için).
 function parseDesc(desc) {
   if (!desc) return {};
-  const [tr, ...enParts] = desc.split(/\[EN(?:G)?\]/i);
-  const T = cleanBlock(tr), E = cleanBlock(enParts.join("\n"));
-  return { aciklama: T.text, aciklamaEn: E.text, ozellikler: T.bullets };
+  const [tr, ...en] = desc.split(/\[EN(?:G)?\]/i);
+  const T = parseBlock(tr), E = parseBlock(en.join("\n"));
+  return { aciklama: T.aciklama, aciklamaEn: E.aciklama, ozellikler: T.ozellikler, notlar: T.notlar };
 }
 
 const RENK = { "1":"Tek Renkli","2":"2 Renkli","4":"4 Renkli","5":"5 Renkli","6":"6 Renkli","8":"8 Renkli","10":"10 Renkli" };
@@ -112,7 +135,7 @@ async function importPhotos(token, productId) {
 
 function buildDoc(p, gorseller) {
   const { grup, durum, kategori } = parseCategory(p.Product_Category);
-  const { aciklama, aciklamaEn, ozellikler } = parseDesc(p.Description);
+  const { aciklama, aciklamaEn, ozellikler, notlar } = parseDesc(p.Description);
   const marka = normBrand(p.BRAND);
   const name = p.Product_Name || p.MACHINES || p.Product_Code;
   return clean({
@@ -126,6 +149,7 @@ function buildDoc(p, gorseller) {
     yil: typeof p.YEAR === "number" ? p.YEAR : undefined,
     format: p.SIZE || undefined,
     baskiAdedi: p.COPY || undefined,
+    aile: AILE_MAP[kategori] ?? "Baskı Sonrası",
     grup, durumRozeti: durum, kategori,
     altKategori: kategori === "Ofset Baskı" ? parseRenk(p.Description) || parseRenk(name) : undefined,
     fiyatSorunuz: true, // iş kuralı — fiyat sitede gizli
@@ -133,6 +157,7 @@ function buildDoc(p, gorseller) {
     aciklama,
     aciklamaEn,
     oneCikanOzellikler: ozellikler,
+    notlar,
     gorseller: gorseller.length ? gorseller : undefined,
   });
 }

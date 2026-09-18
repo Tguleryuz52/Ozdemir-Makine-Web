@@ -1,47 +1,50 @@
 import type { StructureResolver } from "sanity/structure";
 
-// Studio sol menüsü. Makineler gruplara bölünür; ayrıca Blog, Galeri ve tek-doküman Site Ayarları.
+// Studio sol menüsü. Makineler hem TÜR (aile) hem DURUM'a göre gezilir; ayrıca Stok, Blog, Galeri, Ayarlar.
 const yilaGore = [{ field: "yil", direction: "desc" as const }];
+
+// Makine Türü (aile) klasörü
+const tur = (S: Parameters<StructureResolver>[0], aile: string, icon: string) =>
+  S.listItem()
+    .title(aile)
+    .icon(() => icon)
+    .child(S.documentList().title(aile).filter('_type == "machine" && aile == $aile').params({ aile }).defaultOrdering(yilaGore));
+
+// Durum (grup) klasörü
+const durum = (S: Parameters<StructureResolver>[0], label: string, grup: string, icon: string) =>
+  S.listItem()
+    .title(label)
+    .icon(() => icon)
+    .child(S.documentList().title(label).filter('_type == "machine" && grup == $grup').params({ grup }).defaultOrdering(yilaGore));
 
 export const structure: StructureResolver = (S) =>
   S.list()
     .title("İçerik")
     .items([
-      // ——— Makineler (gruplara bölünmüş) ———
+      // ——— Makineler: tek klasör, hem TÜR'e hem DURUM'a göre gezilir ———
       S.listItem()
-        .title("Sıfır Makineler")
-        .icon(() => "📗")
+        .title("Makineler")
+        .icon(() => "🏭")
         .child(
-          S.documentList()
-            .title("Sıfır Makineler")
-            .filter('_type == "machine" && grup == "sifir"')
-            .defaultOrdering(yilaGore),
-        ),
-      S.listItem()
-        .title("İkinci El Makineler")
-        .icon(() => "📘")
-        .child(
-          S.documentList()
-            .title("İkinci El Makineler")
-            .filter('_type == "machine" && grup == "ikinci-el"')
-            .defaultOrdering(yilaGore),
-        ),
-      S.listItem()
-        .title("Yedek Parçalar")
-        .icon(() => "🔧")
-        .child(
-          S.documentList()
-            .title("Yedek Parçalar")
-            .filter('_type == "machine" && grup == "yedek-parca"')
-            .defaultOrdering(yilaGore),
-        ),
-      S.listItem()
-        .title("Tüm Makineler")
-        .icon(() => "📑")
-        .child(
-          S.documentTypeList("machine")
-            .title("Tüm Makineler")
-            .defaultOrdering(yilaGore),
+          S.list()
+            .title("Makineler")
+            .items([
+              // Türe göre (Aile) — eski sitedeki üst gruplar
+              tur(S, "Ofset Baskı", "🖨️"),
+              tur(S, "Baskı Sonrası", "✂️"),
+              tur(S, "Baskı Ekipmanları", "🧰"),
+              tur(S, "Baskı Öncesi", "🎞️"),
+              S.divider(),
+              // Duruma göre
+              durum(S, "Sıfır", "sifir", "📗"),
+              durum(S, "İkinci El", "ikinci-el", "📘"),
+              durum(S, "Yedek Parça", "yedek-parca", "🔧"),
+              S.divider(),
+              S.listItem()
+                .title("Tüm Makineler")
+                .icon(() => "📑")
+                .child(S.documentTypeList("machine").title("Tüm Makineler").defaultOrdering(yilaGore)),
+            ]),
         ),
 
       S.divider(),

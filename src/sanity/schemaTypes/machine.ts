@@ -16,6 +16,11 @@ const MARKALAR = [
   "Yawa", "Yoco", "Yuanheng",
 ];
 
+// Makine Türü (aile) — en üst grup, eski siteyle birebir. Import otomatik doldurur.
+const AILELER = [
+  "Ofset Baskı", "Baskı Sonrası", "Baskı Ekipmanları", "Baskı Öncesi",
+];
+
 // Kategoriler — Zoho Product_Category'nin "SIFIR/2. EL" öneki grup+rozete gider;
 // kalan kısım burası (Title Case, sadeleştirilmiş). Kaynak: Zoho 166 ürün taksonomisi.
 const KATEGORILER = [
@@ -103,6 +108,16 @@ export const machine = defineType({
     }),
 
     // ——— 2) SINIFLANDIRMA: makine katalogda nereye düşecek ———
+    defineField({
+      name: "aile", title: "Makine Türü (en üst grup)", type: "string", group: "siniflandirma",
+      description:
+        "Bu makine ne iş yapıyor? En basit üst grup — eski sitedeki gibi. " +
+        "Ofset Baskı = baskı makineleri · Baskı Sonrası = kesim/katlama/yapıştırma/laminasyon/kutu · " +
+        "Baskı Ekipmanları = aksesuar/yardımcı · Baskı Öncesi = kalıp/hazırlık. " +
+        "(Import otomatik doldurur; sen çoğu zaman dokunmazsın.)",
+      options: { layout: "radio", list: AILELER },
+      validation: (r) => r.required().error("Makine türü seç (en üst grup)."),
+    }),
     defineField({
       name: "grup", title: "Ürün Grubu", type: "string", group: "siniflandirma",
       description: "Makine hangi katalog sayfasında listelensin? (En önemli seçim — kartın nereye gideceğini bu belirler.)",

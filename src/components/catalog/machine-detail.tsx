@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ProductCard } from "@/components/sections/productcard";
@@ -34,6 +34,28 @@ export function MachineDetail({ machine, related }: { machine: MachineDoc; relat
   const gallery = d.gallery?.length ? d.gallery : [];
   const tileCount = gallery.length || 4;
   const [active, setActive] = useState(0);
+  const thumbRef = useRef<HTMLDivElement>(null);
+  const [thumbNav, setThumbNav] = useState({ up: false, down: false });
+  const scrollThumbs = (dir: 1 | -1) => thumbRef.current?.scrollBy({ top: dir * 220, behavior: "smooth" });
+  const updateThumbNav = () => {
+    const el = thumbRef.current;
+    if (!el) return;
+    setThumbNav({ up: el.scrollTop > 4, down: el.scrollTop + el.clientHeight < el.scrollHeight - 4 });
+  };
+  // Fare thumbnail şeridindeyken tekerlek SADECE şeridi kaydırsın (sayfa değil)
+  useEffect(() => {
+    const el = thumbRef.current;
+    if (!el) return;
+    updateThumbNav();
+    const onWheel = (e: WheelEvent) => {
+      if (el.scrollHeight <= el.clientHeight) return; // taşma yoksa sayfa kayabilir
+      e.preventDefault();
+      el.scrollTop += e.deltaY;
+      updateThumbNav();
+    };
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+  }, [tileCount]);
 
   const specs: [string, string][] = [];
   if (machine.productCode) specs.push(["Ürün Kodu", machine.productCode]);
@@ -71,9 +93,13 @@ export function MachineDetail({ machine, related }: { machine: MachineDoc; relat
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-14">
           {/* Galeri */}
           <div className="flex items-start gap-4">
-            {/* Thumbnail şeridi — max ~7 görünür, fazlası scroll (alt ok göstergeli) */}
-            <div className="relative shrink-0">
-              <div className="flex max-h-[30rem] flex-col gap-3 overflow-y-auto pr-1 [scrollbar-width:thin] lg:max-h-[34rem]">
+            {/* Thumbnail şeridi — fare tekeri sadece şeridi kaydırır (sayfa kaymaz) + iki yönlü ok */}
+            <div className="relative shrink-0 py-4">
+              <div
+                ref={thumbRef}
+                onScroll={updateThumbNav}
+                className="flex max-h-[28rem] flex-col gap-3 overflow-y-auto overscroll-contain [scrollbar-width:none] lg:max-h-[32rem] [&::-webkit-scrollbar]:hidden"
+              >
                 {Array.from({ length: tileCount }).map((_, i) => (
                   <button
                     key={i}
@@ -85,10 +111,21 @@ export function MachineDetail({ machine, related }: { machine: MachineDoc; relat
                   />
                 ))}
               </div>
-              {tileCount > 7 && (
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 flex h-9 items-end justify-center rounded-b-xl bg-gradient-to-t from-paper via-paper/70 to-transparent">
-                  <svg viewBox="0 0 24 24" className="size-4 animate-bounce text-ink/50" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
-                </div>
+              {thumbNav.up && (
+                <>
+                  <div className="pointer-events-none absolute inset-x-0 top-4 h-8 bg-gradient-to-b from-paper to-transparent" />
+                  <button type="button" onClick={() => scrollThumbs(-1)} aria-label="Yukarı kaydır" className="absolute inset-x-0 top-0 mx-auto grid size-8 place-items-center rounded-full border border-ink/10 bg-white text-ink/70 shadow-md transition-colors hover:bg-brand hover:text-white">
+                    <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m18 15-6-6-6 6" /></svg>
+                  </button>
+                </>
+              )}
+              {thumbNav.down && (
+                <>
+                  <div className="pointer-events-none absolute inset-x-0 bottom-4 h-8 bg-gradient-to-t from-paper to-transparent" />
+                  <button type="button" onClick={() => scrollThumbs(1)} aria-label="Aşağı kaydır" className="absolute inset-x-0 bottom-0 mx-auto grid size-8 place-items-center rounded-full border border-ink/10 bg-white text-ink/70 shadow-md transition-colors hover:bg-brand hover:text-white">
+                    <svg viewBox="0 0 24 24" className="size-4 animate-bounce" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+                  </button>
+                </>
               )}
             </div>
             <motion.div

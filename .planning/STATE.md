@@ -2,7 +2,19 @@
 
 > Her oturum başında **ilk okunan** dosya. Ayrıntılı devir: `.continue-here.md`.
 
-## 📍 ŞU AN (2026-09-16 — 🚀 CANLI: vercel.app'te yayında)
+## 📍 ŞU AN (2026-09-19 — Faz 13: Zoho→Sanity ürün import + detay cila + Studio yönetimi)
+- **Zoho→Sanity import pipeline KURULDU** (`scripts/import-zoho-machines.mjs`): 166 ürün metin + foto (Zoho Attachments→Sanity CDN, fail-soft), idempotent (`_id=machine.<ProductCode>`), mevcut foto preserve. Parser: `SIFIR/2.EL`→grup+durum, BRAND→Title Case, kategori haritalı, Description YAPIYA ayrılır (kısa intro `aciklama` + `oneCikanOzellikler` + `notlar`), TR/EN böl (`aciklamaEn` i18n için saklanır), opsiyon fiyatları gizli. Foto sadece `.jpg/.png` ekleri olan ~50 üründe; gerisi placeholder (sonra Trendyol/Sanity elle).
+- **⚙️ ÇALIŞIYOR (bu oturum sonu):** kalan tüm 166 import arka planda (`--images-only` yerine full). Bitince: build + tek deploy. Önceki batch 30 makine (346 foto) canlıda doğrulandı.
+- **Zoho KÖK NEDEN çözüldü:** site refresh token'ında `products.READ`+`attachments.READ` scope'u eksikti (invalid_code + OAUTH_SCOPE_MISMATCH). Talha token'ı `ZohoCRM.modules.leads.CREATE,products.READ,attachments.READ` ile yeniledi (.env.local + Vercel). Lead lookup artık **yeni alan** `lgilendi_i_Makine_zdemir_Makine`'ye yazıyor + `Makine_Y_l2`'ye makine yılı otomatik (client.ts). Eski PressXchange bırakıldı.
+- **Detay cila:** görsel 4/3 (uzama fix), thumbnail scroll `data-lenis-prevent` (Lenis hijack'i kapatıldı, sayfa kaymıyor) + iki yönlü ok + gizli scrollbar, açıklama `whitespace-pre-line`.
+- **Taksonomi:** marka 28 Title Case (Zoho gerçek 26+Komori/Ryobi), kategori 10 (Zoho), **aile** (Ofset Baskı/Baskı Sonrası/Baskı Ekipmanları/Baskı Öncesi — eski site üst grupları) import otomatik. `categoryTree` hizalı. `durumRozeti` artık opsiyonel (grup'tan coalesce).
+- **Studio menü 3-seviye** (`structure.ts`): 🏭 Makineler → Aile → ince Kategori → makineler + Duruma göre + Tüm. Yönetim çok daha sade.
+- **Katalog perf:** `LIST_PROJECTION` (kart alanı + 800px tek görsel) — 166 için hafif; `hasAsset` guard (asset'siz görsel katalogu çökertmesin).
+- **KALAN (sonraya):** (1) fotosuz ~115 makineye Sanity'den foto (Talha), (2) public katalogda aile-navigasyon (opsiyonel), (3) Studio form ekstra sadeleştirme (auto-slug, gelişmiş-alan katlama — önerildi, Talha erteledi), (4) Resend mail domain DNS (Sentry #6 lead-partial mail kısmı), (5) birkaç frontend revize (Talha sonra), (6) çok dilli i18n fazı (aciklamaEn hazır bekliyor).
+- **Sentry triyaj:** #1 resim URL + #2 negatif-ts = fix'lendi (hasAsset). #3-5 (Facebook/socialIcon/CategoryCards/updateFrom not defined, footer) = eski build/eklenti gürültüsü → yeni build'de susmalı. #6 lead-partial = Zoho düzeldi, mail (test modu) kaldı → Resend DNS.
+- **Sanity devir/güvenlik:** başkasına verirken manage.sanity.io→Members→Invite→**Editor rolü** (Admin DEĞİL); /studio login-korumalı; doküman history ile geri alma. Server token ayrı.
+
+## 📍 Önceki (2026-09-16 — 🚀 CANLI: vercel.app'te yayında)
 - **Site canlı:** https://ozdemir-makine-web.vercel.app (main, Vercel). Güncel site (Faz 11+stok+Sentry). Sanity prod'da çalışıyor (stok 3 kategori geldi), konsol temiz. **Domain cutover YOK** — eski site ozdemirmakine.com.tr'de kalıyor.
 - **Bu oturumda biten:** Faz 11 renk/marka cila · Stok Listemiz (2 sayfa + Sanity `stockCategory` + 3 seed) · Sentry (client/server/edge + replay + lead-fail alarmı, tracesSampleRate 0.2) · GA4 KVKK cookie testi GEÇTİ · Faz A teşhis (gerçek perf yok; "render kalıyor"=dev modu) · Faz D kalite (lint temiz, code-review+fix, motion dedup) · statik güvenlik temiz · commit+push+**main merge**+**Vercel deploy** (env fix: `NEXT_PUBLIC_SANITY_PROJECT_ID` eksikti, eklendi).
 - **Vercel env:** girildi. `MAIL_FROM` boş (Resend test modu). `NEXT_PUBLIC_SITE_URL`=vercel.app.
